@@ -1,0 +1,1389 @@
+{
+  "rooms": [
+    {
+      "id": 1,
+      "name": "Room 1",
+      "description": "This room contains artifacts related to Open",
+      "groups": [
+        {
+          "id": 1,
+          "name": "Collection Country",
+          "description": "A grouping of artifacts showcasing Paper blood last catch"
+        }
+      ],
+      "items": [
+        {
+          "id": 1,
+          "room": 1,
+          "group": null,
+          "model_path": "Cube_001.glb",
+          "metadata": {
+            "name": "Artifact 1",
+            "description": "Month American anything today. Sure free term summer. Work position own economic attention. Structure improve size treatment staff yes spend. Relate cell church term suffer professional.\n\nLater country should energy least main letter today. Stand floor important. Support or ever also must. Company plant art I.",
+            "era": "Idea",
+            "origin": "Wallis and Futuna",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 2,
+          "room": 1,
+          "group": null,
+          "model_path": "Cube_002.glb",
+          "metadata": {
+            "name": "Artifact 2",
+            "description": "Any them hear work environment. Some media or value stay husband. Spend include order series rich gas ever fly.\n\nLevel voice stay teach bit. Evidence itself begin expect impact. Detail away option administration scientist. Threat put one together act me.",
+            "era": "Network",
+            "origin": "Brazil",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 3,
+          "room": 1,
+          "group": null,
+          "model_path": "Cube_003.glb",
+          "metadata": {
+            "name": "Artifact 3",
+            "description": "Research why little but own defense reflect. Sing individual week instead throughout over product. Black player mind newspaper everything. Story send somebody help arm apply.\n\nOil eye discussion security itself left behind. After whose indicate. Will rock prove season government friend.",
+            "era": "Themselves",
+            "origin": "Pakistan",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 4,
+          "room": 1,
+          "group": 1,
+          "model_path": "Cube_004.glb",
+          "metadata": {
+            "name": "Artifact 4",
+            "description": "Wonder provide toward human policy teach. Film expect win party show nation. Knowledge positive either live her conference. Program loss particularly test that democratic.\n\nFind company sell soldier machine. Accept tax record similar cold improve instead. Individual especially quite military car travel play. Role every certain become amount sport kind.",
+            "era": "Grow",
+            "origin": "Kuwait",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 5,
+          "room": 1,
+          "group": 1,
+          "model_path": "Cube_005.glb",
+          "metadata": {
+            "name": "Artifact 5",
+            "description": "Before marriage window plant. Even sell end call wind. Discuss enjoy imagine few us military. Town traditional live state once. Election production now actually.\n\nMarket understand training far still rich. Lawyer threat information beautiful management. Game art seem discussion place. Exactly night my special election.",
+            "era": "However",
+            "origin": "Burundi",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 6,
+          "room": 1,
+          "group": null,
+          "model_path": "Cube_006.glb",
+          "metadata": {
+            "name": "Artifact 6",
+            "description": "Management gun glass laugh operation. Through threat lose method outside. Nature peace process employee. Event seat chair executive court.\n\nThreat foot break send analysis remember spend. Look thank sound begin explain.",
+            "era": "Deep",
+            "origin": "Mali",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 7,
+          "room": 1,
+          "group": 1,
+          "model_path": "Cube_007.glb",
+          "metadata": {
+            "name": "Artifact 7",
+            "description": "Probably career school east fine. Evening surface wish make. Over politics area anything rich. Forget little be center. Truth realize fine its group take.\n\nNews community know change ahead project behind. Show attack program but group.",
+            "era": "Better",
+            "origin": "Kenya",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 8,
+          "room": 1,
+          "group": null,
+          "model_path": "Cube_008.glb",
+          "metadata": {
+            "name": "Artifact 8",
+            "description": "Painting rise compare left majority western. Enjoy door partner me. Draw various right one.\n\nBlack gas several follow. Natural admit by sound among ground upon. Stuff recognize particular word figure miss Mr generation.",
+            "era": "Billion",
+            "origin": "Cuba",
+            "material": "Metal"
+          }
+        },
+        {
+          "id": 9,
+          "room": 1,
+          "group": null,
+          "model_path": "Cube_009.glb",
+          "metadata": {
+            "name": "Artifact 9",
+            "description": "Not stay like head either. Speech realize girl tax stage when growth next. Film the generation firm.\n\nComputer seat marriage too either drop find. Soldier attention from event. Also about among hard issue option.",
+            "era": "Contain",
+            "origin": "Martinique",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 10,
+          "room": 1,
+          "group": null,
+          "model_path": "Cube_010.glb",
+          "metadata": {
+            "name": "Artifact 10",
+            "description": "Yourself process tough indicate kind whose morning worker. Shoulder per two maybe beyond road read. Use what year big author hope method. Past room side reveal.\n\nGrowth this discussion particular early father write. Religious so girl technology car. Growth easy chair like. Color audience bring control apply event.",
+            "era": "Bill",
+            "origin": "Belarus",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 11,
+          "room": 1,
+          "group": null,
+          "model_path": "Cube_011.glb",
+          "metadata": {
+            "name": "Artifact 11",
+            "description": "Born hundred system population sure throughout Republican. Who PM measure study. Old color too force alone read blood. Shoulder throughout receive theory water base. Indicate suffer land without politics size personal.\n\nSocial assume throughout make rest. Cover raise throw finish issue moment. Oil car bar picture investment director. Argue operation perform. Drop measure by of hotel partner condition.",
+            "era": "Tree",
+            "origin": "Faroe Islands",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 12,
+          "room": 1,
+          "group": 1,
+          "model_path": "Cube_012.glb",
+          "metadata": {
+            "name": "Artifact 12",
+            "description": "Language official deal free. Happen church military hold west. Other debate person left it thank. View after film year entire carry possible.\n\nPer space street thus audience here. Tough defense change election certainly threat. Natural fire kind situation choose anyone word.",
+            "era": "Whatever",
+            "origin": "Montenegro",
+            "material": "Metal"
+          }
+        },
+        {
+          "id": 13,
+          "room": 1,
+          "group": null,
+          "model_path": "Cube_013.glb",
+          "metadata": {
+            "name": "Artifact 13",
+            "description": "Girl five sell very we life lot song. Watch toward every management. Adult level sell despite less scene address. Necessary look push hair. Letter dog argue sister structure since.\n\nCandidate fine strong speech sit magazine. Seat human beautiful he sometimes quickly. Accept account team or establish yet outside ever.",
+            "era": "Character",
+            "origin": "Guinea",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 14,
+          "room": 1,
+          "group": null,
+          "model_path": "Cube_014.glb",
+          "metadata": {
+            "name": "Artifact 14",
+            "description": "Go evening produce need require. Story note chance performance hope clear success. Easy safe reveal another. Hair sea teach increase sure tend weight.\n\nGreen station television fund country sport. Watch high do mention in threat address. Head wide think travel. Any natural deep campaign including affect go.",
+            "era": "Instead",
+            "origin": "Brunei Darussalam",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 15,
+          "room": 1,
+          "group": 1,
+          "model_path": "Cube_015.glb",
+          "metadata": {
+            "name": "Artifact 15",
+            "description": "Sport yeah after partner two official. Hit measure special consumer enjoy cause standard. House process beyond answer financial. Single concern message test seven. Little member tax safe general.\n\nHand individual eat by. Leader run style her contain today if study. Entire offer or brother interview finish past. Meet sister open we.",
+            "era": "Agree",
+            "origin": "Tonga",
+            "material": "Metal"
+          }
+        },
+        {
+          "id": 16,
+          "room": 1,
+          "group": 1,
+          "model_path": "Cube_016.glb",
+          "metadata": {
+            "name": "Artifact 16",
+            "description": "Attorney white cell possible threat. Pass apply air oil also system score. There resource indicate wide.\n\nMake thousand least miss election former American. Can class meet leader tell hit beat.",
+            "era": "Majority",
+            "origin": "Barbados",
+            "material": "Metal"
+          }
+        },
+        {
+          "id": 17,
+          "room": 1,
+          "group": null,
+          "model_path": "Cube_017.glb",
+          "metadata": {
+            "name": "Artifact 17",
+            "description": "Knowledge box those southern perhaps could believe. Because Democrat relate loss conference serve. Worker rule list. Individual body discuss rock site admit.\n\nLand few investment game people light pay. Adult education hotel can month attention nearly.",
+            "era": "Single",
+            "origin": "Ireland",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 18,
+          "room": 1,
+          "group": null,
+          "model_path": "Cube_018.glb",
+          "metadata": {
+            "name": "Artifact 18",
+            "description": "Probably newspaper mouth short. Strong book table walk all. Which treat matter decade happy.\n\nAsk short computer protect indicate. Write dinner treatment try commercial enjoy. Large society near situation. Institution grow cold magazine just hospital answer.",
+            "era": "Do",
+            "origin": "Kazakhstan",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 19,
+          "room": 1,
+          "group": null,
+          "model_path": "Cube_019.glb",
+          "metadata": {
+            "name": "Artifact 19",
+            "description": "Manage father product develop. Today many sound it arrive ahead. Audience deep hope recently page avoid plant.\n\nCompany to factor evidence. Base maintain wide speech why letter. Support Congress tough hear food easy natural. Until natural character use performance standard.",
+            "era": "Including",
+            "origin": "Niger",
+            "material": "Metal"
+          }
+        },
+        {
+          "id": 20,
+          "room": 1,
+          "group": 1,
+          "model_path": "Cube_020.glb",
+          "metadata": {
+            "name": "Artifact 20",
+            "description": "Past prepare attorney. Security system front something. Usually both arm participant area choose.\n\nThree charge hope number easy raise. Sense well six your.",
+            "era": "Per",
+            "origin": "Peru",
+            "material": "Stone"
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Room 2",
+      "description": "This room contains artifacts related to His",
+      "groups": [
+        {
+          "id": 1,
+          "name": "Collection Writer",
+          "description": "A grouping of artifacts showcasing Anyone bill ok home appear company long generation"
+        },
+        {
+          "id": 2,
+          "name": "Collection Out",
+          "description": "A grouping of artifacts showcasing Challenge boy wife professor company where talk"
+        },
+        {
+          "id": 3,
+          "name": "Collection Sound",
+          "description": "A grouping of artifacts showcasing Respond difference husband local least speech side"
+        }
+      ],
+      "items": [
+        {
+          "id": 21,
+          "room": 2,
+          "group": null,
+          "model_path": "Cube_021.glb",
+          "metadata": {
+            "name": "Artifact 21",
+            "description": "Book society personal step project friend back. Officer individual magazine significant see final. Well experience site local cell require. Sport include structure approach those husband. May practice only mouth left right hand.\n\nEasy pick view bank paper himself throw law. Play happen article bit officer. Treat hard positive federal.",
+            "era": "Hospital",
+            "origin": "Falkland Islands (Malvinas)",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 22,
+          "room": 2,
+          "group": null,
+          "model_path": "Cube_022.glb",
+          "metadata": {
+            "name": "Artifact 22",
+            "description": "Deep interview discover medical them human. Seven top three establish everyone whom anything. Remember leg impact democratic inside yard event mission.\n\nFund add century three police or court. Live pressure hold health manager measure anything. Can director air during. Reach owner sign baby feel democratic evidence. Represent remain huge affect catch point check.",
+            "era": "Personal",
+            "origin": "French Guiana",
+            "material": "Metal"
+          }
+        },
+        {
+          "id": 23,
+          "room": 2,
+          "group": null,
+          "model_path": "Cube_023.glb",
+          "metadata": {
+            "name": "Artifact 23",
+            "description": "Stock ready activity happy door six. History cost cultural might business share different. Me loss how by describe couple life.\n\nApply yeah traditional her management product ground. Possible environmental indicate responsibility you likely growth. Billion response skill million fact appear age.",
+            "era": "Skill",
+            "origin": "Svalbard & Jan Mayen Islands",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 24,
+          "room": 2,
+          "group": null,
+          "model_path": "Cube_024.glb",
+          "metadata": {
+            "name": "Artifact 24",
+            "description": "Treat close reveal. Sometimes record raise what doctor bed. Food join per.\n\nChance tree perform. Factor might shake instead may.",
+            "era": "Short",
+            "origin": "Cyprus",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 25,
+          "room": 2,
+          "group": null,
+          "model_path": "Cube_025.glb",
+          "metadata": {
+            "name": "Artifact 25",
+            "description": "Pm institution newspaper particularly west sit short. Democrat spring early effort region allow. Seat major determine win never. In analysis future suffer. Letter arm sister commercial conference natural day.\n\nHistory situation anything collection bad conference. Few recent nice level skin Mrs house treat. Expert here gas sport. Camera both sure conference.",
+            "era": "Then",
+            "origin": "Bouvet Island (Bouvetoya)",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 26,
+          "room": 2,
+          "group": null,
+          "model_path": "Cube_026.glb",
+          "metadata": {
+            "name": "Artifact 26",
+            "description": "Wear usually out loss material animal cut. Half citizen increase father. Medical year amount one hospital sign same. Article concern by read. Player then give glass food.\n\nMost million avoid time defense old sing. Challenge beyond cup sister trouble either. Answer lot gas couple money make hope.",
+            "era": "Himself",
+            "origin": "United Arab Emirates",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 27,
+          "room": 2,
+          "group": null,
+          "model_path": "Cube_027.glb",
+          "metadata": {
+            "name": "Artifact 27",
+            "description": "During position provide never history look into. Author decade billion chair debate represent add simple. New drop history just art real act high. Box radio result.\n\nMemory mean next peace call live personal. Interview maybe reason pretty. Finally dinner lose mouth myself between truth. Create simple pattern seem step dog require he. Month product use cold type art.",
+            "era": "Final",
+            "origin": "Cambodia",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 28,
+          "room": 2,
+          "group": null,
+          "model_path": "Cube_028.glb",
+          "metadata": {
+            "name": "Artifact 28",
+            "description": "While more effort institution reason. Until wait fund sport. Both population none town mouth where.\n\nKnow month these control improve feel property. Keep organization research ok type sound traditional drug. Order citizen brother establish make gas pressure.",
+            "era": "Season",
+            "origin": "Algeria",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 29,
+          "room": 2,
+          "group": 3,
+          "model_path": "Cube_029.glb",
+          "metadata": {
+            "name": "Artifact 29",
+            "description": "Out group thank still only store. Economy everyone kind I near you there.\n\nGreat around general kid work arm image. Quickly property book spend plan student. Argue PM tend phone. Stop moment campaign recognize three send inside future. Reality growth agree because even player forward.",
+            "era": "Approach",
+            "origin": "Lebanon",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 30,
+          "room": 2,
+          "group": null,
+          "model_path": "Cube_030.glb",
+          "metadata": {
+            "name": "Artifact 30",
+            "description": "Network particularly side resource agreement realize have audience. Man social open scene actually never past. Range TV job evening and employee husband case. Total charge big show. Think level personal.\n\nCover kid rest prevent enjoy. Information necessary thought itself. Mrs new someone news.",
+            "era": "Even",
+            "origin": "Turkey",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 31,
+          "room": 2,
+          "group": 3,
+          "model_path": "Cube_031.glb",
+          "metadata": {
+            "name": "Artifact 31",
+            "description": "Power government southern you. Tv mention minute watch much. Rather drive you whom available attack knowledge. Local will require poor collection campaign analysis mouth.\n\nRepublican notice improve end trial. Performance drug letter campaign third past animal century. Western natural cost generation allow main number.",
+            "era": "Leave",
+            "origin": "Congo",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 32,
+          "room": 2,
+          "group": null,
+          "model_path": "Cube_032.glb",
+          "metadata": {
+            "name": "Artifact 32",
+            "description": "Dream wish health usually seek brother smile natural. Foreign account account article. Never seat across operation remember. Member success always ability keep until past. Kind yourself yard never detail.\n\nLawyer explain property. Type statement contain cut edge win message.",
+            "era": "Whether",
+            "origin": "Bouvet Island (Bouvetoya)",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 33,
+          "room": 2,
+          "group": 1,
+          "model_path": "Cube_033.glb",
+          "metadata": {
+            "name": "Artifact 33",
+            "description": "A card green build. Deep crime require discover. Attack prove talk bed. Establish few trouble.\n\nEvery year worry. Professor hear cell treat day. Worry get cover.",
+            "era": "Girl",
+            "origin": "Samoa",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 34,
+          "room": 2,
+          "group": 1,
+          "model_path": "Cube_034.glb",
+          "metadata": {
+            "name": "Artifact 34",
+            "description": "Source son eat owner culture building. Happen field anything. Property pass behavior set.\n\nAlso determine society season decision. Matter site it style whether stage improve specific. Though century medical along wrong stand structure. Marriage detail throw whole body want task. Line natural particular top war letter.",
+            "era": "Fund",
+            "origin": "Montserrat",
+            "material": "Metal"
+          }
+        },
+        {
+          "id": 35,
+          "room": 2,
+          "group": null,
+          "model_path": "Cube_035.glb",
+          "metadata": {
+            "name": "Artifact 35",
+            "description": "Serve wife sign peace yes color reflect. We happy condition argue. After guy church teacher experience food reflect. Kid skill list media.\n\nMore language step. Else guy manager. Affect area could seven fast. Cold beautiful involve bad.",
+            "era": "Education",
+            "origin": "Ghana",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 36,
+          "room": 2,
+          "group": null,
+          "model_path": "Cube_036.glb",
+          "metadata": {
+            "name": "Artifact 36",
+            "description": "Friend several himself every. More study just have. Animal collection before realize likely million spring. Hot play Mrs alone compare step option. Effort name art the page ahead blue force.\n\nManager just red couple. Common hit end media too hotel. Field decision skill test face radio. Start dream carry teacher.",
+            "era": "Paper",
+            "origin": "Gabon",
+            "material": "Metal"
+          }
+        },
+        {
+          "id": 37,
+          "room": 2,
+          "group": null,
+          "model_path": "Cube_037.glb",
+          "metadata": {
+            "name": "Artifact 37",
+            "description": "Current involve candidate more. Election early mouth defense right statement show. Sea best stop condition box moment Mr water.\n\nGreen arm rate our plant information scene buy. Case of north commercial fly. Into defense seek really.",
+            "era": "Keep",
+            "origin": "Gibraltar",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 38,
+          "room": 2,
+          "group": null,
+          "model_path": "Cube_038.glb",
+          "metadata": {
+            "name": "Artifact 38",
+            "description": "Either happy site likely country yourself side. Lawyer social look important I read reality leg. Third animal concern that work professional. About speech push mission. Property plant probably set skill professional beat.\n\nCentral now several think east. Former begin capital ten address western recognize support. But involve save Congress build point letter. Individual onto choose ago son north. Trouble public part garden industry mean here might.",
+            "era": "Second",
+            "origin": "United States Virgin Islands",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 39,
+          "room": 2,
+          "group": null,
+          "model_path": "Cube_039.glb",
+          "metadata": {
+            "name": "Artifact 39",
+            "description": "White their field Congress. First I lot. Sort water thank drug inside.\n\nIt reach choice agency weight. Effort allow matter history trip. Wait possible actually drug. Heart among dog.",
+            "era": "President",
+            "origin": "Central African Republic",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 40,
+          "room": 2,
+          "group": null,
+          "model_path": "Cube_040.glb",
+          "metadata": {
+            "name": "Artifact 40",
+            "description": "Career sit present chance create official. Money thousand thousand toward. Work professor television real. Site another defense glass wind standard budget. Whom town drug person forward similar much.\n\nLight never discover health. Fill space realize quite vote.",
+            "era": "Toward",
+            "origin": "Afghanistan",
+            "material": "Ceramic"
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Room 3",
+      "description": "This room contains artifacts related to Social",
+      "groups": [
+        {
+          "id": 1,
+          "name": "Collection Answer",
+          "description": "A grouping of artifacts showcasing Treat area accept cut nation girl pick"
+        }
+      ],
+      "items": [
+        {
+          "id": 41,
+          "room": 3,
+          "group": null,
+          "model_path": "Cube_041.glb",
+          "metadata": {
+            "name": "Artifact 41",
+            "description": "Himself identify military lead owner. Watch himself dream maintain will worker. Either run understand defense reveal the someone.\n\nEnjoy shoulder develop where late improve. Speech prove interest inside. Amount I term everything. Which often sure relationship. Cold nature nation month.",
+            "era": "Water",
+            "origin": "Nicaragua",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 42,
+          "room": 3,
+          "group": 1,
+          "model_path": "Cube_042.glb",
+          "metadata": {
+            "name": "Artifact 42",
+            "description": "Guess ready from cut. Quite room deal. Fall my respond. Economy book word class. Financial himself leader always.\n\nCharge however describe line far writer both decide. Billion term season kitchen call area. Him live meeting thus pressure plant.",
+            "era": "Senior",
+            "origin": "Liberia",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 43,
+          "room": 3,
+          "group": 1,
+          "model_path": "Cube_043.glb",
+          "metadata": {
+            "name": "Artifact 43",
+            "description": "Like Mrs nor memory over. Wait American rest claim wall power first. Really stuff partner fish now. Often treatment knowledge he resource around.\n\nDrop standard growth. Score vote suddenly. Paper interest event always. Campaign something structure program threat southern.",
+            "era": "They",
+            "origin": "New Caledonia",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 44,
+          "room": 3,
+          "group": null,
+          "model_path": "Cube_044.glb",
+          "metadata": {
+            "name": "Artifact 44",
+            "description": "Sport fact act difference yes. Than live business. Arm unit bit early occur energy movie. Operation structure while could author price.\n\nGroup exist kid. Street trip rich job. Magazine me administration nation. Free another choice knowledge TV take necessary affect. Air cultural political address until couple.",
+            "era": "Certainly",
+            "origin": "Korea",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 45,
+          "room": 3,
+          "group": null,
+          "model_path": "Cube_045.glb",
+          "metadata": {
+            "name": "Artifact 45",
+            "description": "Join its finish resource cell. Window second team floor. Feeling situation each law take two.\n\nTask politics look anyone everybody common. Nation account father show such indicate southern. Red past degree before. Answer yeah back project know. Them case again believe travel.",
+            "era": "Effect",
+            "origin": "Barbados",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 46,
+          "room": 3,
+          "group": null,
+          "model_path": "Cube_046.glb",
+          "metadata": {
+            "name": "Artifact 46",
+            "description": "Chair population start particularly deal news music. Once subject prevent control price. Look actually sort low.\n\nClaim cost play. Pressure enough son cause. Floor kitchen place. Marriage free act speak now thing may. Media card business time smile beat.",
+            "era": "Finish",
+            "origin": "Kiribati",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 47,
+          "room": 3,
+          "group": null,
+          "model_path": "Cube_047.glb",
+          "metadata": {
+            "name": "Artifact 47",
+            "description": "Blood now say open own group animal create. None her write both do Mr. Down religious two order hour view. Land often morning still.\n\nEnd say type. International forward produce attack agreement road. Begin just news program.",
+            "era": "Happen",
+            "origin": "Venezuela",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 48,
+          "room": 3,
+          "group": null,
+          "model_path": "Cube_048.glb",
+          "metadata": {
+            "name": "Artifact 48",
+            "description": "Enter painting specific cell. Game finally off old its. Pm data last growth.\n\nFull candidate may nothing. Up blue newspaper dark paper education. Important save kitchen dark wonder focus. Conference today reach kitchen site against stock particular. Without significant strong themselves fire.",
+            "era": "Leave",
+            "origin": "Saint Barthelemy",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 49,
+          "room": 3,
+          "group": 1,
+          "model_path": "Cube_049.glb",
+          "metadata": {
+            "name": "Artifact 49",
+            "description": "Bag choose former send family. Beyond seem her PM reduce four debate write. As sign traditional place wonder never agreement. Within very cold population write they artist.\n\nHouse audience career law stage. Simple explain picture describe seat. And leader however add develop.",
+            "era": "City",
+            "origin": "Bermuda",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 50,
+          "room": 3,
+          "group": null,
+          "model_path": "Cube_050.glb",
+          "metadata": {
+            "name": "Artifact 50",
+            "description": "Guy stuff popular next great. Father gun walk kid.\n\nTv always move run practice draw high. Occur people live class administration within measure. Painting several focus traditional.",
+            "era": "Evidence",
+            "origin": "India",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 51,
+          "room": 3,
+          "group": null,
+          "model_path": "Cube_051.glb",
+          "metadata": {
+            "name": "Artifact 51",
+            "description": "Machine would tell century your. Call threat without student apply. Major PM condition large evidence however any inside. Six environmental reflect usually case town hair.\n\nMention mother charge hear already wide. Begin ability individual back rule.",
+            "era": "Reality",
+            "origin": "Burkina Faso",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 52,
+          "room": 3,
+          "group": null,
+          "model_path": "Cube_052.glb",
+          "metadata": {
+            "name": "Artifact 52",
+            "description": "Tax full office song if include feel. Might nothing operation sense cold model security. Town country wife child green. Glass agent tell Congress training toward particular. Who four son course happen society.\n\nElse town north center law challenge. Off letter choice so every understand really. Every total laugh edge hotel thus. Really establish gas present heavy.",
+            "era": "Week",
+            "origin": "Chad",
+            "material": "Metal"
+          }
+        },
+        {
+          "id": 53,
+          "room": 3,
+          "group": null,
+          "model_path": "Cube_053.glb",
+          "metadata": {
+            "name": "Artifact 53",
+            "description": "Want attorney compare full Mrs movement center. So those most power.\n\nImage wife theory test different. Direction Democrat performance tax figure report. Or just similar positive year security large support. Tend international employee building. Help value particularly friend believe democratic.",
+            "era": "Call",
+            "origin": "Mayotte",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 54,
+          "room": 3,
+          "group": null,
+          "model_path": "Cube_054.glb",
+          "metadata": {
+            "name": "Artifact 54",
+            "description": "Near quickly learn top west. Material our already example strong. Never social them major relate Mrs material. Cover wall different thus accept.\n\nAccept expect offer someone later. By kid hour leg already give detail majority. Team media show place son management type address. Order debate instead.",
+            "era": "Arm",
+            "origin": "Macao",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 55,
+          "room": 3,
+          "group": null,
+          "model_path": "Cube_055.glb",
+          "metadata": {
+            "name": "Artifact 55",
+            "description": "Future consider treatment science yourself security produce. Rule analysis good nothing president way true.\n\nBox picture them citizen which whether. Work somebody two best generation. Able investment way old. Difference positive without pass role arm indeed technology.",
+            "era": "Center",
+            "origin": "Spain",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 56,
+          "room": 3,
+          "group": 1,
+          "model_path": "Cube_056.glb",
+          "metadata": {
+            "name": "Artifact 56",
+            "description": "Tell read eat former about memory. Production eat degree cold likely do high. Magazine sea expect well stop. City forget art growth provide thought let. Money yourself create whether bad language.\n\nInteresting into ever growth image set stop full. Fill similar time occur study worry argue. Huge my course art pass including. Reveal movie way indicate remember. Use pass identify.",
+            "era": "Foot",
+            "origin": "France",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 57,
+          "room": 3,
+          "group": null,
+          "model_path": "Cube_057.glb",
+          "metadata": {
+            "name": "Artifact 57",
+            "description": "His school program check scene remain. Church need hand check.\n\nBreak call around have. Wall behind international song sign. Theory issue its help word. Room worry tough Republican. Rather remember answer garden good spend course.",
+            "era": "Quickly",
+            "origin": "Italy",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 58,
+          "room": 3,
+          "group": null,
+          "model_path": "Cube_058.glb",
+          "metadata": {
+            "name": "Artifact 58",
+            "description": "Amount cut style peace happen hold nothing. Half tonight those involve time provide. Condition truth become simple.\n\nEvening or rich low. Article particularly first. Member behind agency hair also bad. Yes nor respond.",
+            "era": "Son",
+            "origin": "Botswana",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 59,
+          "room": 3,
+          "group": null,
+          "model_path": "Cube_059.glb",
+          "metadata": {
+            "name": "Artifact 59",
+            "description": "Force factor floor might try charge society. During nothing control magazine specific building type. Result meet reflect heart structure. Much day word bring add need morning. Yes billion individual gun.\n\nSave minute thank professor every clear PM. Compare surface room only.",
+            "era": "Sport",
+            "origin": "Tunisia",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 60,
+          "room": 3,
+          "group": 1,
+          "model_path": "Cube_060.glb",
+          "metadata": {
+            "name": "Artifact 60",
+            "description": "Fly international former. Later indicate these.\n\nRemain station rather use. Whose father pass. Risk oil go edge win speak. Son place customer line important their.",
+            "era": "Answer",
+            "origin": "Tokelau",
+            "material": "Ceramic"
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Room 4",
+      "description": "This room contains artifacts related to Play",
+      "groups": [
+        {
+          "id": 1,
+          "name": "Collection Despite",
+          "description": "A grouping of artifacts showcasing Couple institution sound on charge his"
+        },
+        {
+          "id": 2,
+          "name": "Collection Billion",
+          "description": "A grouping of artifacts showcasing Note dark simply movie toward"
+        }
+      ],
+      "items": [
+        {
+          "id": 61,
+          "room": 4,
+          "group": 1,
+          "model_path": "Cube_061.glb",
+          "metadata": {
+            "name": "Artifact 61",
+            "description": "Reason be week. Cut method life. Speech rise work clearly land shake Mrs.\n\nRealize radio experience wife method learn idea ahead. Note increase produce right structure color statement. Performance answer never well reason research. Top yeah current purpose meeting floor.",
+            "era": "Trip",
+            "origin": "Nicaragua",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 62,
+          "room": 4,
+          "group": null,
+          "model_path": "Cube_062.glb",
+          "metadata": {
+            "name": "Artifact 62",
+            "description": "Society direction sign learn book dark yes pass. Matter early plan.\n\nProbably since region worker game fight. Everyone never agency do. Sit member explain energy partner sign.",
+            "era": "Challenge",
+            "origin": "Guernsey",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 63,
+          "room": 4,
+          "group": 2,
+          "model_path": "Cube_063.glb",
+          "metadata": {
+            "name": "Artifact 63",
+            "description": "Attention the wide. They stay everybody or friend.\n\nMemory right no wife serious television else forget. Boy building avoid billion participant look unit.",
+            "era": "Rest",
+            "origin": "Venezuela",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 64,
+          "room": 4,
+          "group": null,
+          "model_path": "Cube_064.glb",
+          "metadata": {
+            "name": "Artifact 64",
+            "description": "Soon what agency institution line. Increase magazine and Mr. Approach next decide with decide beautiful exist.\n\nSeem significant catch treatment close strong. Behind interesting poor wonder anyone important blood. Natural tough hear parent me interesting trade. Almost modern behavior yard.",
+            "era": "Page",
+            "origin": "Svalbard & Jan Mayen Islands",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 65,
+          "room": 4,
+          "group": 2,
+          "model_path": "Cube_065.glb",
+          "metadata": {
+            "name": "Artifact 65",
+            "description": "Person on go type skin window. Around get work mention wonder customer have process. Wonder money attack group. Recognize now along scene.\n\nCut today wide stand plant religious. Much enjoy statement. Simple west finish item oil song.",
+            "era": "Place",
+            "origin": "Burundi",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 66,
+          "room": 4,
+          "group": 1,
+          "model_path": "Cube_066.glb",
+          "metadata": {
+            "name": "Artifact 66",
+            "description": "Stock PM staff similar protect make. Action could plan little. Study relationship all several soon eye black. Live into choose service respond.\n\nHowever enough west open. Space begin office baby. Tonight face bad ability. Must see beat yourself example already process.",
+            "era": "If",
+            "origin": "Lithuania",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 67,
+          "room": 4,
+          "group": null,
+          "model_path": "Cube_067.glb",
+          "metadata": {
+            "name": "Artifact 67",
+            "description": "View herself clearly name. Better five government television condition personal garden. Test physical game.\n\nThing human understand option box discuss help. Guess effort job animal start fear soldier. They entire coach affect hear station fine. Laugh son seek respond tax else.",
+            "era": "Collection",
+            "origin": "Togo",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 68,
+          "room": 4,
+          "group": null,
+          "model_path": "Cube_068.glb",
+          "metadata": {
+            "name": "Artifact 68",
+            "description": "Song news before effort between. Arm foreign sure total material power measure industry. Year range establish take. Send heavy decide second. Would exist edge party fund.\n\nProduce paper them case late anyone force. Soon year degree bar. Provide night local pay section kitchen. Resource trip they opportunity network.",
+            "era": "Head",
+            "origin": "Canada",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 69,
+          "room": 4,
+          "group": null,
+          "model_path": "Cube_069.glb",
+          "metadata": {
+            "name": "Artifact 69",
+            "description": "Art appear board tax really middle. Alone this top machine direction approach imagine while. On audience long land food.\n\nReport base night thought ok east. Or able main agency alone. Church half enter exactly various. Professional return each.",
+            "era": "Upon",
+            "origin": "Nicaragua",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 70,
+          "room": 4,
+          "group": 1,
+          "model_path": "Cube_070.glb",
+          "metadata": {
+            "name": "Artifact 70",
+            "description": "Bank dream about report little study face. Carry letter fear song. Per similar human better.\n\nDetermine phone my report drug. Loss everybody a only. Son they house. Condition from beat carry crime chair writer.",
+            "era": "Once",
+            "origin": "Congo",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 71,
+          "room": 4,
+          "group": null,
+          "model_path": "Cube_071.glb",
+          "metadata": {
+            "name": "Artifact 71",
+            "description": "Order physical team maintain feel run along. Worry style allow skin wait buy. Accept at dream activity.\n\nMillion court real music staff lawyer. Face never must almost former involve. Itself maybe test yard idea success. Reveal hard phone everything plan. Article yourself mouth need over include billion.",
+            "era": "Rock",
+            "origin": "Mayotte",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 72,
+          "room": 4,
+          "group": null,
+          "model_path": "Cube_072.glb",
+          "metadata": {
+            "name": "Artifact 72",
+            "description": "Man picture ten pretty. Poor institution floor often apply identify bit. Today well herself mother can. Whom present one stock chair walk.\n\nTeach size him main because brother. Cultural into as care hot also west soldier. Cultural serve explain house enter cover card.",
+            "era": "Bag",
+            "origin": "Guadeloupe",
+            "material": "Metal"
+          }
+        },
+        {
+          "id": 73,
+          "room": 4,
+          "group": null,
+          "model_path": "Cube_073.glb",
+          "metadata": {
+            "name": "Artifact 73",
+            "description": "Tree successful economy development at mind. Media training Republican above else turn case. Everyone important world administration act receive rich company.\n\nIts return possible month. Seat fight she whatever building relate care foreign. Early by specific impact series plant physical with.",
+            "era": "No",
+            "origin": "Cameroon",
+            "material": "Metal"
+          }
+        },
+        {
+          "id": 74,
+          "room": 4,
+          "group": null,
+          "model_path": "Cube_074.glb",
+          "metadata": {
+            "name": "Artifact 74",
+            "description": "Like bar Republican. Month treatment listen much writer size who. Win defense food part sing.\n\nMember appear community. Be wait item none energy. Herself real we possible evidence behavior moment. Though make reality item exist challenge. Stuff suddenly ahead discussion nation.",
+            "era": "Theory",
+            "origin": "Turkmenistan",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 75,
+          "room": 4,
+          "group": null,
+          "model_path": "Cube_075.glb",
+          "metadata": {
+            "name": "Artifact 75",
+            "description": "Outside baby our performance opportunity police employee. Would himself particular affect example. Fill side popular quality successful answer perform. Former myself lot already audience very new. Point option move.\n\nSimply life instead. Some continue under morning look everyone watch. Over to challenge catch call federal.",
+            "era": "Project",
+            "origin": "Bolivia",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 76,
+          "room": 4,
+          "group": 2,
+          "model_path": "Cube_076.glb",
+          "metadata": {
+            "name": "Artifact 76",
+            "description": "How accept identify official doctor. Difference direction own participant likely. Care true staff ok. Although yard which travel number.\n\nMe plant gun even. Top month best in within industry.",
+            "era": "Follow",
+            "origin": "Lithuania",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 77,
+          "room": 4,
+          "group": null,
+          "model_path": "Cube_077.glb",
+          "metadata": {
+            "name": "Artifact 77",
+            "description": "Letter sort investment clearly away maybe yeah enter. Top meet model run front answer. Team now learn agree third consider three. Play floor project power learn work. Ready them group enough.\n\nI start see sound style hour try language. Pretty offer ever order. Everyone everybody point. Everyone and shake save both level. Drive energy main enter much leave financial.",
+            "era": "None",
+            "origin": "Lebanon",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 78,
+          "room": 4,
+          "group": null,
+          "model_path": "Cube_078.glb",
+          "metadata": {
+            "name": "Artifact 78",
+            "description": "Build scene air son. Energy continue couple lawyer figure much. Language strong data arm poor. Second outside according authority.\n\nAdministration of computer poor. Court prove rock. Bar rate newspaper discover position policy television show. Themselves politics campaign. Happy interview wear listen.",
+            "era": "Your",
+            "origin": "Northern Mariana Islands",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 79,
+          "room": 4,
+          "group": null,
+          "model_path": "Cube_079.glb",
+          "metadata": {
+            "name": "Artifact 79",
+            "description": "Provide treat strategy stuff fast available. Suggest pretty security free inside chance land. Three anything smile road. Building explain Mr natural picture team.\n\nFull give happy among rich there recent. May dinner partner compare whom past church. Truth edge usually.",
+            "era": "Hotel",
+            "origin": "Bhutan",
+            "material": "Metal"
+          }
+        },
+        {
+          "id": 80,
+          "room": 4,
+          "group": 1,
+          "model_path": "Cube_080.glb",
+          "metadata": {
+            "name": "Artifact 80",
+            "description": "Cold last subject choose on consider low experience. Local doctor western radio laugh computer.\n\nIndividual book adult trouble our college. Over school determine return culture set nor. Number this perform recognize science. General standard glass near.",
+            "era": "Stand",
+            "origin": "American Samoa",
+            "material": "Metal"
+          }
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Room 5",
+      "description": "This room contains artifacts related to Off",
+      "groups": [
+        {
+          "id": 1,
+          "name": "Collection Pass",
+          "description": "A grouping of artifacts showcasing That however focus resource"
+        }
+      ],
+      "items": [
+        {
+          "id": 81,
+          "room": 5,
+          "group": null,
+          "model_path": "Cube_081.glb",
+          "metadata": {
+            "name": "Artifact 81",
+            "description": "Age thousand write religious rule peace at. Media direction suffer determine strategy arm unit. Fight sign family. Meet thing carry including include inside future think.\n\nNight important theory small able city future sit. Rate whatever industry former very organization. Provide she take doctor wonder. Care loss tonight away television tell.",
+            "era": "Painting",
+            "origin": "Egypt",
+            "material": "Metal"
+          }
+        },
+        {
+          "id": 82,
+          "room": 5,
+          "group": null,
+          "model_path": "Cube_082.glb",
+          "metadata": {
+            "name": "Artifact 82",
+            "description": "Subject physical collection doctor. Early cause clear billion site suffer over. For back forward that eye study.\n\nSimilar perform section mouth cup natural hotel. Project deal listen stuff.",
+            "era": "Physical",
+            "origin": "Svalbard & Jan Mayen Islands",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 83,
+          "room": 5,
+          "group": 1,
+          "model_path": "Cube_083.glb",
+          "metadata": {
+            "name": "Artifact 83",
+            "description": "Budget sea lead possible. Town ago themselves quickly large sound spend woman.\n\nChild myself store group north. Low loss throw join bad sometimes move. Safe age deal social even but family color.",
+            "era": "Cold",
+            "origin": "Slovakia (Slovak Republic)",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 84,
+          "room": 5,
+          "group": 1,
+          "model_path": "Cube_084.glb",
+          "metadata": {
+            "name": "Artifact 84",
+            "description": "Tax assume boy newspaper nearly center cause. Already answer huge nature organization. Recently hard personal money. Away high total ground.\n\nWork force success. Six top create treatment reflect. Cut story traditional party cup author finally her. Challenge especially crime check.",
+            "era": "Move",
+            "origin": "Brunei Darussalam",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 85,
+          "room": 5,
+          "group": null,
+          "model_path": "Cube_085.glb",
+          "metadata": {
+            "name": "Artifact 85",
+            "description": "One film only available morning. Agreement prevent save successful. Prevent away itself against. Much trouble happen challenge.\n\nLeast science her item win art peace. Another station suffer could together large senior blue. Itself base less issue former say little. Different unit today face.",
+            "era": "Expect",
+            "origin": "Ethiopia",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 86,
+          "room": 5,
+          "group": null,
+          "model_path": "Cube_086.glb",
+          "metadata": {
+            "name": "Artifact 86",
+            "description": "Result who opportunity forward couple. Country business build economic effect. Put today west threat. Western project great prevent decision less enjoy.\n\nIn religious heart perhaps. Number benefit writer fine pull theory Republican benefit.",
+            "era": "Describe",
+            "origin": "Angola",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 87,
+          "room": 5,
+          "group": 1,
+          "model_path": "Cube_087.glb",
+          "metadata": {
+            "name": "Artifact 87",
+            "description": "Option toward group growth eight marriage push low. Economy region look difference address. Nature former event better modern. Food on season ball figure decision. Note exist write end bill nor.\n\nHigh position box hope. Join begin lead probably wife drive. Owner site big. Story resource common.",
+            "era": "People",
+            "origin": "Japan",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 88,
+          "room": 5,
+          "group": null,
+          "model_path": "Cube_088.glb",
+          "metadata": {
+            "name": "Artifact 88",
+            "description": "Real spend democratic hundred none another raise. Act mouth now central happy budget become.\n\nRemember religious discuss. Garden free system sea give meeting easy when. Significant degree treatment risk nice something.",
+            "era": "Gas",
+            "origin": "Tonga",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 89,
+          "room": 5,
+          "group": 1,
+          "model_path": "Cube_089.glb",
+          "metadata": {
+            "name": "Artifact 89",
+            "description": "Song woman price individual. Treat animal run senior. Us but from act prevent treat. Bill finally glass thought learn.\n\nAway material trial reflect place. Let including in open nature along. Member fast continue level fly than boy.",
+            "era": "Enough",
+            "origin": "Iraq",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 90,
+          "room": 5,
+          "group": null,
+          "model_path": "Cube_090.glb",
+          "metadata": {
+            "name": "Artifact 90",
+            "description": "Inside send lawyer down. Rest development first base development red. Nearly determine report maintain management administration.\n\nHave trouble lose whether she. Onto fly reveal deep. Stuff position against toward keep reality next what. Herself instead activity step always. South if study trip marriage again second.",
+            "era": "Action",
+            "origin": "Niue",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 91,
+          "room": 5,
+          "group": null,
+          "model_path": "Cube_091.glb",
+          "metadata": {
+            "name": "Artifact 91",
+            "description": "Interesting door morning civil wind medical. Where I wrong foot through commercial. Learn admit produce consumer.\n\nState so center stop people. New candidate travel once. Agency full us goal. According general recent.",
+            "era": "Bad",
+            "origin": "Philippines",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 92,
+          "room": 5,
+          "group": 1,
+          "model_path": "Cube_092.glb",
+          "metadata": {
+            "name": "Artifact 92",
+            "description": "Go out science politics concern. Ground real character. Offer actually fly somebody film. Kitchen few particularly cut interview list home.\n\nYeah during ten can kind send. Region interview top price. Everybody entire attention sound put local design. Stand small film exist true. Not right heart candidate area along.",
+            "era": "Environment",
+            "origin": "Fiji",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 93,
+          "room": 5,
+          "group": null,
+          "model_path": "Cube_093.glb",
+          "metadata": {
+            "name": "Artifact 93",
+            "description": "Soldier oil point American south protect identify. This whose style seven throw east. Year nor article.\n\nCause beyond determine six. Generation cup authority age. Computer tend method upon building than maybe.",
+            "era": "Method",
+            "origin": "Albania",
+            "material": "Metal"
+          }
+        },
+        {
+          "id": 94,
+          "room": 5,
+          "group": null,
+          "model_path": "Cube_094.glb",
+          "metadata": {
+            "name": "Artifact 94",
+            "description": "Rate shake inside. Wear dog other. Level professor both pressure alone never what.\n\nEnvironment knowledge change day later produce discussion. Director top he. Form involve event let account.",
+            "era": "Drive",
+            "origin": "Madagascar",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 95,
+          "room": 5,
+          "group": 1,
+          "model_path": "Cube_095.glb",
+          "metadata": {
+            "name": "Artifact 95",
+            "description": "Recently next senior night manage myself huge arrive. Attack class car back check amount remember. Wind believe policy still better likely spend.\n\nAgainst party mention finally. Politics memory avoid. Compare author break challenge. Everything Democrat instead wide occur rest its. Owner analysis section several weight half organization old.",
+            "era": "Strategy",
+            "origin": "Brazil",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 96,
+          "room": 5,
+          "group": 1,
+          "model_path": "Cube_096.glb",
+          "metadata": {
+            "name": "Artifact 96",
+            "description": "People peace plan country development. Edge build which similar. Final with arrive seven.\n\nPopular majority talk they policy we recent. Reflect marriage nice go hospital amount sell. Such sing eye clearly who operation note. Finish her girl score special. Book way seven candidate.",
+            "era": "Red",
+            "origin": "Qatar",
+            "material": "Textile"
+          }
+        },
+        {
+          "id": 97,
+          "room": 5,
+          "group": 1,
+          "model_path": "Cube_097.glb",
+          "metadata": {
+            "name": "Artifact 97",
+            "description": "Recognize more person nature blood customer sell. Agent could wall such or remain yourself. Significant wrong class system though realize.\n\nPlant nature policy later. Information size those public camera growth agree mention. Financial among food candidate cut whose reveal. Just clear where. Agree leader relationship painting quickly wear decade once.",
+            "era": "Like",
+            "origin": "Poland",
+            "material": "Stone"
+          }
+        },
+        {
+          "id": 98,
+          "room": 5,
+          "group": 1,
+          "model_path": "Cube_098.glb",
+          "metadata": {
+            "name": "Artifact 98",
+            "description": "Exactly left task three career difficult raise. Majority plan end only. Group wall later near fish Mr chance.\n\nOption president carry enter billion her reduce direction. Weight plan themselves oil young. Near benefit traditional ask. Partner late outside professor guy.",
+            "era": "Degree",
+            "origin": "Israel",
+            "material": "Wood"
+          }
+        },
+        {
+          "id": 99,
+          "room": 5,
+          "group": null,
+          "model_path": "Cube_099.glb",
+          "metadata": {
+            "name": "Artifact 99",
+            "description": "Past story building answer number I behind. Trouble surface test why. Middle government agreement though professor statement arrive whatever.\n\nTrouble soon impact simply. Road yard run scene person.",
+            "era": "Meet",
+            "origin": "Cambodia",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "id": 100,
+          "room": 5,
+          "group": null,
+          "model_path": "Cube_100.glb",
+          "metadata": {
+            "name": "Artifact 100",
+            "description": "Watch identify type sea. Floor she white scientist management. Should after both support five point. Address onto worker write production.\n\nPerform production party loss director cup. Top day kitchen you source him.",
+            "era": "Myself",
+            "origin": "French Polynesia",
+            "material": "Textile"
+          }
+        }
+      ]
+    }
+  ]
+}
