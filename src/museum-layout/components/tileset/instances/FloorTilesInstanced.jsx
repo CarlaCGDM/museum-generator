@@ -9,7 +9,7 @@ const FloorTilesInstanced = ({
 }) => {
   const instancedRef = useRef();
 
-  const floorGLB = useLoader(GLTFLoader, '/models/tiles/HighPerformanceTest_LODs/LOD_05.glb');
+  const floorGLB = useLoader(GLTFLoader, '/models/tiles/Floor_LODs/LOD_02.glb');
 
   const geometry = useMemo(() => floorGLB.scene.children[0].geometry.clone(), [floorGLB]);
   const material = useMemo(() => floorGLB.scene.children[0].material.clone(), [floorGLB]);

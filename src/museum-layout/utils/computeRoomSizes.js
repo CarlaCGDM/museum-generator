@@ -89,7 +89,8 @@ export async function computeRoomSizes(museumData, log = () => { }) {
     });
   }
 
-  console.log(roomReports);
+  log(` 📝 Complete rooms report:`);
+  log(roomReports);
 
   return roomReports;
 }

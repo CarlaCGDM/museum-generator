@@ -1,9 +1,9 @@
 import React from 'react';
 import Tile from './Tile';
-import FloorTilesInstanced from './tileset/instances/FloorTilesInstanced.lods';
-import WallTilesInstanced from './tileset/instances/WallTilesInstanced.lods';
-import CornerTilesInstanced from './tileset/instances/CornerTilesInstanced.lods';
-import DoorTilesInstanced from './tileset/instances/DoorTilesInstanced.lods';
+import FloorTilesInstanced from './tileset/instances/FloorTilesInstanced';
+import WallTilesInstanced from './tileset/instances/WallTilesInstanced';
+import CornerTilesInstanced from './tileset/instances/CornerTilesInstanced';
+import DoorTilesInstanced from './tileset/instances/DoorTilesInstanced';
 import { Html } from '@react-three/drei';
 import { useDebug } from '../../debug/DebugContext';
 

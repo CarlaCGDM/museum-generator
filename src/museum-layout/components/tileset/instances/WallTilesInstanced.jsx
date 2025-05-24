@@ -20,8 +20,8 @@ const WallTilesInstanced = ({
   const wallRef = useRef();
   const floorRef = useRef();
 
-  const wallGLB = useLoader(GLTFLoader, '/models/tiles/HighPerformanceTest_LODs/LOD_05.glb');
-  const floorGLB = useLoader(GLTFLoader, '/models/tiles/HighPerformanceTest_LODs/LOD_05.glb');
+  const wallGLB = useLoader(GLTFLoader, '/models/tiles/Wall_LODs/LOD_02.glb');
+  const floorGLB = useLoader(GLTFLoader, '/models/tiles/Floor_LODs/LOD_02.glb');
 
   const wallGeometry = useMemo(() => wallGLB.scene.children[0].geometry.clone(), [wallGLB]);
   const wallMaterial = useMemo(() => wallGLB.scene.children[0].material.clone(), [wallGLB]);
