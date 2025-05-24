@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDebug } from './DebugContext';
 export function DebugPanel() {
   const { debugConfig, toggleDebug } = useDebug();
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [collapsedCategories, setCollapsedCategories] = useState({});
 
   const toggleCategory = (category) => {
@@ -18,7 +18,7 @@ export function DebugPanel() {
     <div style={{
       position: 'fixed',
       bottom: '5px',
-      right: '5px',
+      left: '5px',
       background: '#222',
       color: '#fff',
       padding: '10px',

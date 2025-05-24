@@ -38,7 +38,7 @@ const Showcase = ({
     const size = item.dimensions.width;
     const x = offset + size / 2;
     const z = isWall
-      ? item.dimensions.depth / 2 - showcaseDepth / 2 + paddingRatio * 2
+      ? item.dimensions.depth / 2 - showcaseDepth / 2 + paddingRatio * 6
       : 0;
 
     offset += size + spacing;

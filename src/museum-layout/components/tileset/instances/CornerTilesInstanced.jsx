@@ -2,6 +2,7 @@ import { useLoader } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Object3D, Vector3 } from 'three';
+import { useModelSettings } from '../../../../ui-overlay/ModelSettingsContext';
 
 const directionToRotationY = (dir) => {
   switch (dir) {
@@ -21,8 +22,13 @@ const CornerTilesInstanced = ({
   const wallRef = useRef();
   const floorRef = useRef();
 
-  const wallGLB = useLoader(GLTFLoader, '/models/tiles/Wall_LODs/LOD_02.glb');
-  const floorGLB = useLoader(GLTFLoader, '/models/tiles/Floor_LODs/LOD_02.glb',);
+  const { customModels } = useModelSettings();
+
+  const wallGlbUrl = customModels?.wall || '/models/tiles/Wall_LODs/LOD_02.glb';
+  const floorGlbUrl = customModels?.floor || '/models/tiles/Floor_LODs/LOD_02.glb';
+
+  const wallGLB = useLoader(GLTFLoader, wallGlbUrl);
+  const floorGLB = useLoader(GLTFLoader, floorGlbUrl);
 
   const wallGeo = useMemo(() => wallGLB.scene.children[0].geometry.clone(), [wallGLB]);
   const wallMat = useMemo(() => wallGLB.scene.children[0].material.clone(), [wallGLB]);
@@ -51,7 +57,7 @@ const CornerTilesInstanced = ({
       tempWall1.position.set(pos[0], pos[1], pos[2]);
       tempWall1.rotation.set(0, rotY, 0);
       tempWall1.scale.set(tileSize, tileSize, tileSize);
-      const offset1 = new Vector3(0, 0, -0.4).applyEuler(tempWall1.rotation);
+      const offset1 = new Vector3(0, 0, -0.3).applyEuler(tempWall1.rotation);
       tempWall1.position.add(offset1);
       tempWall1.updateMatrix();
       wallRef.current.setMatrixAt(i * 2, tempWall1.matrix);
@@ -60,7 +66,7 @@ const CornerTilesInstanced = ({
       tempWall2.position.set(pos[0], pos[1], pos[2]);
       tempWall2.rotation.set(0, rotY + Math.PI / 2, 0);
       tempWall2.scale.set(tileSize, tileSize, tileSize);
-      const offset2 = new Vector3(0, 0, -0.4).applyEuler(tempWall2.rotation);
+      const offset2 = new Vector3(0, 0, -0.3).applyEuler(tempWall2.rotation);
       tempWall2.position.add(offset2);
       tempWall2.updateMatrix();
       wallRef.current.setMatrixAt(i * 2 + 1, tempWall2.matrix);

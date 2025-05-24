@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Object3D, Vector3 } from 'three';
+import { useModelSettings } from '../../../../ui-overlay/ModelSettingsContext';
 
 const directionToRotationY = (dir) => {
   switch (dir) {
@@ -20,8 +21,13 @@ const DoorTilesInstanced = ({
   const lintelRef = useRef();
   const floorRef = useRef();
 
-  const lintelGLB = useLoader(GLTFLoader, '/models/tiles/Lintel_LODs/LOD_02.glb',);
-  const floorGLB = useLoader(GLTFLoader, '/models/tiles/Floor_LODs/LOD_02.glb',);
+  const { customModels } = useModelSettings();
+
+  const lintelGlbUrl = customModels?.door || '/models/tiles/Lintel_LODs/LOD_02.glb';
+  const floorGlbUrl = customModels?.floor || '/models/tiles/Floor_LODs/LOD_02.glb';
+
+  const lintelGLB = useLoader(GLTFLoader, lintelGlbUrl);
+  const floorGLB = useLoader(GLTFLoader, floorGlbUrl);
 
   const lintelGeo = useMemo(() => lintelGLB.scene.children[0].geometry.clone(), [lintelGLB]);
   const lintelMat = useMemo(() => lintelGLB.scene.children[0].material.clone(), [lintelGLB]);
@@ -50,7 +56,7 @@ const DoorTilesInstanced = ({
       tempLintel.rotation.set(0, rotY, 0);
       tempLintel.scale.set(tileSize, tileSize, tileSize);
 
-      const offset = new Vector3(0, 0, -0.4).applyEuler(tempLintel.rotation);
+      const offset = new Vector3(0, 0, -0.3).applyEuler(tempLintel.rotation);
       tempLintel.position.add(offset);
 
       tempLintel.updateMatrix();

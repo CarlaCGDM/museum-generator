@@ -164,6 +164,9 @@ const Room = ({
           fontSize: '100px',
           fontWeight: 'bold',
           color: 'black',
+          backgroundColor: 'white',
+          padding: '1vh 1vw',
+          borderRadius: '1vw',
         }}>
           <div>{index}</div>
         </Html>
