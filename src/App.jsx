@@ -6,7 +6,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useDebug } from './debug/DebugContext';
 import { computeRoomSizes } from './museum-layout/utils/computeRoomSizes';
 import { createLogger } from './debug/utils/logger';
-import Overlay from './ui-overlay/OVerlay';
+import Overlay from './ui-overlay/Overlay';
 import { ModelSettingsContext } from './ui-overlay/ModelSettingsContext';
 import { generateRandomMuseumData } from './museum-layout/utils/generateRandomMuseumData';
 
