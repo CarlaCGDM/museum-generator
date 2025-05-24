@@ -34,11 +34,19 @@ const MuseumLayout = ({ roomData }) => {
     <group>
       {roomData.map((room, index) => {
         const { width, depth } = room.dimensions;
+        if (!roomPositions[index]) {
+          console.warn(`Missing room position at index ${index}`);
+          return null; // skip rendering this room to avoid crash
+        }
         const roomPos = roomPositions[index];
         const doorTiles = [];
 
-        if (index > 0) doorTiles.push(...doorLinks[index - 1].doors.to);
-        if (index < doorLinks.length) doorTiles.push(...doorLinks[index].doors.from);
+        if (index > 0 && doorLinks[index - 1]?.doors?.to) {
+          doorTiles.push(...doorLinks[index - 1].doors.to);
+        }
+        if (index < doorLinks.length && doorLinks[index]?.doors?.from) {
+          doorTiles.push(...doorLinks[index].doors.from);
+        }
 
         //console.log(doorTiles)
 

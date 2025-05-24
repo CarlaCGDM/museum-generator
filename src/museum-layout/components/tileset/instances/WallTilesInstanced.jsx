@@ -2,6 +2,7 @@ import { useLoader } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Object3D, Vector3 } from 'three';
+import { useModelSettings } from '../../../../ui-overlay/ModelSettingsContext';
 
 const directionToRotationY = (direction) => {
   switch (direction) {
@@ -20,14 +21,21 @@ const WallTilesInstanced = ({
   const wallRef = useRef();
   const floorRef = useRef();
 
-  const wallGLB = useLoader(GLTFLoader, '/models/tiles/Wall_LODs/LOD_02.glb');
-  const floorGLB = useLoader(GLTFLoader, '/models/tiles/Floor_LODs/LOD_02.glb');
+  const { customModels } = useModelSettings();
+
+  const wallGlbUrl = customModels?.wall || '/models/tiles/Wall_LODs/LOD_02.glb';
+  const floorGlbUrl = customModels?.floor || '/models/tiles/Floor_LODs/LOD_02.glb';
+
+  const wallGLB = useLoader(GLTFLoader, wallGlbUrl);
+  const floorGLB = useLoader(GLTFLoader, floorGlbUrl);
 
   const wallGeometry = useMemo(() => wallGLB.scene.children[0].geometry.clone(), [wallGLB]);
   const wallMaterial = useMemo(() => wallGLB.scene.children[0].material.clone(), [wallGLB]);
 
   const floorGeometry = useMemo(() => floorGLB.scene.children[0].geometry.clone(), [floorGLB]);
   const floorMaterial = useMemo(() => floorGLB.scene.children[0].material.clone(), [floorGLB]);
+
+  //wallMaterial.wireframe = true;
 
   const updateInstances = (ref, isWall) => {
     if (!ref.current) return;
@@ -44,7 +52,7 @@ const WallTilesInstanced = ({
       tempObj.scale.set(tileSize, isWall ? tileSize : 1, tileSize);
 
       if (isWall) {
-        const offset = new Vector3(0, 0, -0.4);
+        const offset = new Vector3(0, 0, -0.3);
         offset.applyEuler(tempObj.rotation);
         tempObj.position.add(offset);
       }
