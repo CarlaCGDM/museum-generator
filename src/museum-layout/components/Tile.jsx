@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Html } from '@react-three/drei';
 import { useDebug } from '../../debug/DebugContext';
 
+import FloorTile from './tileset/FloorTile';
 import WallTile from './tileset/WallTile';
 import CornerTile from './tileset/CornerTile';
 import DoorTile from './tileset/DoorTile';
@@ -12,12 +13,9 @@ const Tile = ({
   z = 0,
   tileSize = 1,
   type = 'floor', // 'floor', 'wall', 'door', 'interiorWall', 'corner'
-  direction = 'north',
+  direction = 'north', // rotation
 }) => {
   const showTileIndexes = useDebug('Tile', 'Indexes');
-
-  // Skip rendering for floor tiles — handled by instancing system
-  if (type === 'floor') return <group />;
 
   const position = [x * tileSize, 0, z * tileSize];
 
@@ -36,14 +34,16 @@ const Tile = ({
       case 'door': return DoorTile;
       case 'interiorWall': return InteriorWallTile;
       case 'corner': return CornerTile;
-      default: return null;
+      case 'floor':
+      default:
+        return FloorTile;
     }
   }, [type]);
 
   return (
     <group position={position}>
       <group rotation={[0, rotationY, 0]}>
-        {TileComponent && <TileComponent tileSize={tileSize} />}
+        <TileComponent tileSize={tileSize} />
       </group>
 
       {showTileIndexes && (

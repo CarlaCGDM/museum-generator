@@ -1,167 +1,82 @@
-import { useLoader, useThree, useFrame } from '@react-three/fiber';
-import { useMemo, useRef } from 'react';
+import { useLoader } from '@react-three/fiber';
+import { useEffect, useMemo, useRef } from 'react';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Object3D, Vector3 } from 'three';
 
 const directionToRotationY = (direction) => {
-    switch (direction) {
-        case 'east': return -Math.PI / 2;
-        case 'south': return Math.PI;
-        case 'west': return Math.PI / 2;
-        default: return 0; // 'north' or fallback
-    }
+  switch (direction) {
+    case 'east': return -Math.PI / 2;
+    case 'south': return Math.PI;
+    case 'west': return Math.PI / 2;
+    default: return 0; // 'north' or fallback
+  }
 };
 
 const WallTilesInstanced = ({
-    positions = [],
-    directions = [], // ✅ New prop
-    tileSize = 1,
-    roomPosition,
-    innerGroupOffset
+  positions = [],
+  directions = [],
+  tileSize = 1,
 }) => {
-    const { camera } = useThree();
+  const wallRef = useRef();
+  const floorRef = useRef();
 
-    const wallRefs = [useRef(), useRef(), useRef()];
-    const floorRefs = [useRef(), useRef(), useRef()];
+  const wallGLB = useLoader(GLTFLoader, '/models/tiles/HighPerformanceTest_LODs/LOD_05.glb');
+  const floorGLB = useLoader(GLTFLoader, '/models/tiles/HighPerformanceTest_LODs/LOD_05.glb');
 
-    const wallLODGlbs = useLoader(GLTFLoader, [
-        '/models/tiles/Wall_LODs/LOD_02.glb',
-        '/models/tiles/Wall_LODs/LOD_00.glb',
-        '/models/tiles/Wall_LODs/LOD_01.glb',
-    ]);
+  const wallGeometry = useMemo(() => wallGLB.scene.children[0].geometry.clone(), [wallGLB]);
+  const wallMaterial = useMemo(() => wallGLB.scene.children[0].material.clone(), [wallGLB]);
 
-    const floorLODGlbs = useLoader(GLTFLoader, [
-        '/models/tiles/Floor_LODs/LOD_02.glb',
-        '/models/tiles/Floor_LODs/LOD_00.glb',
-        '/models/tiles/Floor_LODs/LOD_01.glb',
-    ]);
+  const floorGeometry = useMemo(() => floorGLB.scene.children[0].geometry.clone(), [floorGLB]);
+  const floorMaterial = useMemo(() => floorGLB.scene.children[0].material.clone(), [floorGLB]);
 
-    const wallLODs = useMemo(() =>
-        wallLODGlbs.map(gltf => {
-            const mesh = gltf.scene.children[0];
-            return {
-                geometry: mesh.geometry.clone(),
-                material: mesh.material.clone(),
-            };
-        }), [wallLODGlbs]);
+  const updateInstances = (ref, isWall) => {
+    if (!ref.current) return;
+    const tempObj = new Object3D();
+    ref.current.count = positions.length;
+    ref.current.frustumCulled = false;
 
-    const floorLODs = useMemo(() =>
-        floorLODGlbs.map(gltf => {
-            const mesh = gltf.scene.children[0];
-            return {
-                geometry: mesh.geometry.clone(),
-                material: mesh.material.clone(),
-            };
-        }), [floorLODGlbs]);
+    positions.forEach((pos, i) => {
+      const dir = directions[i] || 'north';
+      const rotY = isWall ? directionToRotationY(dir) : 0;
 
-    const lodGroupsRef = useRef([[], [], []]);
-    const lodDistances = [10, 25];
+      tempObj.position.set(pos[0], pos[1], pos[2]);
+      tempObj.rotation.set(0, rotY, 0);
+      tempObj.scale.set(tileSize, isWall ? tileSize : 1, tileSize);
 
-    useFrame(() => {
-        if (!camera || !roomPosition || !innerGroupOffset) return;
+      if (isWall) {
+        const offset = new Vector3(0, 0, -0.4);
+        offset.applyEuler(tempObj.rotation);
+        tempObj.position.add(offset);
+      }
 
-        const groups = [[], [], []];
-        const posVec = new Vector3();
-
-        positions.forEach((localPos, i) => {
-            posVec.set(
-                roomPosition[0] + innerGroupOffset[0] + localPos[0],
-                roomPosition[1] + innerGroupOffset[1] + localPos[1],
-                roomPosition[2] + innerGroupOffset[2] + localPos[2]
-            );
-
-            const distSq = camera.position.distanceToSquared(posVec);
-
-            if (distSq < lodDistances[0] ** 2) groups[0].push(i);
-            else if (distSq < lodDistances[1] ** 2) groups[1].push(i);
-            else groups[2].push(i);
-        });
-
-        const current = lodGroupsRef.current;
-        const same =
-            groups.every((g, i) =>
-                g.length === current[i].length &&
-                g.every((v, idx) => v === current[i][idx])
-            );
-
-        if (!same) {
-            lodGroupsRef.current = groups;
-            wallRefs.forEach((ref, i) =>
-                updateInstances(ref, groups[i], positions, directions, tileSize, true)
-            );
-            floorRefs.forEach((ref, i) =>
-                updateInstances(ref, groups[i], positions, directions, tileSize, false)
-            );
-        }
+      tempObj.updateMatrix();
+      ref.current.setMatrixAt(i, tempObj.matrix);
     });
 
-    const updateInstances = (ref, indices, positions, directions, scale, isWall) => {
-        if (!ref.current) return;
-        const tempObj = new Object3D();
-        ref.current.count = indices.length;
-        ref.current.frustumCulled = false;
+    ref.current.instanceMatrix.needsUpdate = true;
+  };
 
-        indices.forEach((i, idx) => {
-            const pos = positions[i];
-            const dir = directions[i] || 'north';
-            const rotY = isWall ? directionToRotationY(dir) : 0;
+  useEffect(() => {
+    updateInstances(wallRef, true);
+    updateInstances(floorRef, false);
+  }, [positions, directions, tileSize]);
 
-            tempObj.position.set(pos[0], pos[1], pos[2]);
-            tempObj.rotation.set(0, rotY, 0);
-            tempObj.scale.set(scale, isWall ? scale : 1, scale);
-            if (isWall) { // Offset for wall
-                // Calculate backward offset vector in local space, then apply rotation
-                const offsetDistance = 0.4;
-                const backward = new Vector3(0, 0, -offsetDistance);
-                backward.applyEuler(tempObj.rotation); // rotate offset vector by the wall rotation
-                tempObj.position.add(backward);
-            }
-
-            tempObj.updateMatrix();
-
-            ref.current.setMatrixAt(idx, tempObj.matrix);
-        });
-
-        ref.current.instanceMatrix.needsUpdate = true;
-    };
-
-    // Init once
-    useMemo(() => {
-        if (!wallLODs.length || !floorLODs.length || positions.length === 0) return;
-
-        wallRefs.forEach((ref, i) =>
-            updateInstances(ref, lodGroupsRef.current[i], positions, directions, tileSize, true)
-        );
-        floorRefs.forEach((ref, i) =>
-            updateInstances(ref, lodGroupsRef.current[i], positions, directions, tileSize, false)
-        );
-    }, [wallLODs, floorLODs, positions, directions, tileSize]);
-
-    if (!wallLODs.length || !floorLODs.length || positions.length === 0) return null;
-
-    return (
-        <group>
-            {wallLODs.map(({ geometry, material }, i) => (
-                <instancedMesh
-                    key={`wall-${i}`}
-                    ref={wallRefs[i]}
-                    args={[geometry, material, positions.length]}
-                    castShadow
-                    receiveShadow
-                />
-            ))}
-
-            {floorLODs.map(({ geometry, material }, i) => (
-                <instancedMesh
-                    key={`floor-${i}`}
-                    ref={floorRefs[i]}
-                    args={[geometry, material, positions.length]}
-                    castShadow
-                    receiveShadow
-                />
-            ))}
-        </group>
-    );
+  return (
+    <group>
+      <instancedMesh
+        ref={wallRef}
+        args={[wallGeometry, wallMaterial, positions.length]}
+        castShadow
+        receiveShadow
+      />
+      <instancedMesh
+        ref={floorRef}
+        args={[floorGeometry, floorMaterial, positions.length]}
+        castShadow
+        receiveShadow
+      />
+    </group>
+  );
 };
 
 export default WallTilesInstanced;

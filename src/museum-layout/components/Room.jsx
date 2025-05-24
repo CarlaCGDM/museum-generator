@@ -1,7 +1,9 @@
 import React from 'react';
 import Tile from './Tile';
-import FloorTilesInstanced from './tileset/instances/FloorTilesInstanced';
-import WallTilesInstanced from './tileset/instances/WallTilesInstanced';
+import FloorTilesInstanced from './tileset/instances/FloorTilesInstanced.lods';
+import WallTilesInstanced from './tileset/instances/WallTilesInstanced.lods';
+import CornerTilesInstanced from './tileset/instances/CornerTilesInstanced.lods';
+import DoorTilesInstanced from './tileset/instances/DoorTilesInstanced.lods';
 import { Html } from '@react-three/drei';
 import { useDebug } from '../../debug/DebugContext';
 
@@ -46,10 +48,13 @@ const Room = ({
     return 'north';
   };
 
-  // Collect positions for instancing
   const floorTilePositions = [];
   const wallTilePositions = [];
   const wallTileDirections = [];
+  const cornerTilePositions = [];
+  const cornerTileDirections = [];
+  const doorTilePositions = [];
+  const doorTileDirections = [];
 
   return (
     <group position={position}>
@@ -64,6 +69,7 @@ const Room = ({
 
             if (isMatch(doorTiles, x, z)) {
               type = 'door';
+              direction = getDirection(x, z);
             } else if (matchedInteriorTile) {
               type = 'interiorWall';
               direction = matchedInteriorTile.direction;
@@ -84,11 +90,17 @@ const Room = ({
             if (type === 'floor') {
               floorTilePositions.push([localX, 0, localZ]);
               return null;
-            }
-
-            if (type === 'wall') {
+            } else if (type === 'wall') {
               wallTilePositions.push([localX, 0, localZ]);
               wallTileDirections.push(direction);
+              return null;
+            } else if (type === 'corner') {
+              cornerTilePositions.push([localX, 0, localZ]);
+              cornerTileDirections.push(direction);
+              return null;
+            } else if (type === 'door') {
+              doorTilePositions.push([localX, 0, localZ]);
+              doorTileDirections.push(direction);
               return null;
             }
 
@@ -105,7 +117,6 @@ const Room = ({
           })
         )}
 
-        {/* Instanced floor tiles */}
         <FloorTilesInstanced
           positions={floorTilePositions}
           tileSize={tileSize}
@@ -113,7 +124,6 @@ const Room = ({
           innerGroupOffset={[xOffset, 0, zOffset]}
         />
 
-        {/* Instanced wall tiles */}
         <WallTilesInstanced
           positions={wallTilePositions}
           directions={wallTileDirections}
@@ -121,9 +131,24 @@ const Room = ({
           roomPosition={position}
           innerGroupOffset={[xOffset, 0, zOffset]}
         />
+
+        <CornerTilesInstanced
+          positions={cornerTilePositions}
+          directions={cornerTileDirections}
+          tileSize={tileSize}
+          roomPosition={position}
+          innerGroupOffset={[xOffset, 0, zOffset]}
+        />
+
+        <DoorTilesInstanced
+          positions={doorTilePositions}
+          directions={doorTileDirections}
+          tileSize={tileSize}
+          roomPosition={position}
+          innerGroupOffset={[xOffset, 0, zOffset]}
+        />
       </group>
 
-      {/* Direction labels */}
       {showDirections && (
         <group>
           <Html position={[0, 0, -depth * tileSize / 2]} center distanceFactor={10} style={labelStyle}><div>N</div></Html>
@@ -133,7 +158,6 @@ const Room = ({
         </group>
       )}
 
-      {/* Room index label */}
       {showIndexes && (
         <Html center distanceFactor={10} style={{
           pointerEvents: 'none',
