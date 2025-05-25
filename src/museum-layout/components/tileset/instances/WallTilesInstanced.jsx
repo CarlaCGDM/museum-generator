@@ -1,8 +1,8 @@
 import { useLoader } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { Object3D, Vector3 } from 'three';
-import { useModelSettings } from '../../../../ui-overlay/ModelSettingsContext';
+import { Object3D, Vector3, FrontSide } from 'three';
+import { useModelSettings } from '../../../../ui-overlay/model-selector/ModelSettingsContext';
 
 const directionToRotationY = (direction) => {
   switch (direction) {
@@ -20,14 +20,17 @@ const WallTilesInstanced = ({
 }) => {
   const wallRef = useRef();
   const floorRef = useRef();
+  const ceilingRef = useRef();
 
   const { customModels } = useModelSettings();
 
-  const wallGlbUrl = customModels?.wall || '/models/tiles/Wall_LODs/LOD_02.glb';
-  const floorGlbUrl = customModels?.floor || '/models/tiles/Floor_LODs/LOD_02.glb';
+  const wallGlbUrl = customModels?.wall || '/models/tiles/Wall_LODs/Wall.glb';
+  const floorGlbUrl = customModels?.floor || '/models/tiles/Floor_LODs/Floor.glb';
+  const ceilingGlbUrl = customModels?.ceiling || '/models/tiles/Ceiling_LODs/Ceiling.glb';
 
   const wallGLB = useLoader(GLTFLoader, wallGlbUrl);
   const floorGLB = useLoader(GLTFLoader, floorGlbUrl);
+  const ceilingGLB = useLoader(GLTFLoader, ceilingGlbUrl);
 
   const wallGeometry = useMemo(() => wallGLB.scene.children[0].geometry.clone(), [wallGLB]);
   const wallMaterial = useMemo(() => wallGLB.scene.children[0].material.clone(), [wallGLB]);
@@ -35,9 +38,11 @@ const WallTilesInstanced = ({
   const floorGeometry = useMemo(() => floorGLB.scene.children[0].geometry.clone(), [floorGLB]);
   const floorMaterial = useMemo(() => floorGLB.scene.children[0].material.clone(), [floorGLB]);
 
-  //wallMaterial.wireframe = true;
+  const ceilingGeometry = useMemo(() => ceilingGLB.scene.children[0].geometry.clone(), [ceilingGLB]);
+  const ceilingMaterial = useMemo(() => ceilingGLB.scene.children[0].material.clone(), [ceilingGLB]);
+  ceilingMaterial.side = FrontSide;
 
-  const updateInstances = (ref, isWall) => {
+  const updateInstances = (ref, isWall = false, isCeiling = false) => {
     if (!ref.current) return;
     const tempObj = new Object3D();
     ref.current.count = positions.length;
@@ -47,14 +52,19 @@ const WallTilesInstanced = ({
       const dir = directions[i] || 'north';
       const rotY = isWall ? directionToRotationY(dir) : 0;
 
-      tempObj.position.set(pos[0], pos[1], pos[2]);
-      tempObj.rotation.set(0, rotY, 0);
-      tempObj.scale.set(tileSize, isWall ? tileSize : 1, tileSize);
+      let yPos = pos[1];
 
+      tempObj.position.set(pos[0], yPos, pos[2]);
+      tempObj.rotation.set(0, rotY, 0);
+
+      // Scale ceiling same as floor, walls scaled differently
       if (isWall) {
+        tempObj.scale.set(tileSize, tileSize, tileSize);
         const offset = new Vector3(0, 0, -0.3);
         offset.applyEuler(tempObj.rotation);
         tempObj.position.add(offset);
+      } else {
+        tempObj.scale.set(tileSize, 1, tileSize);
       }
 
       tempObj.updateMatrix();
@@ -65,8 +75,9 @@ const WallTilesInstanced = ({
   };
 
   useEffect(() => {
-    updateInstances(wallRef, true);
-    updateInstances(floorRef, false);
+    updateInstances(wallRef, true, false);
+    updateInstances(floorRef, false, false);
+    updateInstances(ceilingRef, false, true);
   }, [positions, directions, tileSize]);
 
   return (
@@ -80,6 +91,12 @@ const WallTilesInstanced = ({
       <instancedMesh
         ref={floorRef}
         args={[floorGeometry, floorMaterial, positions.length]}
+        castShadow
+        receiveShadow
+      />
+      <instancedMesh
+        ref={ceilingRef}
+        args={[ceilingGeometry, ceilingMaterial, positions.length]}
         castShadow
         receiveShadow
       />

@@ -2,50 +2,75 @@ import { useLoader } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Object3D } from 'three';
-import { useModelSettings } from '../../../../ui-overlay/ModelSettingsContext';
+import { useModelSettings } from '../../../../ui-overlay/model-selector/ModelSettingsContext';
+import { FrontSide, BackSide, DoubleSide } from 'three';
+import { MeshStandardMaterial } from 'three';
 
 const FloorTilesInstanced = ({
   positions = [],
   tileSize = 1,
 }) => {
-  const instancedRef = useRef();
+  const floorRef = useRef();
+  const ceilingRef = useRef();
 
   const { customModels } = useModelSettings();
 
-  const floorGlbUrl = customModels?.floor || '/models/tiles/Floor_LODs/LOD_02.glb';
+  const floorGlbUrl = customModels?.floor || '/models/tiles/Floor_LODs/Floor.glb';
+  const ceilingGlbUrl = customModels?.ceiling || '/models/tiles/Ceiling_LODs/Ceiling.glb';
 
-  const floorGLB = useLoader(GLTFLoader, floorGlbUrl);
+  const [floorGLB, ceilingGLB] = useLoader(GLTFLoader, [floorGlbUrl, ceilingGlbUrl]);
 
-  const geometry = useMemo(() => floorGLB.scene.children[0].geometry.clone(), [floorGLB]);
-  const material = useMemo(() => floorGLB.scene.children[0].material.clone(), [floorGLB]);
+  const floorGeometry = useMemo(() => floorGLB.scene.children[0].geometry.clone(), [floorGLB]);
+  const floorMaterial = useMemo(() => floorGLB.scene.children[0].material.clone(), [floorGLB]);
+  
+  const ceilingGeometry = useMemo(() => ceilingGLB.scene.children[0].geometry.clone(), [ceilingGLB]);
+  const ceilingMaterial = useMemo(() => ceilingGLB.scene.children[0].material.clone(), [ceilingGLB]);
+  ceilingMaterial.side = FrontSide;
 
-  useEffect(() => {
-    if (!instancedRef.current) return;
-
+  const updateInstances = (ref, isCeiling = false) => {
+    if (!ref.current) return;
+    
     const tempObj = new Object3D();
-    instancedRef.current.count = positions.length;
-    instancedRef.current.frustumCulled = false;
+    ref.current.count = positions.length;
+    ref.current.frustumCulled = false;
 
     positions.forEach((pos, i) => {
-      tempObj.position.set(pos[0], pos[1], pos[2]);
+      // Position ceiling slightly above floor (adjust Y value as needed)
+      const yPos = pos[1]; // Example: 2.5 units above floor
+      
+      tempObj.position.set(pos[0], yPos, pos[2]);
       tempObj.rotation.set(0, 0, 0);
       tempObj.scale.set(tileSize, 1, tileSize);
       tempObj.updateMatrix();
-      instancedRef.current.setMatrixAt(i, tempObj.matrix);
+      ref.current.setMatrixAt(i, tempObj.matrix);
     });
 
-    instancedRef.current.instanceMatrix.needsUpdate = true;
+    ref.current.instanceMatrix.needsUpdate = true;
+  };
+
+  useEffect(() => {
+    updateInstances(floorRef);
+    updateInstances(ceilingRef, true);
   }, [positions, tileSize]);
 
-  if (!geometry || !material || positions.length === 0) return null;
-
   return (
-    <instancedMesh
-      ref={instancedRef}
-      args={[geometry, material, positions.length]}
-      castShadow
-      receiveShadow
-    />
+    <group>
+      {/* Floor tiles */}
+      <instancedMesh
+        ref={floorRef}
+        args={[floorGeometry, floorMaterial, positions.length]}
+        castShadow
+        receiveShadow
+      />
+      
+      {/* Ceiling tiles */}
+      <instancedMesh
+        ref={ceilingRef}
+        args={[ceilingGeometry, ceilingMaterial, positions.length]}
+        castShadow
+        receiveShadow
+      />
+    </group>
   );
 };
 

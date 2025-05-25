@@ -2,16 +2,12 @@
   position: fixed;
   top: 0;
   right: 0;
-  width: 280px;
-  background: #fff;
-  color: #333;
-  padding: 0;
+  height: 100vh;       /* full viewport height */
+  width: auto;         /* width depends on children */
+  display: flex;
+  flex-direction: row; /* panels side-by-side */
+  overflow: hidden;    /* prevent scrolling here */
   z-index: 1000;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-  height: 100vh;
-  overflow-y: auto;
-  font-family: Arial, sans-serif;
-  border-left: 1px solid #ddd;
 }
 
 .overlay-header {
@@ -19,111 +15,26 @@
   background: #f5f5f5;
   border-bottom: 1px solid #ddd;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  gap: 1vh;
 }
 
-.overlay-header h3 {
-  margin: 0;
-  font-size: 14px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.regenerate-button {
-  background: #e0e0e0;
-  color: #333;
-  border: 1px solid #ccc;
-  padding: 8px 10px;
-  cursor: pointer;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-left: 10px;
-}
-
-.regenerate-button:hover {
-  background: #d0d0d0;
-}
-
-.model-list {
-  padding: 10px;
-}
-
-.model-item {
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-}
-
-.model-preview {
-  width: 100%;
-  height: 120px;
-  background: #f9f9f9;
+/* Add a new class for each panel */
+.overlay-panel {
+  height: 100vh;       /* fill overlay height */
+  width: 20vw;
+  overflow-y: auto;    /* enable vertical scroll */
+  overflow-x: hidden;  /* prevent horizontal scroll */
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.model-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  flex-direction: column;
   background: #fff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  border-left: 1px solid #ddd;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
-.placeholder-thumb {
-  color: #999;
-  text-align: center;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
 
-.model-controls {
-  padding: 10px;
-  background: #f5f5f5;
-  border-top: 1px solid #ddd;
-}
 
-.file-upload {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.file-upload input[type="file"] {
-  display: none;
-}
-
-.file-upload span {
-  display: block;
-  background: #e0e0e0;
-  color: #333;
-  padding: 8px 10px;
-  text-align: center;
-  cursor: pointer;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border: 1px solid #ccc;
-}
-
-.file-upload span:hover {
-  background: #d0d0d0;
-}
-
-.reset-button {
-  width: 100%;
-  background: #e0e0e0;
-  color: #333;
-  border: 1px solid #ccc;
-  padding: 8px 10px;
-  cursor: pointer;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.reset-button:hover {
-  background: #d0d0d0;
-}

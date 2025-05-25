@@ -14,8 +14,25 @@ html, body {
   background: #000; /* Or whatever background color you want */
 }
 
-canvas {
-  display: block;
-  width: 100vw;
-  height: 100vh;
+.app-container {
+  display: flex;
+  height: 100vh; /* fill viewport height */
+  width: 100vw; /* fill viewport width */
 }
+
+.canvas-container {
+  /* Make sure canvas takes full height */
+  height: 100vh;
+  /* Optional: prevent canvas from shrinking too small */
+  width: 60vw;
+}
+
+/* Your existing overlay CSS */
+.overlay {
+  width: 40vw;
+  height: 100vh;
+  position: relative; /* remove fixed, so it participates in flex layout */
+  /* Remove top/right/position fixed */
+  /* Add your overlay styling */
+}
+

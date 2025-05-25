@@ -27,8 +27,28 @@ const MuseumLayout = ({ roomData }) => {
   }));
 
   const { roomPositions, doorLinks, interiorWalls } = useMemo(() => {
-    return generateRoomLayout(roomDefinitions, 1, logger);
-  }, []);
+    const layout = generateRoomLayout(roomDefinitions, 1, logger);
+
+    // Room 0 position and size
+    const firstRoomPos = layout.roomPositions[0];
+    const firstRoomSize = roomDefinitions[0];
+
+    // Calculate center of room 0 (assuming roomPos is corner, usually top-left or bottom-left)
+    const centerOffsetX = firstRoomPos.x + firstRoomSize.width / 2;
+    const centerOffsetZ = firstRoomPos.z + firstRoomSize.depth / 2;
+
+    // Offset all room positions so room 0 center is at origin
+    const centeredPositions = layout.roomPositions.map(pos => ({
+      x: pos.x - centerOffsetX * 0.5,
+      z: pos.z - centerOffsetZ * 0.5,
+    }));
+
+    return {
+      ...layout,
+      roomPositions: centeredPositions,
+    };
+  }, [roomDefinitions, logger]);
+
 
   return (
     <group>
