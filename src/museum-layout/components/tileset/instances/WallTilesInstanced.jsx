@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Object3D, Vector3, FrontSide } from 'three';
 import { useModelSettings } from '../../../../ui-overlay/model-selector/ModelSettingsContext';
+import { FLOOR_LAYER, WALL_LAYER } from '../../../../first-person-movement/layers';
 
 const directionToRotationY = (direction) => {
   switch (direction) {
@@ -79,6 +80,19 @@ const WallTilesInstanced = ({
     updateInstances(floorRef, false, false);
     updateInstances(ceilingRef, false, true);
   }, [positions, directions, tileSize]);
+
+  useEffect(() => {
+    if (wallRef.current) {
+      wallRef.current.layers.set(WALL_LAYER);
+    }
+    if (floorRef.current) {
+      floorRef.current.layers.set(FLOOR_LAYER);
+    }
+    if (ceilingRef.current) {
+      ceilingRef.current.layers.set(0); // Or disable raycasting if needed
+    }
+  }, []);
+
 
   return (
     <group>

@@ -3,6 +3,7 @@ import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Object3D, Vector3, FrontSide } from 'three';
 import { useModelSettings } from '../../../../ui-overlay/model-selector/ModelSettingsContext';
+import { FLOOR_LAYER, WALL_LAYER } from '../../../../first-person-movement/layers';
 
 const directionToRotationY = (dir) => {
   switch (dir) {
@@ -93,6 +94,15 @@ const DoorTilesInstanced = ({
   }, [positions, directions, tileSize]);
 
   if (!lintelGeo || !floorGeo || !ceilingGeo || positions.length === 0) return null;
+
+  useEffect(() => {
+      if (floorRef.current) {
+        floorRef.current.layers.set(FLOOR_LAYER);
+      }
+      if (ceilingRef.current) {
+        ceilingRef.current.layers.set(0); // Or disable raycasting if needed
+      }
+    }, []);
 
   return (
     <group>

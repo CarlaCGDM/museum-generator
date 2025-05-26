@@ -31,47 +31,63 @@ const CustomFirstPersonLookControls = forwardRef((props, ref) => {
   }));
 
   useEffect(() => {
-    const canvas = document.querySelector("canvas");
+  const canvas = document.querySelector("canvas");
 
-    const handleMouseDown = (event) => {
-      if (event.button === 0) { // left mouse button
-        isRotating.current = true;
-        canvas.requestPointerLock();
-      }
-    };
+  const startPos = { x: 0, y: 0 };
 
-    const handleMouseUp = (event) => {
-      if (event.button === 0) {
-        isRotating.current = false;
-        document.exitPointerLock();
-      }
-    };
+  const handleMouseDown = (event) => {
+    if (event.button === 0) {
+      startPos.x = event.clientX;
+      startPos.y = event.clientY;
+      isRotating.current = false;
 
-    const handleMouseMove = (event) => {
-      if (isRotating.current) {
-        targetYaw.current -= event.movementX * rotationSpeed;
-        targetPitch.current -= event.movementY * rotationSpeed;
-        // Clamp pitch to prevent flipping
-        targetPitch.current = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, targetPitch.current));
-      }
-    };
+      const onMouseMoveBeforeLock = (e) => {
+        const dx = e.clientX - startPos.x;
+        const dy = e.clientY - startPos.y;
+        if (Math.hypot(dx, dy) > 4) {
+          isRotating.current = true;
+          canvas.requestPointerLock();
+          document.removeEventListener("mousemove", onMouseMoveBeforeLock);
+        }
+      };
 
-    const handlePointerLockChange = () => {
-      isRotating.current = document.pointerLockElement === canvas;
-    };
+      document.addEventListener("mousemove", onMouseMoveBeforeLock);
+      const clearListener = () => document.removeEventListener("mousemove", onMouseMoveBeforeLock);
+      canvas.addEventListener("mouseup", clearListener, { once: true });
+    }
+  };
 
-    canvas.addEventListener("mousedown", handleMouseDown);
-    canvas.addEventListener("mouseup", handleMouseUp);
-    canvas.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("pointerlockchange", handlePointerLockChange);
+  const handleMouseUp = (event) => {
+    if (event.button === 0 && isRotating.current) {
+      document.exitPointerLock();
+    }
+  };
 
-    return () => {
-      canvas.removeEventListener("mousedown", handleMouseDown);
-      canvas.removeEventListener("mouseup", handleMouseUp);
-      canvas.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("pointerlockchange", handlePointerLockChange);
-    };
-  }, [rotationSpeed]);
+  const handleMouseMove = (event) => {
+    if (isRotating.current) {
+      targetYaw.current -= event.movementX * rotationSpeed;
+      targetPitch.current -= event.movementY * rotationSpeed;
+      targetPitch.current = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, targetPitch.current));
+    }
+  };
+
+  const handlePointerLockChange = () => {
+    isRotating.current = document.pointerLockElement === canvas;
+  };
+
+  canvas.addEventListener("mousedown", handleMouseDown);
+  canvas.addEventListener("mouseup", handleMouseUp);
+  canvas.addEventListener("mousemove", handleMouseMove);
+  document.addEventListener("pointerlockchange", handlePointerLockChange);
+
+  return () => {
+    canvas.removeEventListener("mousedown", handleMouseDown);
+    canvas.removeEventListener("mouseup", handleMouseUp);
+    canvas.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("pointerlockchange", handlePointerLockChange);
+  };
+}, [rotationSpeed]);
+
 
   useFrame(() => {
     // Smoothly lerp current rotation towards target

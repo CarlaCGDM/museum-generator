@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useThree } from '@react-three/fiber';
 import CustomFirstPersonLookControls from './CustomFirstPersonLookControls';
+import { WALL_LAYER, FLOOR_LAYER } from './layers';
 
 const CameraManager = ({ cameraMode }) => {
     const { set, camera: defaultCamera } = useThree();
@@ -15,6 +16,13 @@ const CameraManager = ({ cameraMode }) => {
             set({ camera: firstPersonCameraRef.current });
         }
     }, [cameraMode, set]);
+
+     useEffect(() => {
+        firstPersonCameraRef.current.layers.enable(FLOOR_LAYER);
+        firstPersonCameraRef.current.layers.enable(WALL_LAYER);
+        orbitCameraRef.current.layers.enable(FLOOR_LAYER);
+        orbitCameraRef.current.layers.enable(WALL_LAYER);
+    }, []);
 
     return (
         <>

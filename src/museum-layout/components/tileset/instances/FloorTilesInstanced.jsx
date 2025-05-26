@@ -5,6 +5,7 @@ import { Object3D } from 'three';
 import { useModelSettings } from '../../../../ui-overlay/model-selector/ModelSettingsContext';
 import { FrontSide, BackSide, DoubleSide } from 'three';
 import { MeshStandardMaterial } from 'three';
+import { FLOOR_LAYER, WALL_LAYER } from '../../../../first-person-movement/layers';
 
 const FloorTilesInstanced = ({
   positions = [],
@@ -52,6 +53,15 @@ const FloorTilesInstanced = ({
     updateInstances(floorRef);
     updateInstances(ceilingRef, true);
   }, [positions, tileSize]);
+
+   useEffect(() => {
+    if (floorRef.current) {
+      floorRef.current.layers.set(FLOOR_LAYER);
+    }
+    if (ceilingRef.current) {
+      ceilingRef.current.layers.set(0); // Or disable raycasting if needed
+    }
+  }, []);
 
   return (
     <group>

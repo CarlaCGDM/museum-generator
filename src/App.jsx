@@ -12,6 +12,7 @@ import { generateRandomMuseumData } from './museum-layout/utils/generateRandomMu
 import CameraManager from './first-person-movement/CameraManager';
 import { SceneWithRoomEnvironment } from './lighting/SceneWithRoomEnvironment';
 import { Scene } from 'three';
+import FirstPersonMovementController from './first-person-movement/FirstPersonMovementController';
 
 function App() {
 
@@ -63,6 +64,7 @@ function App() {
             <Stats />
             <CameraManager cameraMode={cameraMode} />
             {cameraMode === 'orbit' && <OrbitControls />}
+            {cameraMode === 'firstperson' && <FirstPersonMovementController cameraMode={cameraMode} />}
 
             <SceneWithRoomEnvironment />
 
