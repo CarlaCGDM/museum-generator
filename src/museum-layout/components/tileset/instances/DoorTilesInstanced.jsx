@@ -99,17 +99,17 @@ const DoorTilesInstanced = ({
   return (
     <group>
       <instancedMesh
-        ref={lintelRef}
-        args={[lintelGeo, lintelMat, positions.length]}
-        castShadow
-        receiveShadow
-      />
-      <instancedMesh
         ref={floorRef}
         args={[floorGeo, floorMat, positions.length]}
         castShadow
         receiveShadow
         onUpdate={(self) => self.layers.set(FLOOR_LAYER)}
+      />
+      <instancedMesh
+        ref={lintelRef}
+        args={[lintelGeo, lintelMat, positions.length]}
+        castShadow
+        receiveShadow
       />
       <instancedMesh
         ref={ceilingRef}
