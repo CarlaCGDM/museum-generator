@@ -54,15 +54,6 @@ const FloorTilesInstanced = ({
     updateInstances(ceilingRef, true);
   }, [positions, tileSize]);
 
-   useEffect(() => {
-    if (floorRef.current) {
-      floorRef.current.layers.set(FLOOR_LAYER);
-    }
-    if (ceilingRef.current) {
-      ceilingRef.current.layers.set(0); // Or disable raycasting if needed
-    }
-  }, []);
-
   return (
     <group>
       {/* Floor tiles */}
@@ -71,6 +62,7 @@ const FloorTilesInstanced = ({
         args={[floorGeometry, floorMaterial, positions.length]}
         castShadow
         receiveShadow
+        onUpdate={(self) => self.layers.set(FLOOR_LAYER)}
       />
       
       {/* Ceiling tiles */}

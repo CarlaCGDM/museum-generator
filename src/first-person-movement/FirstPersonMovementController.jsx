@@ -36,8 +36,10 @@ const FirstPersonMovementController = ({ cameraMode }) => {
         const handleMouseUp = (e) => {
             if (isDragging.current) return;
 
-            pointer.current.x = (e.clientX / size.width) * 2 - 1;
-            pointer.current.y = -(e.clientY / size.height) * 2 + 1;
+            const canvasRect = gl.domElement.getBoundingClientRect();
+
+            pointer.current.x = ((e.clientX - canvasRect.left) / canvasRect.width) * 2 - 1;
+            pointer.current.y = -((e.clientY - canvasRect.top) / canvasRect.height) * 2 + 1;
 
             raycaster.current.setFromCamera(pointer.current, camera);
 

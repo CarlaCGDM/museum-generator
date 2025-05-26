@@ -105,18 +105,6 @@ const CornerTilesInstanced = ({
 
   if (!wallGeo || !floorGeo || !ceilingGeo || positions.length === 0) return null;
 
-  useEffect(() => {
-      if (wallRef.current) {
-        wallRef.current.layers.set(WALL_LAYER);
-      }
-      if (floorRef.current) {
-        floorRef.current.layers.set(FLOOR_LAYER);
-      }
-      if (ceilingRef.current) {
-        ceilingRef.current.layers.set(0); // Or disable raycasting if needed
-      }
-    }, []);
-
   return (
     <group>
       <instancedMesh
@@ -124,12 +112,14 @@ const CornerTilesInstanced = ({
         args={[wallGeo, wallMat, positions.length * 2]}
         castShadow
         receiveShadow
+        onUpdate={(self) => self.layers.set(WALL_LAYER)}
       />
       <instancedMesh
         ref={floorRef}
         args={[floorGeo, floorMat, positions.length]}
         castShadow
         receiveShadow
+        onUpdate={(self) => self.layers.set(FLOOR_LAYER)}
       />
       <instancedMesh
         ref={ceilingRef}

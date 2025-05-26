@@ -93,16 +93,8 @@ const DoorTilesInstanced = ({
     ceilingRef.current.instanceMatrix.needsUpdate = true;
   }, [positions, directions, tileSize]);
 
-  if (!lintelGeo || !floorGeo || !ceilingGeo || positions.length === 0) return null;
 
-  useEffect(() => {
-      if (floorRef.current) {
-        floorRef.current.layers.set(FLOOR_LAYER);
-      }
-      if (ceilingRef.current) {
-        ceilingRef.current.layers.set(0); // Or disable raycasting if needed
-      }
-    }, []);
+  if (!lintelGeo || !floorGeo || !ceilingGeo || positions.length === 0) return null;
 
   return (
     <group>
@@ -117,6 +109,7 @@ const DoorTilesInstanced = ({
         args={[floorGeo, floorMat, positions.length]}
         castShadow
         receiveShadow
+        onUpdate={(self) => self.layers.set(FLOOR_LAYER)}
       />
       <instancedMesh
         ref={ceilingRef}
