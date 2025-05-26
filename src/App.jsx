@@ -16,6 +16,13 @@ import FirstPersonMovementController from './first-person-movement/FirstPersonMo
 
 function App() {
 
+  // OVerlay visible
+  const [overlayVisible, setOverlayVisible] = useState(true);
+
+  const toggleOverlay = () => {
+    setOverlayVisible((prev) => !prev);
+  };
+
   // Custom tile models
   const [customModels, setCustomModels] = useState({});
 
@@ -59,23 +66,40 @@ function App() {
   return (
     <ModelSettingsContext.Provider value={{ customModels, handleModelChange }}>
       <div className="app-container">
-        <div className="canvas-container">
+        <div
+          className="canvas-container"
+          style={{ width: overlayVisible ? '60vw' : '100vw' }}
+        >
           <Canvas>
             <Stats />
             <CameraManager cameraMode={cameraMode} />
             {cameraMode === 'orbit' && <OrbitControls />}
-            {cameraMode === 'firstperson' && <FirstPersonMovementController cameraMode={cameraMode} />}
+            {cameraMode === 'firstperson' && (
+              <FirstPersonMovementController cameraMode={cameraMode} />
+            )}
 
             <SceneWithRoomEnvironment />
 
-            {roomData.length > 0 && <MuseumLayout key={layoutTrigger} roomData={roomData} />}
+            {roomData.length > 0 && (
+              <MuseumLayout key={layoutTrigger} roomData={roomData} />
+            )}
           </Canvas>
+
+          <button
+            className="toggle-overlay-button ui-blocker"
+            onClick={toggleOverlay}
+          >
+            {overlayVisible ? 'Hide UI' : 'Show UI'}
+          </button>
         </div>
-        <Overlay
-          onRegenerate={regenerateMuseum}
-          cameraMode={cameraMode}
-          setCameraMode={setCameraMode}
-        />
+
+        {overlayVisible && (
+          <Overlay
+            onRegenerate={regenerateMuseum}
+            cameraMode={cameraMode}
+            setCameraMode={setCameraMode}
+          />
+        )}
       </div>
     </ModelSettingsContext.Provider>
   );

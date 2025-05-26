@@ -35,6 +35,8 @@ const FirstPersonMovementController = ({ cameraMode }) => {
 
         const handleMouseUp = (e) => {
             if (isDragging.current) return;
+            
+            if (e.target.closest('.ui-blocker')) return;
 
             const canvasRect = gl.domElement.getBoundingClientRect();
 
