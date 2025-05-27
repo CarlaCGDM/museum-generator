@@ -30,10 +30,12 @@ const CustomFirstPersonLookControls = forwardRef((props, ref) => {
     },
   }));
 
-  useEffect(() => {
+useEffect(() => {
   const canvas = document.querySelector("canvas");
 
   const startPos = { x: 0, y: 0 };
+  let lastTouch = { x: 0, y: 0 };
+  let isTouching = false;
 
   const handleMouseDown = (event) => {
     if (event.button === 0) {
@@ -75,16 +77,53 @@ const CustomFirstPersonLookControls = forwardRef((props, ref) => {
     isRotating.current = document.pointerLockElement === canvas;
   };
 
+  // ✅ TOUCH EVENTS FOR MOBILE
+  const handleTouchStart = (e) => {
+    if (e.touches.length === 1) {
+      isTouching = true;
+      lastTouch.x = e.touches[0].clientX;
+      lastTouch.y = e.touches[0].clientY;
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isTouching || e.touches.length !== 1) return;
+    const touch = e.touches[0];
+
+    const dx = touch.clientX - lastTouch.x;
+    const dy = touch.clientY - lastTouch.y;
+
+    lastTouch.x = touch.clientX;
+    lastTouch.y = touch.clientY;
+
+    targetYaw.current -= dx * rotationSpeed;
+    targetPitch.current -= dy * rotationSpeed;
+    targetPitch.current = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, targetPitch.current));
+  };
+
+  const handleTouchEnd = () => {
+    isTouching = false;
+  };
+
+  // 🎯 Add all listeners
   canvas.addEventListener("mousedown", handleMouseDown);
   canvas.addEventListener("mouseup", handleMouseUp);
   canvas.addEventListener("mousemove", handleMouseMove);
   document.addEventListener("pointerlockchange", handlePointerLockChange);
+
+  canvas.addEventListener("touchstart", handleTouchStart);
+  canvas.addEventListener("touchmove", handleTouchMove);
+  canvas.addEventListener("touchend", handleTouchEnd);
 
   return () => {
     canvas.removeEventListener("mousedown", handleMouseDown);
     canvas.removeEventListener("mouseup", handleMouseUp);
     canvas.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("pointerlockchange", handlePointerLockChange);
+
+    canvas.removeEventListener("touchstart", handleTouchStart);
+    canvas.removeEventListener("touchmove", handleTouchMove);
+    canvas.removeEventListener("touchend", handleTouchEnd);
   };
 }, [rotationSpeed]);
 

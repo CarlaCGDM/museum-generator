@@ -17,7 +17,7 @@ export function DebugPanel() {
   return (
     <div style={{
       position: 'fixed',
-      bottom: '5px',
+      top: '5px',
       left: '5px',
       background: '#222',
       color: '#fff',
