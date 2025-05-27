@@ -35,7 +35,7 @@ const FirstPersonMovementController = ({ cameraMode }) => {
 
         const handleMouseUp = (e) => {
             if (isDragging.current) return;
-            
+
             if (e.target.closest('.ui-blocker')) return;
 
             const canvasRect = gl.domElement.getBoundingClientRect();
@@ -80,9 +80,16 @@ const FirstPersonMovementController = ({ cameraMode }) => {
             }
 
             if (floorHit) {
-                destination.current = floorHit.point.clone();
-                console.log('Destination set to:', destination.current);
+                const point = floorHit.point.clone();
+                destination.current = point;
+                console.log('Destination set to:', point);
+
+                if (hoverIndicatorRef.current) {
+                    hoverIndicatorRef.current.visible = true;
+                    hoverIndicatorRef.current.position.set(point.x, point.y + 0.05, point.z);
+                }
             }
+
         };
 
         window.addEventListener('mousedown', handleMouseDown);
@@ -111,6 +118,9 @@ const FirstPersonMovementController = ({ cameraMode }) => {
             } else {
                 camera.position.copy(target);
                 destination.current = null;
+                if (hoverIndicatorRef.current) {
+                    hoverIndicatorRef.current.visible = false;
+                }
             }
         }
 
@@ -119,19 +129,6 @@ const FirstPersonMovementController = ({ cameraMode }) => {
             raycaster.current.layers.set(FLOOR_LAYER);
             raycaster.current.setFromCamera(pointer.current, camera);
             const intersects = raycaster.current.intersectObjects(scene.children, true);
-
-            if (hoverIndicatorRef.current) {
-                if (intersects.length > 0) {
-                    hoverIndicatorRef.current.visible = true;
-                    hoverIndicatorRef.current.position.set(
-                        intersects[0].point.x,
-                        intersects[0].point.y + 0.05,
-                        intersects[0].point.z
-                    );
-                } else {
-                    hoverIndicatorRef.current.visible = false;
-                }
-            }
         }
     });
 
