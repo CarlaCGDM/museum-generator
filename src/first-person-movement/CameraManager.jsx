@@ -4,24 +4,44 @@ import CustomFirstPersonLookControls from './CustomFirstPersonLookControls';
 import { WALL_LAYER, FLOOR_LAYER } from './layers';
 
 const CameraManager = ({ cameraMode }) => {
-    const { set, camera: defaultCamera } = useThree();
+    const { set, camera: defaultCamera, size } = useThree();
     const orbitCameraRef = useRef();
     const firstPersonCameraRef = useRef();
 
-    // On mode change, set active camera
+    // Update camera aspect ratio when size changes
+    useEffect(() => {
+        if (orbitCameraRef.current) {
+            orbitCameraRef.current.aspect = size.width / size.height;
+            orbitCameraRef.current.updateProjectionMatrix();
+        }
+        if (firstPersonCameraRef.current) {
+            firstPersonCameraRef.current.aspect = size.width / size.height;
+            firstPersonCameraRef.current.updateProjectionMatrix();
+        }
+    }, [size]);
+
+    // On mode change, set active camera and update its aspect ratio
     useEffect(() => {
         if (cameraMode === 'orbit' && orbitCameraRef.current) {
+            orbitCameraRef.current.aspect = size.width / size.height;
+            orbitCameraRef.current.updateProjectionMatrix();
             set({ camera: orbitCameraRef.current });
         } else if (cameraMode === 'firstperson' && firstPersonCameraRef.current) {
+            firstPersonCameraRef.current.aspect = size.width / size.height;
+            firstPersonCameraRef.current.updateProjectionMatrix();
             set({ camera: firstPersonCameraRef.current });
         }
-    }, [cameraMode, set]);
+    }, [cameraMode, set, size]);
 
-     useEffect(() => {
-        firstPersonCameraRef.current.layers.enable(FLOOR_LAYER);
-        firstPersonCameraRef.current.layers.enable(WALL_LAYER);
-        orbitCameraRef.current.layers.enable(FLOOR_LAYER);
-        orbitCameraRef.current.layers.enable(WALL_LAYER);
+    useEffect(() => {
+        if (firstPersonCameraRef.current) {
+            firstPersonCameraRef.current.layers.enable(FLOOR_LAYER);
+            firstPersonCameraRef.current.layers.enable(WALL_LAYER);
+        }
+        if (orbitCameraRef.current) {
+            orbitCameraRef.current.layers.enable(FLOOR_LAYER);
+            orbitCameraRef.current.layers.enable(WALL_LAYER);
+        }
     }, []);
 
     return (

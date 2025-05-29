@@ -60,9 +60,9 @@ const ModelSelector = ({ onRegenerate }) => {
         <div className="model-selector">
             <div className="overlay-header">
                 <h3>MODEL MANAGER</h3>
-                <button className="regenerate-button" onClick={onRegenerate}>
+                {/* <button className="regenerate-button" onClick={onRegenerate}>
                     REGENERATE MUSEUM
-                </button>
+                </button> */}
             </div>
 
             <div className="model-list">

@@ -4,16 +4,17 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const SettingsContext = createContext();
 const LOCAL_STORAGE_KEY = 'settings';
 
+const defaultSettings = {
+  visitedRooms: {},            // { [roomId]: true }
+  hasFinishedTutorial: false,
+  musicOn: true,
+  playerPosition: [0, 0, 0],   // NEW
+};
+
 export function SettingsProvider({ children }) {
   const [settings, setSettings] = useState(() => {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-    return saved
-      ? JSON.parse(saved)
-      : {
-          visitedRooms: {}, // { [roomId]: true }
-          hasFinishedTutorial: false,
-          musicOn: true,
-        };
+    return saved ? { ...defaultSettings, ...JSON.parse(saved) } : defaultSettings;
   });
 
   useEffect(() => {
@@ -44,15 +45,22 @@ export function SettingsProvider({ children }) {
     }));
   };
 
+  const updatePlayerPosition = (position) => {
+    setSettings((prev) => ({
+      ...prev,
+      playerPosition: position,
+    }));
+  };
+
   const resetSettings = () => {
-    const defaultSettings = {
-      visitedRooms: {},
-      hasFinishedTutorial: false,
-      musicOn: true,
-    };
     setSettings(defaultSettings);
     localStorage.removeItem(LOCAL_STORAGE_KEY);
   };
+
+  useEffect(() => {
+  resetSettings(); // 🔥 wipe it all clean on first load (DEV ONLY)
+}, []);
+
 
   return (
     <SettingsContext.Provider
@@ -61,6 +69,7 @@ export function SettingsProvider({ children }) {
         markRoomVisited,
         toggleMusic,
         setTutorialComplete,
+        updatePlayerPosition, // NEW
         resetSettings,
       }}
     >

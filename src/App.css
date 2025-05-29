@@ -22,6 +22,7 @@ html, body {
 
 .canvas-container {
   height: 100vh;
+  width: 50vw;
   position: relative; /* So the button inside it can be absolutely positioned */
 }
 

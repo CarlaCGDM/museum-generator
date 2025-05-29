@@ -2,7 +2,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stats } from '@react-three/drei';
 import MuseumLayout from './museum-layout/components/MuseumLayout';
 import './App.css';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDebug } from './debug/DebugContext';
 import { computeRoomSizes } from './museum-layout/utils/computeRoomSizes';
 import { createLogger } from './debug/utils/logger';
@@ -11,40 +11,49 @@ import { ModelSettingsContext } from './ui-overlay/model-selector/ModelSettingsC
 import { generateRandomMuseumData } from './museum-layout/utils/generateRandomMuseumData';
 import CameraManager from './first-person-movement/CameraManager';
 import { SceneWithRoomEnvironment } from './lighting/SceneWithRoomEnvironment';
-import { Scene } from 'three';
 import FirstPersonMovementController from './first-person-movement/FirstPersonMovementController';
+import { SettingsProvider, useSettings } from './ui-overlay/SettingsContext';
+import PlayerTracker from './first-person-movement/PlayerTracker';
+import UIOverlay from './ui-overlay/UiOverlay';
 
-function App() {
+function RoomLogger({ roomData }) {
+  const { settings } = useSettings();
 
-  // OVerlay visible
+  useEffect(() => {
+    if (!roomData || roomData.length === 0) return;
+
+    const table = roomData.map((room) => ({
+      Room: room.name,
+      Visited: !!settings.visitedRooms?.[room.id],
+    }));
+
+    console.table(table);
+  }, [roomData]);
+
+  return null;
+}
+
+function AppContent() {
   const [overlayVisible, setOverlayVisible] = useState(false);
+  const toggleOverlay = () => setOverlayVisible((prev) => !prev);
 
-  const toggleOverlay = () => {
-    setOverlayVisible((prev) => !prev);
-  };
-
-  // Custom tile models
   const [customModels, setCustomModels] = useState({});
-
   const handleModelChange = (type, url) => {
     setCustomModels((prev) => ({ ...prev, [type]: url }));
   };
 
-  // Camera
-  const [cameraMode, setCameraMode] = useState('firstperson'); // 'orbit' or 'firstperson'
+  const [cameraMode, setCameraMode] = useState('firstperson');
 
-  // Generate room data
   const [roomData, setRoomData] = useState([]);
+  const [roomPositions, setRoomPositions] = useState([]);
   const [layoutTrigger, setLayoutTrigger] = useState(0);
   const logComputeRoomSizes = useDebug('Layout', 'computeRoomSizes');
 
   const generateLayout = useCallback(async () => {
     try {
       const logger = createLogger(logComputeRoomSizes, 'computeRoomSizes');
-      // Clear previous data first
       setRoomData([]);
 
-      // Generate fresh data
       const dynamicMuseumData = generateRandomMuseumData(100);
       const report = await computeRoomSizes(dynamicMuseumData, logger);
 
@@ -59,8 +68,7 @@ function App() {
   }, [generateLayout, layoutTrigger]);
 
   const regenerateMuseum = useCallback(() => {
-    // Reset state and trigger new generation
-    setLayoutTrigger(prev => prev + 1);
+    setLayoutTrigger((prev) => prev + 1);
   }, []);
 
   return (
@@ -72,6 +80,7 @@ function App() {
         >
           <Canvas>
             <Stats />
+            <PlayerTracker roomPositions={roomPositions} roomData={roomData} />
             <CameraManager cameraMode={cameraMode} />
             {cameraMode === 'orbit' && <OrbitControls />}
             {cameraMode === 'firstperson' && (
@@ -81,7 +90,14 @@ function App() {
             <SceneWithRoomEnvironment />
 
             {roomData.length > 0 && (
-              <MuseumLayout key={layoutTrigger} roomData={roomData} />
+              <>
+                <MuseumLayout
+                  key={layoutTrigger}
+                  roomData={roomData}
+                  setRoomPositions={setRoomPositions}
+                />
+                <RoomLogger roomData={roomData} />
+              </>
             )}
           </Canvas>
 
@@ -93,6 +109,10 @@ function App() {
           </button>
         </div>
 
+        <UIOverlay
+          roomData={roomData}
+        />
+
         {overlayVisible && (
           <DevOverlay
             onRegenerate={regenerateMuseum}
@@ -102,6 +122,14 @@ function App() {
         )}
       </div>
     </ModelSettingsContext.Provider>
+  );
+}
+
+function App() {
+  return (
+    <SettingsProvider>
+      <AppContent />
+    </SettingsProvider>
   );
 }
 

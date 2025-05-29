@@ -1,0 +1,97 @@
+.room-tracker-wrapper {
+  position: fixed;
+  bottom: 2vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+.room-tracker-track {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 4px;
+  width: calc(100% - 2vw);
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: space-between;
+  z-index: 0;
+  padding: 0 2vw; /* Match the container padding */
+}
+
+.room-tracker-segment {
+  flex: 1;
+  height: 100%;
+  background-color: #ccc;
+  transition: background-color 0.3s;
+}
+
+.room-tracker-segment.visited {
+  background-color: #28a745;
+}
+
+.room-tracker-container {
+  display: flex;
+  flex-direction: row;
+  gap: 4vw;
+  /* background: rgba(255, 255, 255, 0.95); */
+  padding: 1.5vh 2vw;
+  border-radius: 16px;
+  /* box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2); */
+  position: relative;
+  z-index: 1;
+  align-items: center;
+}
+
+.room-tracker-circle-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.room-tracker-circle {
+  width: 60px;
+  height: 60px;
+  border: 3px solid gray;
+  border-radius: 50%;
+  background: white;
+  color: black;
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.room-tracker-circle.visited {
+  border-color: #28a745;
+  background: #e9f7ef;
+}
+
+.room-tracker-circle.home {
+  width: 70px;
+  height: 70px;
+  background: #f0f0f0;
+}
+
+.room-tracker-tooltip {
+  position: absolute;
+  bottom: 110%;
+  font-size: 0.8rem;
+  background: #333;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(5px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.room-tracker-circle-wrapper:hover .room-tracker-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
