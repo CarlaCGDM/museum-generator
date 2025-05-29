@@ -1,10 +1,10 @@
 // Overlay.jsx
 import React from 'react';
-import './Overlay.css';
+import './DevOverlay.css';
 import ModelSelector from './model-selector/ModelSelector';
 import MovementModeToggle from './movement-mode-toggle/MovementModeToggle';
 
-const Overlay = ({ onRegenerate, cameraMode, setCameraMode }) => {
+const DevOverlay = ({ onRegenerate, cameraMode, setCameraMode }) => {
   return (
     <div className="overlay">
       <div className="overlay-panel">
@@ -17,4 +17,4 @@ const Overlay = ({ onRegenerate, cameraMode, setCameraMode }) => {
   );
 };
 
-export default Overlay;
+export default DevOverlay;

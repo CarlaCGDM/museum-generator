@@ -24,6 +24,7 @@ const MuseumLayout = ({ roomData }) => {
   const roomDefinitions = roomData.map(room => ({
     width: room.dimensions.width,
     depth: room.dimensions.depth,
+
   }));
 
   const { roomPositions, doorLinks, interiorWalls } = useMemo(() => {
@@ -76,6 +77,18 @@ const MuseumLayout = ({ roomData }) => {
         const groupedArtifacts = groupArtifacts(room.artifacts);
         const placedGroups = []; //placeArtifactsInRoom(groupedArtifacts, width, depth, doorTiles);
 
+        const nextRoom = roomData[index + 1];
+        const doorTilesFrom = doorLinks[index]?.doors?.from || [];
+
+        let nextRoomInfo = null;
+        if (doorTilesFrom.length && nextRoom) {
+          nextRoomInfo = {
+            doorTiles: doorTilesFrom,
+            name: nextRoom.name,
+            description: nextRoom.description
+          };
+        }
+
         return (
           <group key={index}>
             <Room
@@ -84,6 +97,7 @@ const MuseumLayout = ({ roomData }) => {
               position={[roomPos.x, 0, roomPos.z]}
               doorTiles={doorTiles}
               interiorWallTiles={interiorWallTiles}
+              nextRoomInfo={nextRoomInfo}  // <- Add this prop
               index={index}
             />
 

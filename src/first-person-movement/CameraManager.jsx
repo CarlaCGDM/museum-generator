@@ -42,7 +42,7 @@ const CameraManager = ({ cameraMode }) => {
                 ref={firstPersonCameraRef}
                 makeDefault={cameraMode === 'firstperson'}
                 position={[0, 1.7, 0]}
-                fov={60}
+                fov={75}
                 near={0.1}
                 far={1000}
             />

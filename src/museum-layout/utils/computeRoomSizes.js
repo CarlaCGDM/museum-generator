@@ -81,6 +81,7 @@ export async function computeRoomSizes(museumData, log = () => { }) {
     roomReports.push({
       id: room.id,
       name: room.name,
+      description: room.description,
       artifactCount: room.items.length,
       totalArtifactArea: totalArea,
       roomArea,

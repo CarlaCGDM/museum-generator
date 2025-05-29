@@ -6,6 +6,7 @@ import CornerTilesInstanced from './tileset/instances/CornerTilesInstanced';
 import DoorTilesInstanced from './tileset/instances/DoorTilesInstanced';
 import { Html } from '@react-three/drei';
 import { useDebug } from '../../debug/DebugContext';
+import DoorLabel from './DoorLabel';
 
 const Room = ({
   width = 5,
@@ -14,8 +15,9 @@ const Room = ({
   position = [0, 0, 0],
   doorTiles = [],
   interiorWallTiles = { tiles: [], oppositeSideTiles: [] },
-  tileColor,
+  nextRoomInfo = null,
   index = 0,
+  wallHeight = 4, // Add wall height prop
 }) => {
   const showIndexes = useDebug('Room', 'Indexes');
   const showDirections = useDebug('Room', 'Directions');
@@ -56,8 +58,120 @@ const Room = ({
   const doorTilePositions = [];
   const doorTileDirections = [];
 
+  // Calculate door labels inside Room component
+  const doorLabels = [];
+  if (nextRoomInfo) {
+    const { doorTiles: doorTilesFrom, name, description } = nextRoomInfo;
+
+    const allX = doorTilesFrom.map(tile => tile.x);
+    const allZ = doorTilesFrom.map(tile => tile.z);
+    const uniqueX = new Set(allX);
+    const uniqueZ = new Set(allZ);
+
+    let wall = null;
+    if (uniqueX.size === 1) {
+      const x = allX[0];
+      wall = x === 0 ? 'west' : (x === width - 1 ? 'east' : null);
+    } else if (uniqueZ.size === 1) {
+      const z = allZ[0];
+      wall = z === 0 ? 'north' : (z === depth - 1 ? 'south' : null);
+    }
+
+    if (wall) {
+      const midIndex = Math.floor(doorTilesFrom.length / 2);
+      const middleTile = doorTilesFrom[midIndex];
+
+      // Use the same coordinate system as your tiles
+      let rotationY = 0;
+      let labelPos;
+
+      switch (wall) {
+        case 'north':
+          rotationY = 0;
+          labelPos = [
+            xOffset + middleTile.x * tileSize + 3.5, // offset to the right (east)
+            2.5,
+            zOffset + middleTile.z * tileSize
+          ];
+          break;
+        case 'south':
+          rotationY = Math.PI;
+          labelPos = [
+            xOffset + middleTile.x * tileSize - 3.5, // offset to the right (west when facing south)
+             2.5,
+            zOffset + middleTile.z * tileSize
+          ];
+          break;
+        case 'east':
+          rotationY = -Math.PI / 2;
+          labelPos = [
+            xOffset + middleTile.x * tileSize,
+            2.5,
+            zOffset + middleTile.z * tileSize + 3.5 // offset to the right (south when facing east)
+          ];
+          break;
+        case 'west':
+          rotationY = Math.PI / 2;
+          labelPos = [
+            xOffset + middleTile.x * tileSize,
+            2.5,
+            zOffset + middleTile.z * tileSize - 3.5 // offset to the right (north when facing west)
+          ];
+          break;
+      }
+
+      doorLabels.push({
+        position: labelPos,
+        rotationY,
+        name,
+        description,
+      });
+    }
+  }
+
+  // Calculate wall dimensions
+  const roomWidth = width * tileSize;
+  const roomDepth = depth * tileSize;
+
   return (
     <group position={position}>
+      {/* Invisible walls for occlusion */}
+      <group>
+        {/* North Wall */}
+        <mesh position={[0, wallHeight / 2, -roomDepth / 2]} visible={false}>
+          <boxGeometry args={[roomWidth, wallHeight, 0.1]} />
+          <meshBasicMaterial />
+        </mesh>
+
+        {/* South Wall */}
+        <mesh position={[0, wallHeight / 2, roomDepth / 2]} visible={false}>
+          <boxGeometry args={[roomWidth, wallHeight, 0.1]} />
+          <meshBasicMaterial />
+        </mesh>
+
+        {/* West Wall */}
+        <mesh position={[-roomWidth / 2, wallHeight / 2, 0]} visible={false}>
+          <boxGeometry args={[0.1, wallHeight, roomDepth]} />
+          <meshBasicMaterial />
+        </mesh>
+
+        {/* East Wall */}
+        <mesh position={[roomWidth / 2, wallHeight / 2, 0]} visible={false}>
+          <boxGeometry args={[0.1, wallHeight, roomDepth]} />
+          <meshBasicMaterial />
+        </mesh>
+      </group>
+
+      {doorLabels.map((label, i) => (
+        <DoorLabel
+          key={i}
+          position={label.position}
+          rotationY={label.rotationY}
+          name={label.name}
+          description={label.description}
+        />
+      ))}
+
       <group position={[xOffset, 0, zOffset]}>
         {Array.from({ length: width }).map((_, x) =>
           Array.from({ length: depth }).map((_, z) => {
@@ -151,10 +265,10 @@ const Room = ({
 
       {showDirections && (
         <group>
-          <Html position={[0, 0, -depth * tileSize / 2]} center distanceFactor={10} style={labelStyle}><div>N</div></Html>
-          <Html position={[0, 0, depth * tileSize / 2]} center distanceFactor={10} style={labelStyle}><div>S</div></Html>
-          <Html position={[-width * tileSize / 2, 0, 0]} center distanceFactor={10} style={labelStyle}><div>W</div></Html>
-          <Html position={[width * tileSize / 2, 0, 0]} center distanceFactor={10} style={labelStyle}><div>E</div></Html>
+          <Html position={[0, 0, -depth * tileSize / 2 + 2]} center distanceFactor={10} style={labelStyle}><div>N</div></Html>
+          <Html position={[0, 0, depth * tileSize / 2 - 2]} center distanceFactor={10} style={labelStyle}><div>S</div></Html>
+          <Html position={[-width * tileSize / 2 + 2, 0, 0]} center distanceFactor={10} style={labelStyle}><div>W</div></Html>
+          <Html position={[width * tileSize / 2 - 2, 0, 0]} center distanceFactor={10} style={labelStyle}><div>E</div></Html>
         </group>
       )}
 

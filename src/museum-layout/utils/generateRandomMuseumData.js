@@ -96,7 +96,7 @@ export function generateRandomMuseumData(totalItems = 100) {
 
     museum.rooms.push({
       id: roomId,
-      name: `Room ${roomId}`,
+      name: `Room ${roomId - 1}`,
       description: `Room containing ${count} items`,
       groups: [], // group metadata can be added later if needed
       items,

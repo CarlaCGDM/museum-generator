@@ -6,7 +6,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useDebug } from './debug/DebugContext';
 import { computeRoomSizes } from './museum-layout/utils/computeRoomSizes';
 import { createLogger } from './debug/utils/logger';
-import Overlay from './ui-overlay/Overlay';
+import DevOverlay from './ui-overlay/DevOverlay';
 import { ModelSettingsContext } from './ui-overlay/model-selector/ModelSettingsContext';
 import { generateRandomMuseumData } from './museum-layout/utils/generateRandomMuseumData';
 import CameraManager from './first-person-movement/CameraManager';
@@ -17,7 +17,7 @@ import FirstPersonMovementController from './first-person-movement/FirstPersonMo
 function App() {
 
   // OVerlay visible
-  const [overlayVisible, setOverlayVisible] = useState(true);
+  const [overlayVisible, setOverlayVisible] = useState(false);
 
   const toggleOverlay = () => {
     setOverlayVisible((prev) => !prev);
@@ -31,7 +31,7 @@ function App() {
   };
 
   // Camera
-  const [cameraMode, setCameraMode] = useState('orbit'); // fixed typo from firstPersonCamera
+  const [cameraMode, setCameraMode] = useState('firstperson'); // 'orbit' or 'firstperson'
 
   // Generate room data
   const [roomData, setRoomData] = useState([]);
@@ -89,12 +89,12 @@ function App() {
             className="toggle-overlay-button ui-blocker"
             onClick={toggleOverlay}
           >
-            {overlayVisible ? 'Hide UI' : 'Show UI'}
+            {overlayVisible ? 'Hide dev UI' : 'Show dev UI'}
           </button>
         </div>
 
         {overlayVisible && (
-          <Overlay
+          <DevOverlay
             onRegenerate={regenerateMuseum}
             cameraMode={cameraMode}
             setCameraMode={setCameraMode}

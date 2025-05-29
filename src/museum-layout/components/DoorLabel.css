@@ -1,0 +1,22 @@
+.door-label {
+  background: rgba(255, 255, 255, 1);
+  border: 1px solid #ccc;
+  border-radius: 1px;
+  padding: 6px 10px;
+  max-width: 160px;
+  text-align: center;
+  font-family: sans-serif;
+  pointer-events: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.door-label-title {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.door-label-description {
+  font-size: 0.8em;
+  margin-top: 2px;
+  color: #333;
+}
