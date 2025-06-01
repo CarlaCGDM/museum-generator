@@ -73,8 +73,8 @@ export async function computeRoomSizes(museumData, log = () => { }) {
     depth = Math.max(5, depth);
 
     // Ensure odd numbers
-    width = width % 2 ==! 0 ? width : width + 1;
-    depth = depth % 2 ==! 0 ? depth : depth + 1;
+    width = width % 2 == !0 ? width : width + 1;
+    depth = depth % 2 == !0 ? depth : depth + 1;
 
     log(`  📐 Final room size: ${width}x${depth}m for ${room.name}`);
 
@@ -82,6 +82,8 @@ export async function computeRoomSizes(museumData, log = () => { }) {
       id: room.id,
       name: room.name,
       description: room.description,
+      topicId: room.topicId,  // 👈 ADD THIS
+      topicName: room.topicName,
       artifactCount: room.items.length,
       totalArtifactArea: totalArea,
       roomArea,

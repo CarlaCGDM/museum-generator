@@ -1,5 +1,5 @@
 import { useMemo, useEffect, useRef } from 'react';
-import Room from './Room';
+import Room from './rooms/Room';
 import Showcase from '../../interactables/components/Showcase';
 import { generateRoomLayout } from '../utils/generate-room/generateRoomLayout';
 import { useDebug } from '../../debug/DebugContext';
@@ -98,6 +98,8 @@ const MuseumLayout = ({ roomData, setRoomPositions }) => {
           nextRoomInfo = {
             doorTiles: doorTilesFrom,
             name: nextRoom.name,
+            topicName: nextRoom.topicName,
+            topicId: nextRoom.topicId,
             description: nextRoom.description,
           };
         }
@@ -111,6 +113,7 @@ const MuseumLayout = ({ roomData, setRoomPositions }) => {
               doorTiles={doorTiles}
               interiorWallTiles={interiorWallTiles}
               nextRoomInfo={nextRoomInfo}
+              currentRoomTopicId={room.topicId}
               index={index}
             />
             {placedGroups.map((group, i) => (
