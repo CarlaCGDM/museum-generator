@@ -14,7 +14,7 @@ import { SceneWithRoomEnvironment } from './lighting/SceneWithRoomEnvironment';
 import FirstPersonMovementController from './first-person-movement/FirstPersonMovementController';
 import { SettingsProvider, useSettings } from './ui-overlay/SettingsContext';
 import PlayerTracker from './first-person-movement/PlayerTracker';
-import UIOverlay from './ui-overlay/UiOverlay';
+import UIOverlay from './ui-overlay/UIOverlay';
 
 function RoomLogger({ roomData }) {
   const { settings } = useSettings();

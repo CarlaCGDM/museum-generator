@@ -1,0 +1,50 @@
+.door-label {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
+  width: 160px;
+  text-align: center;
+  font-family: sans-serif;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  user-select: none; /* Standard syntax */
+}
+
+.door-label-topic-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px 4px 0 0;
+  font-size: 0.8em;
+  gap: 6px;
+}
+
+.door-label-topic-text {
+  font-size: 1em; /* Made larger and more explicit */
+  color: white;
+  white-space: nowrap;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.arrow-icon {
+  flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+.door-label-name {
+  font-size: 1em;
+  font-weight: bold;
+  margin-top: 6px;
+  padding: 0 8px;
+}
+
+.door-label-description {
+  font-size: 0.8em;
+  color: #444;
+  margin: 4px 8px 8px;
+}

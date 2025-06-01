@@ -63,6 +63,7 @@
   align-items: center;
   justify-content: center;
   transition: border-color 0.3s, background 0.3s;
+  position: relative;
 }
 
 .room-tracker-circle.visited {
@@ -78,20 +79,69 @@
 
 .room-tracker-tooltip {
   position: absolute;
-  bottom: 110%;
-  font-size: 0.8rem;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
   background: #333;
   color: #fff;
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 8px 12px;
+  border-radius: 6px;
   white-space: nowrap;
   opacity: 0;
-  transform: translateY(5px);
+  transform: translateX(-50%) translateY(5px);
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
+  text-align: center;
 }
 
 .room-tracker-circle-wrapper:hover .room-tracker-tooltip {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0);
+}
+
+.tooltip-topic {
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+  color: #fff;
+}
+
+.tooltip-room {
+  font-size: 0.75rem;
+  font-weight: normal;
+  color: #ccc;
+}
+
+/* Ensure room number stays visible above the inner circle */
+.room-number {
+  position: relative;
+  z-index: 2;
+}
+
+/* Inner circle that shows topic color */
+.topic-color-inner-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  height: 85%;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* Unvisited rooms show at 30% opacity */
+.topic-color-inner-circle.unvisited {
+  opacity: 0.3;
+}
+
+/* Visited rooms show at 70% opacity */
+.topic-color-inner-circle.visited {
+  opacity: 1;
 }
