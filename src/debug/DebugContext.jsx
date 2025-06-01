@@ -16,8 +16,8 @@ export function DebugProvider({ children }) {
           generateRoomLayout: false,
         },
         Room: {
-          enabled: true,
-          Indexes: true,
+          enabled: false,
+          Indexes: false,
           Directions: false,
         },
         Tile: {
