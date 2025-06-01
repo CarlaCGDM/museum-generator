@@ -83,6 +83,7 @@ const FloorLabel = ({
         center
         occlude
         style={{ pointerEvents: 'none' }}
+        zIndexRange={[100, 0]}
       >
         <div style={circleStyle}>
           {nextRoomColor ? (

@@ -16,7 +16,7 @@ const DoorLabel = ({
   return (
     <group position={position}>
       <group rotation={[0, rotationY, 0]}>
-        <Html distanceFactor={8} occlude transform center>
+        <Html distanceFactor={8} occlude transform center zIndexRange={[100, 0]}>
           <div className="door-label">
             <div
               className="door-label-topic-banner"
