@@ -1,11 +1,9 @@
 .door-label {
   background: white;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  border: 1px solid #777777;
   overflow: hidden;
   width: 160px;
   text-align: center;
-  font-family: sans-serif;
   pointer-events: none;
   box-shadow: 0 2px 8px rgba(0,0,0,0.25);
   user-select: none; /* Standard syntax */
@@ -14,31 +12,32 @@
 .door-label-topic-banner {
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: white;
+  justify-content: space-around;
+  color: rgb(0, 0, 0);
   font-weight: bold;
-  padding: 4px 8px;
-  border-radius: 4px 4px 0 0;
+  padding: 8px 0; /* Add some vertical padding */
   font-size: 0.8em;
-  gap: 6px;
+  gap: 0.5em;
+  min-height: 3em;
 }
 
 .door-label-topic-text {
-  font-size: 1em; /* Made larger and more explicit */
-  color: white;
+  font-size: 1em;
+  color: rgb(0, 0, 0);
   white-space: nowrap;
   font-weight: bold;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.05em;
+  padding-top: 0.1em;
 }
 
 .arrow-icon {
-  flex-shrink: 0; /* Prevent icon from shrinking */
+  flex-shrink: 0;
 }
 
 .door-label-name {
-  font-size: 1em;
-  font-weight: bold;
+  font-size: 0.6em;
+  text-transform: uppercase;
   margin-top: 6px;
   padding: 0 8px;
 }

@@ -54,7 +54,7 @@ const placeNextRoom = ({ fromRoom, toRoom, currentPos, occupiedTiles, tileSize }
     return null;
 };
 
-export const generateRoomLayout = (roomDefinitions, tileSize = 1, logger = () => { }) => {
+const generateSingleLayout = (roomDefinitions, tileSize = 1, logger = () => { }) => {
     const roomPositions = [];
     const doorLinks = [];
     const interiorWalls = [];
@@ -86,7 +86,8 @@ export const generateRoomLayout = (roomDefinitions, tileSize = 1, logger = () =>
 
         if (!placement) {
             logger(`❌ Could not place room ${i + 1} without overlap`);
-            break;
+            // Return null to indicate failure instead of partial data
+            return null;
         }
 
         const { nextPos, chosenDirection, needsCorrection } = placement;
@@ -111,8 +112,6 @@ export const generateRoomLayout = (roomDefinitions, tileSize = 1, logger = () =>
             logger
         );
 
-        //logger(interiorWalls)
-
         roomPositions.push(nextPos);
         roomColors.push(getRandomColor());
         doorLinks.push({ direction: chosenDirection, doors });
@@ -123,12 +122,34 @@ export const generateRoomLayout = (roomDefinitions, tileSize = 1, logger = () =>
         currentPos = nextPos;
     }
 
-
     return {
         roomPositions,
         doorLinks,
-        interiorWalls: roomDefinitions.map(() => ({ tiles: [], oppositeSideTiles: [] })), // temporarily until layouts are specified, then it will return conditionally
+        interiorWalls: roomDefinitions.map(() => ({ tiles: [], oppositeSideTiles: [] })),
         roomColors,
         parityCorrections
     };
+};
+
+export const generateRoomLayout = (roomDefinitions, tileSize = 1, logger = () => { }) => {
+    const maxAttempts = 10;
+    let attempt = 1;
+
+    while (attempt <= maxAttempts) {
+        logger(`🔄 Generation attempt ${attempt}/${maxAttempts}`);
+        
+        const result = generateSingleLayout(roomDefinitions, tileSize, logger);
+        
+        if (result) {
+            logger(`✅ Successfully generated layout on attempt ${attempt}`);
+            return result;
+        }
+        
+        logger(`❌ Attempt ${attempt} failed, retrying...`);
+        attempt++;
+    }
+
+    // If all attempts fail, throw an error or return a fallback
+    logger(`💥 Failed to generate valid layout after ${maxAttempts} attempts`);
+    throw new Error(`Failed to generate museum layout after ${maxAttempts} attempts`);
 };

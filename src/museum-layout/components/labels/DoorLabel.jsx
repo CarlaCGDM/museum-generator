@@ -4,12 +4,12 @@ import { Html } from '@react-three/drei';
 import { ArrowUp } from 'lucide-react';
 import './DoorLabel.css';
 
-const DoorLabel = ({ 
-  position, 
-  rotationY = 0, 
-  name, 
-  topicId = "0", 
-  topicName, 
+const DoorLabel = ({
+  position,
+  rotationY = 0,
+  name,
+  topicId = "0",
+  topicName,
   description,
   topicColor // Now passed as prop from parent
 }) => {
@@ -23,7 +23,7 @@ const DoorLabel = ({
               style={{ backgroundColor: topicColor }}
             >
               <ArrowUp size={16} strokeWidth={2.5} className="arrow-icon" />
-              <span className="door-label-topic-text">{topicName}</span>
+              <div className="door-label-topic-text">{topicName}</div>
               <ArrowUp size={16} strokeWidth={2.5} className="arrow-icon" />
             </div>
             <div className="door-label-name">{name}</div>
