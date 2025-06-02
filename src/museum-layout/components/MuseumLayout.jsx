@@ -5,6 +5,7 @@ import { generateRoomLayout } from '../utils/generate-room/generateRoomLayout';
 import { useDebug } from '../../debug/DebugContext';
 import { createLogger } from '../../debug/utils/logger';
 import { useRoomVisitTracker } from '../hooks/useRoomVisitTracker';
+import { placeArtifactsInRoom} from '../utils/place-artifacts/placeArtifactsInRoom'
 
 // 🧠 Group artifacts by their group ID
 function groupArtifacts(artifacts) {
@@ -88,7 +89,7 @@ const MuseumLayout = ({ roomData, setRoomPositions }) => {
         const interiorWallTiles = interiorWalls[index] || [];
 
         const groupedArtifacts = groupArtifacts(room.artifacts);
-        const placedGroups = []; //placeArtifactsInRoom(groupedArtifacts, width, depth, doorTiles);
+        const placedGroups = placeArtifactsInRoom(groupedArtifacts, width, depth, doorTiles);
 
         const nextRoom = roomData[index + 1];
         const doorTilesFrom = doorLinks[index]?.doors?.from || [];
