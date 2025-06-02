@@ -72,9 +72,16 @@ export async function computeRoomSizes(museumData, log = () => { }) {
     width = Math.max(5, width);
     depth = Math.max(5, depth);
 
-    // Ensure odd numbers
-    width = width % 2 == !0 ? width : width + 1;
-    depth = depth % 2 == !0 ? depth : depth + 1;
+    // FIXED: Ensure odd numbers (correct way)
+    width = width % 2 === 0 ? width + 1 : width;   // If even, make odd
+    depth = depth % 2 === 0 ? depth + 1 : depth;   // If even, make odd
+
+    // Safety check for NaN values
+    if (isNaN(width) || isNaN(depth)) {
+      log(`⚠️ Warning: NaN detected for room ${room.name}, using fallback dimensions`);
+      width = 7;  // fallback odd number
+      depth = 7;  // fallback odd number
+    }
 
     log(`  📐 Final room size: ${width}x${depth}m for ${room.name}`);
 
@@ -82,7 +89,7 @@ export async function computeRoomSizes(museumData, log = () => { }) {
       id: room.id,
       name: room.name,
       description: room.description,
-      topicId: room.topicId,  // 👈 ADD THIS
+      topicId: room.topicId,
       topicName: room.topicName,
       artifactCount: room.items.length,
       totalArtifactArea: totalArea,

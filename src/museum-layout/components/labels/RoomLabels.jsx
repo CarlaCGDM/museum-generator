@@ -19,22 +19,12 @@ const WALL_OFFSETS = {
 
 // Extracted colors array from DoorLabel
 const topicColors = [
-  '#6bff95', // green
-  '#a6ff6b', // lime
-  '#ffd66b', // yellow
-  '#ffb46b', // orange
-  '#ff6b6b', // red
-  '#ffa8b6', // pink
-  '#d96bff', // purple
-  '#6b6bff', // indigo
-  '#6bc5ff', // blue
-  '#6bffff', // cyan
-];
-
+        '#9EC9C2', '#DE9393', '#A7C585', '#A7C585',
+        '#D0BF6A', '#B295CB', '#E4B77F', '#C0C57C',
+        '#C691C4', '#89B5B1',
+    ];
 function getTopicColor(topicId) {
   const num = parseInt(topicId?.split('-').pop()) || 0;
-  console.log("calculating color...!")
-  console.log(topicColors[num % topicColors.length])
   return topicColors[num % topicColors.length];
 }
 
@@ -65,8 +55,6 @@ const RoomLabels = ({
 }) => {
   const currentRoomColor = currentRoomTopicId ? getTopicColor(currentRoomTopicId) : null;
   const nextRoomColor = nextRoomInfo ? getTopicColor(nextRoomInfo.topicId) : null;
-
-  console.log(currentRoomColor)
 
   return (
     <group>
