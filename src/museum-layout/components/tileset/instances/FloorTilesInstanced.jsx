@@ -5,7 +5,7 @@ import { Object3D } from 'three';
 import { useModelSettings } from '../../../../ui-overlay/model-selector/ModelSettingsContext';
 import { FrontSide, BackSide, DoubleSide } from 'three';
 import { MeshStandardMaterial } from 'three';
-import { FLOOR_LAYER, WALL_LAYER } from '../../../../first-person-movement/layers';
+import { FLOOR_LAYER, WALL_LAYER } from '../../../../first-person-movement/utils/layers';
 
 const FloorTilesInstanced = ({
   positions = [],

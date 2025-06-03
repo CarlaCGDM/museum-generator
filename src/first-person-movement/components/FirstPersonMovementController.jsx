@@ -1,7 +1,7 @@
 import { useEffect, useRef, useMemo } from 'react';
 import * as THREE from 'three';
 import { useThree, useFrame } from '@react-three/fiber';
-import { FLOOR_LAYER, WALL_LAYER } from './layers';
+import { FLOOR_LAYER, WALL_LAYER } from '../utils/layers';
 
 const FirstPersonMovementController = ({ cameraMode }) => {
     const { camera, scene } = useThree();

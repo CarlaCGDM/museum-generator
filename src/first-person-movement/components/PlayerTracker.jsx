@@ -1,9 +1,9 @@
 import { useFrame } from '@react-three/fiber';
-import { useSettings } from '../ui-overlay/SettingsContext';
-import { useThrottledCallback } from './useThrottledCallback';
+import { useSettings } from '../../ui-overlay/SettingsContext';
+import { useThrottledCallback } from '../hooks/useThrottledCallback';
 import { useRef } from 'react';
 
-function isPlayerInsideRoom(playerPos, roomPos, width, depth, margin = 2) {
+function isPlayerInsideRoom(playerPos, roomPos, width, depth, margin = 0) {
   const [px, , pz] = playerPos;
 
   const halfWidth = width / 2;
@@ -22,7 +22,7 @@ function isPlayerInsideRoom(playerPos, roomPos, width, depth, margin = 2) {
 
 
 function PlayerTracker({ roomPositions, roomData }) {
-  const { settings, updatePlayerPosition, markRoomVisited } = useSettings();
+  const { settings, updatePlayerPosition, markRoomVisited, updateCurrentRoomIndex } = useSettings();
   const lastRoomIdRef = useRef(null);
 
   const throttledUpdate = useThrottledCallback((pos) => {
@@ -32,7 +32,7 @@ function PlayerTracker({ roomPositions, roomData }) {
     if (!roomPositions || roomPositions.length === 0) return;
 
     let foundRoom = false;
-    
+
     for (let i = 0; i < roomPositions.length; i++) {
       const roomPos = roomPositions[i];
       const room = roomData?.[i];
@@ -46,18 +46,26 @@ function PlayerTracker({ roomPositions, roomData }) {
 
       if (inside) {
         foundRoom = true;
+
         if (!settings.visitedRooms?.[id] && lastRoomIdRef.current !== id) {
           console.log(`✅ Player entered room: ${id}`);
           markRoomVisited(id);
         }
+
+        if (lastRoomIdRef.current !== id) {
+          updateCurrentRoomIndex(i); // ✅ Update current room index
+        }
+
         lastRoomIdRef.current = id;
-        break; // Exit early if we found the room
+        break;
       }
+
     }
-    
+
     // If player is not in any room, clear the last room reference
     if (!foundRoom) {
       lastRoomIdRef.current = null;
+      //updateCurrentRoomIndex(null); // ✅ clear the index
     }
 
   }, 300);

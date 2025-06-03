@@ -8,7 +8,8 @@ const defaultSettings = {
   visitedRooms: {},            // { [roomId]: true }
   hasFinishedTutorial: false,
   musicOn: true,
-  playerPosition: [0, 0, 0],   // NEW
+  playerPosition: [0, 0, 0], 
+  currentRoomIndex: null, // ✅ NEW
 };
 
 export function SettingsProvider({ children }) {
@@ -52,6 +53,13 @@ export function SettingsProvider({ children }) {
     }));
   };
 
+  const updateCurrentRoomIndex = (index) => {
+  setSettings((prev) => ({
+    ...prev,
+    currentRoomIndex: index,
+  }));
+};
+
   const resetSettings = () => {
     setSettings(defaultSettings);
     localStorage.removeItem(LOCAL_STORAGE_KEY);
@@ -69,7 +77,8 @@ export function SettingsProvider({ children }) {
         markRoomVisited,
         toggleMusic,
         setTutorialComplete,
-        updatePlayerPosition, // NEW
+        updatePlayerPosition,
+        updateCurrentRoomIndex,
         resetSettings,
       }}
     >

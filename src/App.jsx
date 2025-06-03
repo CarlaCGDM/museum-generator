@@ -9,11 +9,11 @@ import { createLogger } from './debug/utils/logger';
 import DevOverlay from './ui-overlay/DevOverlay';
 import { ModelSettingsContext } from './ui-overlay/model-selector/ModelSettingsContext';
 import { generateRandomMuseumData } from './museum-layout/utils/generateRandomMuseumData';
-import CameraManager from './first-person-movement/CameraManager';
+import CameraManager from './first-person-movement/components/CameraManager';
 import { SceneWithRoomEnvironment } from './lighting/SceneWithRoomEnvironment';
-import FirstPersonMovementController from './first-person-movement/FirstPersonMovementController';
+import FirstPersonMovementController from './first-person-movement/components/FirstPersonMovementController';
 import { SettingsProvider, useSettings } from './ui-overlay/SettingsContext';
-import PlayerTracker from './first-person-movement/PlayerTracker';
+import PlayerTracker from './first-person-movement/components/PlayerTracker';
 import UIOverlay from './ui-overlay/UIOverlay';
 
 function RoomLogger({ roomData }) {

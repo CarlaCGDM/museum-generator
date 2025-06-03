@@ -1,12 +1,24 @@
 import React from 'react';
 import MuseumObject from './MuseumObject';
+import { useSettings } from '../../ui-overlay/SettingsContext';
+import { useIsPlayerNear } from '../../first-person-movement/hooks/useIsPlayerNear';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const Showcase = ({
   contents = [],
   position = [0, 0, 0],
   rotation = [0, 0, 0],
+  index = 0,
 }) => {
   const isWall = contents[0]?.onWall;
+
+   const isMobile = useIsMobile();
+  const { settings } = useSettings();
+  const isPlayerInThisRoom = settings.currentRoomIndex === index;
+  const isPlayerInPreviousRoom = settings.currentRoomIndex == index - 1;
+  const isPlayerInNextRoom = settings.currentRoomIndex == index + 1;
+
+  const isPlayerNear = useIsPlayerNear(position, 7); // 3 meters default
 
   const eyeLevel = 1.5;
   const spacingRatio = 0.1;
@@ -48,9 +60,17 @@ const Showcase = ({
         key={item.id}
         {...item}
         position={[x, 0, z]}
+        isPlayerInThisRoom={isPlayerInThisRoom}
+        isPlayerNear={isPlayerNear}
       />
     );
   });
+
+  const shouldRender = isMobile
+    ? isPlayerInThisRoom
+    : isPlayerInThisRoom || isPlayerInPreviousRoom || isPlayerInNextRoom;
+
+  if (!shouldRender) return null;
 
   return (
     <group position={[position[0], yOffset, position[2]]} rotation={rotation}>

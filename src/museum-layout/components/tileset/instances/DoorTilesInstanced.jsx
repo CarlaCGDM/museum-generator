@@ -3,7 +3,7 @@ import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Object3D, Vector3, FrontSide } from 'three';
 import { useModelSettings } from '../../../../ui-overlay/model-selector/ModelSettingsContext';
-import { FLOOR_LAYER, WALL_LAYER } from '../../../../first-person-movement/layers';
+import { FLOOR_LAYER, WALL_LAYER } from '../../../../first-person-movement/utils/layers';
 
 const directionToRotationY = (dir) => {
   switch (dir) {

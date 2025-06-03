@@ -4,8 +4,7 @@ import Showcase from '../../interactables/components/Showcase';
 import { generateRoomLayout } from '../utils/generate-room/generateRoomLayout';
 import { useDebug } from '../../debug/DebugContext';
 import { createLogger } from '../../debug/utils/logger';
-import { useRoomVisitTracker } from '../hooks/useRoomVisitTracker';
-import { placeArtifactsInRoom} from '../utils/place-artifacts/placeArtifactsInRoom'
+import { placeArtifactsInRoom } from '../utils/place-artifacts/placeArtifactsInRoom'
 
 // 🧠 Group artifacts by their group ID
 function groupArtifacts(artifacts) {
@@ -105,6 +104,8 @@ const MuseumLayout = ({ roomData, setRoomPositions }) => {
           };
         }
 
+        
+
         return (
           <group key={index}>
             <Room
@@ -120,6 +121,7 @@ const MuseumLayout = ({ roomData, setRoomPositions }) => {
             {placedGroups.map((group, i) => (
               <Showcase
                 key={`group-${i}`}
+                index={index}
                 contents={group.contents}
                 position={[
                   roomPos.x + group.position[0],

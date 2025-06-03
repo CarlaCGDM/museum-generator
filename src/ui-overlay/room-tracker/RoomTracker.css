@@ -1,44 +1,38 @@
-
-
 .room-tracker-wrapper {
   position: fixed;
   bottom: 2vh;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
+  max-width: 100%;
+  pointer-events: none;
+  background-color: rgb(180, 180, 180, 0.5);
+  border-radius: 0.5em;
 }
 
-.room-tracker-track {
+.room-tracker-wrapper::before {
+  content: '';
   position: absolute;
   top: 50%;
-  left: 50%;
+  /* Calculate the left position based on padding + half circle width */
+  left: calc(2vw + var(--circle-size, 3vw) / 2);
+  /* Calculate the right position based on padding + half circle width */
+  right: calc(2vw + var(--circle-size, 3vw) / 2);
   height: 4px;
-  width: calc(100% - 2vw);
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: space-between;
+  background-color: #f0f0f0;
+  transform: translateY(-50%);
   z-index: 0;
-  padding: 0 2vw; /* Match the container padding */
-}
-
-.room-tracker-segment {
-  flex: 1;
-  height: 100%;
-  background-color: #F5F5F5;
-  transition: background-color 0.3s;
 }
 
 .room-tracker-container {
   display: flex;
   flex-direction: row;
-  gap: 4vw;
-  /* background: rgba(255, 255, 255, 0.95); */
-  padding: 1.5vh 2vw;
+  gap: var(--tracker-gap, 4vw);
+  padding: 3vh 1vw;
   border-radius: 16px;
-  /* box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2); */
   position: relative;
   z-index: 1;
-  align-items: center;
+  pointer-events: auto;
 }
 
 .room-tracker-circle-wrapper {
@@ -46,35 +40,25 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
 }
 
 .room-tracker-circle {
-  width: 60px;
-  height: 60px;
-  /* border: 3px solid gray; */
-  border-radius: 50%;
   background: white;
-  color: black;
-  font-size: 1.2rem;
+  border-radius: 50%;
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.3s, background 0.3s;
   position: relative;
-}
-
-.room-tracker-circle.home {
-  width: 70px;
-  height: 70px;
-  background: #f0f0f0;
+  color: black;
 }
 
 .room-tracker-tooltip {
   position: absolute;
   bottom: 120%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(5px);
   font-size: 0.75rem;
   background: #333;
   color: #fff;
@@ -82,7 +66,6 @@
   border-radius: 6px;
   white-space: nowrap;
   opacity: 0;
-  transform: translateX(-50%) translateY(5px);
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
   text-align: center;
@@ -99,7 +82,6 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 2px;
-  color: #fff;
 }
 
 .tooltip-room {
@@ -108,13 +90,17 @@
   color: #ccc;
 }
 
-/* Ensure room number stays visible above the inner circle */
 .room-number {
   position: relative;
   z-index: 2;
+  font-size: 1rem; /* adjust as needed */
+  user-select: none;
+  padding-top: 0.2em;
 }
 
-/* Inner circle that shows topic color */
+
+
+
 .topic-color-inner-circle {
   position: absolute;
   top: 50%;
@@ -129,33 +115,42 @@
   transition: opacity 0.3s ease;
 }
 
-/* Unvisited rooms show at 30% opacity */
 .topic-color-inner-circle.unvisited {
   opacity: 0.3;
 }
 
-/* Visited rooms show at 70% opacity */
 .topic-color-inner-circle.visited {
   opacity: 1;
 }
 
-/* SVG progress ring */
 .progress-ring {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  transform: rotate(-90deg); /* Start progress at top */
+  transform: rotate(-90deg);
   z-index: 2;
   pointer-events: none;
 }
 
 .progress-ring-track {
-  stroke: #F5F5F5;
-  opacity: 1;
+  stroke: #f5f5f5;
 }
 
 .progress-ring-fill {
   transition: stroke-dashoffset 0.5s ease;
+}
+
+.triangle-indicator {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 12px solid var(--triangle-color, #e74c3c);
+  z-index: 3;
 }

@@ -3,8 +3,9 @@ import React from 'react';
 import { useDebug } from '../../../debug/DebugContext';
 import RoomLabels from '../labels/RoomLabels';
 import RoomTiles from './RoomTiles';
-import RoomOcclusionWalls from './RoomOcclusionWalls';
 import RoomDebugOverlays from './RoomDebugOverlays';
+import { useSettings } from '../../../ui-overlay/SettingsContext';
+
 
 const Room = ({
   width = 5,
@@ -24,25 +25,24 @@ const Room = ({
   const xOffset = -((width * tileSize) / 2) + tileSize / 2;
   const zOffset = -((depth * tileSize) / 2) + tileSize / 2;
 
+  const { settings } = useSettings();
+  const isPlayerInThisRoom = settings.currentRoomIndex === index;
+
   return (
     <group position={position}>
-      <RoomOcclusionWalls
-        width={width}
-        depth={depth}
-        tileSize={tileSize}
-        wallHeight={wallHeight}
-      />
 
-      <RoomLabels
-        width={width}
-        depth={depth}
-        tileSize={tileSize}
-        xOffset={xOffset}
-        zOffset={zOffset}
-        nextRoomInfo={nextRoomInfo}
-        doorTiles={doorTiles} // entrance door tiles
-        currentRoomTopicId={currentRoomTopicId} // current room's topic ID
-      />
+      {isPlayerInThisRoom && (
+        <RoomLabels
+          width={width}
+          depth={depth}
+          tileSize={tileSize}
+          xOffset={xOffset}
+          zOffset={zOffset}
+          nextRoomInfo={nextRoomInfo}
+          doorTiles={doorTiles}
+          currentRoomTopicId={currentRoomTopicId}
+        />
+      )}
 
       <group position={[xOffset, 0, zOffset]}>
         <RoomTiles
