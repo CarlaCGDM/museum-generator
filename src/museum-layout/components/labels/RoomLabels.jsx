@@ -18,10 +18,10 @@ const WALL_OFFSETS = {
 };
 
 // Extracted colors array from DoorLabel
-const topicColors = [
-        '#9EC9C2', '#DE9393', '#A7C585', '#A7C585',
-        '#D0BF6A', '#B295CB', '#E4B77F', '#C0C57C',
-        '#C691C4', '#89B5B1',
+ const topicColors = [
+        '#DE9393', '#DC997C', '#ECBF87', '#D0BF6A',
+        '#C0C57C', '#A7C585', '#87C7AD', '#76B8BD',
+        '#8C9ACA', '#B295CB', '#C691C4'
     ];
 function getTopicColor(topicId) {
   const num = parseInt(topicId?.split('-').pop()) || 0;

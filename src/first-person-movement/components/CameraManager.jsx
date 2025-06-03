@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useThree } from '@react-three/fiber';
 import CustomFirstPersonLookControls from './CustomFirstPersonLookControls';
-import { WALL_LAYER, FLOOR_LAYER } from './layers';
+import { WALL_LAYER, FLOOR_LAYER } from '../utils/layers';
 
 const CameraManager = ({ cameraMode }) => {
     const { set, camera: defaultCamera, size } = useThree();

@@ -69,8 +69,8 @@ export async function computeRoomSizes(museumData, log = () => { }) {
     }
 
     // Ensure rooms are at least 5x5 tiles
-    width = Math.max(5, width);
-    depth = Math.max(5, depth);
+    width = Math.max(13, width);
+    depth = Math.max(13, depth);
 
     // FIXED: Ensure odd numbers (correct way)
     width = width % 2 === 0 ? width + 1 : width;   // If even, make odd
@@ -79,8 +79,8 @@ export async function computeRoomSizes(museumData, log = () => { }) {
     // Safety check for NaN values
     if (isNaN(width) || isNaN(depth)) {
       log(`⚠️ Warning: NaN detected for room ${room.name}, using fallback dimensions`);
-      width = 7;  // fallback odd number
-      depth = 7;  // fallback odd number
+      width = 13;  // fallback odd number
+      depth = 13;  // fallback odd number
     }
 
     log(`  📐 Final room size: ${width}x${depth}m for ${room.name}`);

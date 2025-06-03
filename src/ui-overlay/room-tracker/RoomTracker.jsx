@@ -1,9 +1,10 @@
 import './RoomTracker.css';
 import { useSettings } from '../SettingsContext';
 import { useMemo, useRef } from 'react';
-import { Home } from 'lucide-react';
+import { Home, Triangle } from 'lucide-react';
 
-function RoomTracker({ roomData }) {
+
+function RoomTracker({ roomData, currentRoomIndex }) {
     const { settings } = useSettings();
     const visited = settings.visitedRooms ?? {};
 
@@ -14,11 +15,9 @@ function RoomTracker({ roomData }) {
         return roomData.map((room, index) => {
             const key = room.id;
 
-            // Initialize once per room
             if (!showcaseProgressRef.current[key]) {
                 const totalShowcasesInRoom = Math.floor(Math.random() * 10) + 3;
-                 const clickedShowcasesInRoom = Math.floor(Math.random() * totalShowcasesInRoom); // Random progress
-
+                const clickedShowcasesInRoom = Math.floor(Math.random() * totalShowcasesInRoom);
                 showcaseProgressRef.current[key] = {
                     totalShowcasesInRoom,
                     clickedShowcasesInRoom,
@@ -38,15 +37,17 @@ function RoomTracker({ roomData }) {
                 topicId: room.topicId,
                 topicName: room.topicName,
                 index,
+                clickedShowcasesInRoom,
+                totalShowcasesInRoom,
                 progress,
             };
         });
-    }, [roomData]); // ⬅️ Don't depend on visited here or it'll rerun
+    }, [roomData]);
 
     const topicColors = [
-        '#9EC9C2', '#DE9393', '#A7C585', '#A7C585',
-        '#D0BF6A', '#B295CB', '#E4B77F', '#C0C57C',
-        '#C691C4', '#89B5B1',
+        '#DE9393', '#DC997C', '#ECBF87', '#D0BF6A',
+        '#C0C57C', '#A7C585', '#87C7AD', '#76B8BD',
+        '#8C9ACA', '#B295CB', '#C691C4'
     ];
 
     function getTopicColor(topicId) {
@@ -54,20 +55,32 @@ function RoomTracker({ roomData }) {
         return topicColors[numericId % topicColors.length];
     }
 
+    // Dynamic sizing based on room count
+    const baseCircleVW = roomData.length <= 10 ? 3 : Math.max(2, 30 / roomData.length);
+    const baseGapVW = baseCircleVW * 0.6; // 60% of circle size
+    const circleSizePx = `${baseCircleVW}vw`;
+    const gapSize = `${baseGapVW}vw`;
+
     return (
         <div className="room-tracker-wrapper">
-            <div className="room-tracker-track">
-                {rooms.slice(0, -1).map((_, idx) => (
-                    <div
-                        key={`segment-${idx}`}
-                        className="room-tracker-segment"
-                    />
-                ))}
-            </div>
-            <div className="room-tracker-container">
+            <div
+                className="room-tracker-container"
+                style={{
+                    '--tracker-gap': gapSize,
+                    '--circle-size': circleSizePx
+                }}
+
+            >
                 {rooms.map((room, idx) => (
-                    <div key={room.id} className="room-tracker-circle-wrapper">
-                        <div className={`room-tracker-circle ${idx === 0 ? 'home' : ''}`}>
+                    <div
+                        key={room.id}
+                        className="room-tracker-circle-wrapper"
+                        style={{ width: circleSizePx }}
+                    >
+                        <div
+                            className="room-tracker-circle"
+                            style={{ width: circleSizePx, height: circleSizePx }}
+                        >
                             <svg className="progress-ring" viewBox="0 0 36 36">
                                 <path
                                     className="progress-ring-track"
@@ -89,20 +102,28 @@ function RoomTracker({ roomData }) {
                             </svg>
 
                             <span className="room-number">
-                                {idx === 0 ? <Home size={30} strokeWidth={2} /> : room.index}
+                                {idx === 0 ? <Home size={20} strokeWidth={2} /> : room.index}
                             </span>
 
                             <div
-                                className={`topic-color-inner-circle ${
-                                    visited[room.id] ? 'visited' : 'unvisited'
-                                }`}
+                                className={`topic-color-inner-circle ${visited[room.id] ? 'visited' : 'unvisited'
+                                    }`}
                                 style={{ backgroundColor: getTopicColor(room.topicId) }}
                             />
                         </div>
 
+                        {currentRoomIndex === idx && (
+                            <div
+                                className="triangle-indicator"
+                                style={{ '--triangle-color': getTopicColor(room.topicId) }}
+                            />
+                        )}
+
                         <div className="room-tracker-tooltip">
                             <div className="tooltip-topic">{room.topicName}</div>
-                            <div className="tooltip-room">{room.name}</div>
+                            <div className="tooltip-room">
+                                {room.name} ({room.clickedShowcasesInRoom}/{room.totalShowcasesInRoom})
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -112,4 +133,3 @@ function RoomTracker({ roomData }) {
 }
 
 export default RoomTracker;
-

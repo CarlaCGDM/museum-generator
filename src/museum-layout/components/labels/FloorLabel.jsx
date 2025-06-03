@@ -81,9 +81,9 @@ const FloorLabel = ({
         distanceFactor={10}
         transform
         center
-        occlude
         style={{ pointerEvents: 'none' }}
         zIndexRange={[100, 0]}
+        occlude
       >
         <div style={circleStyle}>
           {nextRoomColor ? (

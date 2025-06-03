@@ -1,5 +1,6 @@
 import React from 'react';
 import { Html } from '@react-three/drei';
+import { render } from '@testing-library/react';
 
 const MuseumObject = ({
   name = 'Artifact',
@@ -9,18 +10,21 @@ const MuseumObject = ({
   position = [0, 0, 0],
   modelPath = null,
   group = null,
+  isPlayerInThisRoom = false,
+  isPlayerNear = false,
 }) => {
   const { width, depth, height } = dimensions;
 
   const boxColor = starred
     ? 'gold'
     : onWall
-    ? 'skyblue'
-    : group
-    ? 'seagreen'
-    : 'tomato';
+      ? 'skyblue'
+      : group
+        ? 'seagreen'
+        : 'tomato';
 
   const yOffset = onWall ? 1.5 : height / 2;
+
 
   return (
     <group position={[position[0], yOffset, position[2]]}>
@@ -43,9 +47,18 @@ const MuseumObject = ({
       </mesh>
 
       {/* Label */}
-      <Html center distanceFactor={10} style={labelStyle}>
-        <div>{name}</div>
-      </Html>
+      {isPlayerInThisRoom && isPlayerNear &&
+      <group position={[0,height*0.5 + 0.25,0]}>
+        <Html
+          center
+          distanceFactor={10}
+          style={labelStyle}
+          //occlude
+          >
+          <div>{name}</div>
+        </Html>
+        </group>
+        }
     </group>
   );
 };
