@@ -2,6 +2,27 @@
 import { loadModel, calculateModelDimensions } from './ModelLoader';
 
 export async function computeRoomSizes(museumData, log = () => { }) {
+
+
+  // 1. Group rooms by topicId
+  const roomsByTopic = new Map();
+  for (const room of museumData.rooms) {
+    if (!roomsByTopic.has(room.topicId)) {
+      roomsByTopic.set(room.topicId, []);
+    }
+    roomsByTopic.get(room.topicId).push(room);
+  }
+
+  // 2. Sort rooms per topic and inject indexes
+  for (const [_, rooms] of roomsByTopic) {
+    rooms.sort((a, b) => a.id - b.id); // or any consistent ordering
+    rooms.forEach((room, index) => {
+      room.indexInTopic = index + 1; // 1-based
+      room.totalIndexInTopic = rooms.length;
+    });
+  }
+
+
   const roomReports = [];
 
   for (const room of museumData.rooms) {
@@ -88,15 +109,19 @@ export async function computeRoomSizes(museumData, log = () => { }) {
     roomReports.push({
       id: room.id,
       name: room.name,
+      subtitle: room.subtitle,
       description: room.description,
       topicId: room.topicId,
       topicName: room.topicName,
+      indexInTopic: room.indexInTopic,           // ✅ new
+      totalIndexInTopic: room.totalIndexInTopic, // ✅ new
       artifactCount: room.items.length,
       totalArtifactArea: totalArea,
       roomArea,
       dimensions: { width, depth },
       artifacts: artifactDimensions,
     });
+
   }
 
   log(` 📝 Complete rooms report:`);

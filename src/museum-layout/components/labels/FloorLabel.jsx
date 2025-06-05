@@ -10,11 +10,15 @@ const FloorLabel = ({
   zOffset,
   entranceDoorTiles = [],
   exitDoorTiles = [],
-  currentRoomColor = '#888',
+  currentRoomColor = 'pink',
   nextRoomColor = null,
+  doorTiles,
 }) => {
 
-  if (entranceDoorTiles.length === 0 && exitDoorTiles.length === 0) {
+  console.log("EntranceDoor",entranceDoorTiles)
+  console.log("ExitDoor",exitDoorTiles)
+  console.log("Currentroomcolor",currentRoomColor)
+  if (doorTiles.length === 0 && exitDoorTiles.length === 0) {
     return null;
   }
 
@@ -58,6 +62,7 @@ const FloorLabel = ({
     justifyContent: 'center',
     alignItems: 'center',
     cursor: 'default',
+    transform: 'scale(4)',
   };
 
    const stripeStyle = {
@@ -80,6 +85,7 @@ const FloorLabel = ({
       <Html
         distanceFactor={10}
         transform
+        scale={0.25}
         center
         style={{ pointerEvents: 'none' }}
         zIndexRange={[100, 0]}

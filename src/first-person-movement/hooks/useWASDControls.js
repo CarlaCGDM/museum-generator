@@ -12,10 +12,10 @@ export default function useWASDControls(camera) {
     velocity.current.set(0, 0, 0);
     const speed = 5;
 
-    if (keys.forward) velocity.current.x -= 1;
-    if (keys.backward) velocity.current.x += 1;
-    if (keys.left) velocity.current.z -= 1;
-    if (keys.right) velocity.current.z += 1;
+    if (keys.forward) velocity.current.z -= 1;
+    if (keys.backward) velocity.current.z += 1;
+    if (keys.left) velocity.current.x -= 1;
+    if (keys.right) velocity.current.x += 1;
 
     velocity.current.normalize().multiplyScalar(speed * delta);
     camera.position.add(velocity.current);

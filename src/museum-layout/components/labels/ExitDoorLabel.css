@@ -7,6 +7,9 @@
   pointer-events: none;
   box-shadow: 0 2px 8px rgba(0,0,0,0.25);
   user-select: none; /* Standard syntax */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .door-label-topic-banner {
@@ -19,10 +22,11 @@
   font-size: 0.8em;
   gap: 0.5em;
   min-height: 3em;
+  width: 100%;
 }
 
 .door-label-topic-text {
-  font-size: 1em;
+  font-size: 0.9em;
   color: rgb(0, 0, 0);
   white-space: nowrap;
   font-weight: bold;
@@ -32,14 +36,30 @@
 }
 
 .arrow-icon {
-  flex-shrink: 0;
+  
 }
 
 .door-label-name {
-  font-size: 0.6em;
+  font-size: 0.55em;
   text-transform: uppercase;
-  margin-top: 6px;
-  padding: 0 8px;
+  margin-top: 1em;
+  text-align: left;
+  width: 60%;
+}
+
+.door-label-subtitle {
+  font-size: 0.55em;
+  text-transform: uppercase;
+  text-align: left;
+  width: 60%;
+}
+
+.door-label-index {
+  font-size: 0.5em;
+  text-transform: uppercase;
+  margin-top: 1em;
+  margin-bottom: 1.5em;
+  text-align: center;
 }
 
 .door-label-description {

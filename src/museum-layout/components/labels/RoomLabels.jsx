@@ -1,7 +1,7 @@
-// RoomLabels.jsx
 import React from 'react';
-import DoorLabel from './DoorLabel';
+import ExitDoorLabel from './ExitDoorLabel';
 import FloorLabel from './FloorLabel';
+import EntranceDoorLabel from './EntranceDoorLabel';
 
 const WALL_ROTATIONS = {
   north: 0,
@@ -17,12 +17,12 @@ const WALL_OFFSETS = {
   west: [0, 0, -3.5],
 };
 
-// Extracted colors array from DoorLabel
- const topicColors = [
-        '#DE9393', '#DC997C', '#ECBF87', '#D0BF6A',
-        '#C0C57C', '#A7C585', '#87C7AD', '#76B8BD',
-        '#8C9ACA', '#B295CB', '#C691C4'
-    ];
+const topicColors = [
+  '#DE9393', '#DC997C', '#ECBF87', '#D0BF6A',
+  '#C0C57C', '#A7C585', '#87C7AD', '#76B8BD',
+  '#8C9ACA', '#B295CB', '#C691C4'
+];
+
 function getTopicColor(topicId) {
   const num = parseInt(topicId?.split('-').pop()) || 0;
   return topicColors[num % topicColors.length];
@@ -43,62 +43,91 @@ function getWallFromDoorTiles(doorTiles, width, depth) {
   return null;
 }
 
-const RoomLabels = ({ 
-  width, 
-  depth, 
-  tileSize, 
-  xOffset, 
-  zOffset, 
+const RoomLabels = ({
+  width,
+  depth,
+  tileSize,
+  xOffset,
+  zOffset,
   nextRoomInfo,
-  doorTiles = [], // entrance door tiles for current room
-  currentRoomTopicId, // topic ID of current room
+  currentRoomInfo,
+  doorTiles = [], // This represents the entrance door tiles in current room coordinates
 }) => {
-  const currentRoomColor = currentRoomTopicId ? getTopicColor(currentRoomTopicId) : null;
+
+  //console.log("currentRoomInfo",currentRoomInfo)
+  const currentRoomColor = currentRoomInfo ? getTopicColor(currentRoomInfo.topicId) : null;
   const nextRoomColor = nextRoomInfo ? getTopicColor(nextRoomInfo.topicId) : null;
+
+  let exitDoorLabel = null;
+  let entranceDoorLabel = null;
+
+  // Exit door (next room) - uses nextRoomInfo.doorTiles
+  if (nextRoomInfo) {
+    const exitDoorTiles = nextRoomInfo.doorTiles;
+    const wall = getWallFromDoorTiles(exitDoorTiles, width, depth);
+    if (wall) {
+      const midTile = exitDoorTiles[Math.floor(exitDoorTiles.length / 2)];
+      const rotationY = WALL_ROTATIONS[wall];
+      const [offsetX, , offsetZ] = WALL_OFFSETS[wall];
+
+      const labelPosition = [
+        xOffset + midTile.x * tileSize + offsetX,
+        2.5,
+        zOffset + midTile.z * tileSize + offsetZ,
+      ];
+
+      exitDoorLabel = (
+        <ExitDoorLabel
+          key="exit-door-label"
+          position={labelPosition}
+          rotationY={rotationY}
+          topicColor={nextRoomColor}
+          {...nextRoomInfo}
+        />
+      );
+    }
+  }
+
+  // Entrance door (current room) - uses doorTiles prop (not currentRoomInfo.doorTiles)
+  if (currentRoomInfo) {
+    const entranceDoorTiles = currentRoomInfo.doorTiles; // Use the doorTiles prop, not currentRoomInfo.doorTiles
+    const wall = getWallFromDoorTiles(entranceDoorTiles, width, depth);
+    if (wall) {
+      const midTile = entranceDoorTiles[Math.floor(entranceDoorTiles.length / 2)];
+      const rotationY = WALL_ROTATIONS[wall];
+      const [offsetX, , offsetZ] = WALL_OFFSETS[wall];
+
+      const labelPosition = [
+        xOffset + midTile.x * tileSize + offsetX,
+        2.5,
+        zOffset + midTile.z * tileSize + offsetZ,
+      ];
+
+      entranceDoorLabel = (
+        <EntranceDoorLabel
+          key="entrance-door-label"
+          position={labelPosition}
+          rotationY={rotationY}
+          topicColor={currentRoomColor}
+          {...currentRoomInfo}
+        />
+      );
+    }
+  }
 
   return (
     <group>
-      {/* Door Label */}
-      {nextRoomInfo && (
-        (() => {
-          const { doorTiles: exitDoorTiles, name, topicName, topicId, description } = nextRoomInfo;
-          const wall = getWallFromDoorTiles(exitDoorTiles, width, depth);
-          if (!wall) return null;
-
-          const midTile = exitDoorTiles[Math.floor(exitDoorTiles.length / 2)];
-          const rotationY = WALL_ROTATIONS[wall];
-          const [offsetX, , offsetZ] = WALL_OFFSETS[wall];
-
-          const labelPosition = [
-            xOffset + midTile.x * tileSize + offsetX,
-            2.5,
-            zOffset + midTile.z * tileSize + offsetZ,
-          ];
-
-          return (
-            <DoorLabel
-              key="door-label"
-              position={labelPosition}
-              rotationY={rotationY}
-              name={name}
-              topicName={topicName}
-              topicId={topicId}
-              description={description}
-              topicColor={getTopicColor(topicId)}
-            />
-          );
-        })()
-      )}
-
-      {/* Floor Label */}
+      {exitDoorLabel}
+      {entranceDoorLabel}
       <FloorLabel
         width={width}
         depth={depth}
         tileSize={tileSize}
         xOffset={xOffset}
         zOffset={zOffset}
-        entranceDoorTiles={doorTiles}
+        entranceDoorTiles={doorTiles} // Also updated this to use doorTiles prop
         exitDoorTiles={nextRoomInfo?.doorTiles || []}
+        doorTiles
         currentRoomColor={currentRoomColor}
         nextRoomColor={nextRoomColor}
       />

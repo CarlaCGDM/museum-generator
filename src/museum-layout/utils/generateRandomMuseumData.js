@@ -27,7 +27,7 @@ export function generateRandomMuseumData(totalItems = 100) {
     return count;
   });
 
-    let itemId = 1;
+  let itemId = 1;
   let topicIndex = 1; // Start from 1 because 0 is reserved for Room 0
   let currentTopicRoomCount = 0;
   const maxRoomsPerTopic = Math.ceil((numRooms - 1) / museum.topic.length); // approximate block size
@@ -116,12 +116,14 @@ export function generateRandomMuseumData(totalItems = 100) {
     museum.rooms.push({
       id: roomId,
       name: `Room ${roomId - 1}`,
+      subtitle: `Subtitle ${roomId - 1}`, // ✅ NEW FIELD
       description: `Room containing ${count} items`,
       topicId: topic.id,
       topicName: topic.name,
       groups: [],
       items,
     });
+
   });
 
   console.log(museum)
