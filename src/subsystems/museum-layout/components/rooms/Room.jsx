@@ -17,7 +17,7 @@ const Room = ({
   nextRoomInfo = null,
   index = 0,
   wallHeight = 4,
-  currentRoomTopicId, // Add this prop to identify current room's topic
+  currentRoomInfo,
 }) => {
   const showIndexes = useDebug('Room', 'Indexes');
   const showDirections = useDebug('Room', 'Directions');
@@ -38,9 +38,9 @@ const Room = ({
           tileSize={tileSize}
           xOffset={xOffset}
           zOffset={zOffset}
-          nextRoomInfo={nextRoomInfo}
           doorTiles={doorTiles}
-          currentRoomTopicId={currentRoomTopicId}
+          currentRoomInfo={currentRoomInfo}
+          nextRoomInfo={nextRoomInfo}
         />
       )}
 

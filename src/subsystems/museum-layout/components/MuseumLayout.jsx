@@ -90,21 +90,35 @@ const MuseumLayout = ({ roomData, setRoomPositions }) => {
         const groupedArtifacts = groupArtifacts(room.artifacts);
         const placedGroups = placeArtifactsInRoom(groupedArtifacts, width, depth, doorTiles);
 
-        const nextRoom = roomData[index + 1];
-        const doorTilesFrom = doorLinks[index]?.doors?.from || [];
+        const exitDoorTiles = doorLinks[index]?.doors?.from || [];      // exit doors
+        const entranceDoorTiles = doorLinks[index-1]?.doors?.to || [];      // entrance doors
 
         let nextRoomInfo = null;
-        if (doorTilesFrom.length && nextRoom) {
+        if (exitDoorTiles.length && roomData[index + 1]) {
+          const nextRoom = roomData[index + 1];
           nextRoomInfo = {
-            doorTiles: doorTilesFrom,
+            doorTiles: exitDoorTiles, // ✅ TO next room
             name: nextRoom.name,
+            subtitle: nextRoom.subtitle,
             topicName: nextRoom.topicName,
             topicId: nextRoom.topicId,
+            indexInTopic: nextRoom.indexInTopic,
+            totalIndexInTopic: nextRoom.totalIndexInTopic,
             description: nextRoom.description,
           };
         }
 
-        
+        const currentRoomInfo = {
+          doorTiles: entranceDoorTiles, // ✅ FROM previous room
+          name: room.name,
+          subtitle: room.subtitle,
+          topicName: room.topicName,
+          topicId: room.topicId,
+          indexInTopic: room.indexInTopic,
+          totalIndexInTopic: room.totalIndexInTopic,
+          description: room.description,
+        };
+
 
         return (
           <group key={index}>
@@ -115,7 +129,7 @@ const MuseumLayout = ({ roomData, setRoomPositions }) => {
               doorTiles={doorTiles}
               interiorWallTiles={interiorWallTiles}
               nextRoomInfo={nextRoomInfo}
-              currentRoomTopicId={room.topicId}
+              currentRoomInfo={currentRoomInfo}
               index={index}
             />
             {placedGroups.map((group, i) => (

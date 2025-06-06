@@ -2,8 +2,8 @@
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
-import { DebugProvider } from './debug/DebugContext';
-import { DebugPanel } from './debug/DebugPanel.jsx';
+import { DebugProvider } from './subsystems/debug/DebugContext';
+import { DebugPanel } from './subsystems/debug/DebugPanel.jsx';
 
 createRoot(document.getElementById('root')).render(
   <DebugProvider>

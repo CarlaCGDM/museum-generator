@@ -1,20 +1,25 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stats } from '@react-three/drei';
-import MuseumLayout from './museum-layout/components/MuseumLayout';
+import MuseumLayout from './subsystems/museum-layout/components/MuseumLayout';
 import './App.css';
 import { useState, useEffect, useCallback } from 'react';
-import { useDebug } from './debug/DebugContext';
-import { computeRoomSizes } from './museum-layout/utils/computeRoomSizes';
-import { createLogger } from './debug/utils/logger';
-import DevOverlay from './ui-overlay/DevOverlay';
-import { ModelSettingsContext } from './ui-overlay/model-selector/ModelSettingsContext';
-import { generateRandomMuseumData } from './museum-layout/utils/generateRandomMuseumData';
-import CameraManager from './first-person-movement/components/CameraManager';
-import { SceneWithRoomEnvironment } from './lighting/SceneWithRoomEnvironment';
-import FirstPersonMovementController from './first-person-movement/components/FirstPersonMovementController';
-import { SettingsProvider, useSettings } from './ui-overlay/SettingsContext';
-import PlayerTracker from './first-person-movement/components/PlayerTracker';
-import UIOverlay from './ui-overlay/UIOverlay';
+
+import { createLogger } from './subsystems/debug/utils/logger';
+import { useDebug } from './subsystems/debug/DebugContext';
+
+import { generateRandomMuseumData } from './subsystems/museum-layout/utils/generateRandomMuseumData';
+import { computeRoomSizes } from './subsystems/museum-layout/utils/computeRoomSizes';
+
+import { SceneWithRoomEnvironment } from './subsystems/lighting/SceneWithRoomEnvironment';
+
+import CameraManager from './subsystems/first-person-movement/components/CameraManager';
+import FirstPersonMovementController from './subsystems/first-person-movement/components/FirstPersonMovementController';
+import PlayerTracker from './subsystems/first-person-movement/components/PlayerTracker';
+
+import { SettingsProvider, useSettings } from './subsystems/ui-overlay/SettingsContext';
+import UIOverlay from './subsystems/ui-overlay/UIOverlay';
+import { ModelSettingsContext } from './subsystems/ui-overlay/model-selector/ModelSettingsContext';
+import DevOverlay from './subsystems/ui-overlay/DevOverlay';
 
 function RoomLogger({ roomData }) {
   const { settings } = useSettings();
