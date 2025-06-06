@@ -19,7 +19,6 @@ const Room = ({
   wallHeight = 4,
   currentRoomInfo,
 }) => {
-  console.log("Current room info", currentRoomInfo)
   const showIndexes = useDebug('Room', 'Indexes');
   const showDirections = useDebug('Room', 'Directions');
 

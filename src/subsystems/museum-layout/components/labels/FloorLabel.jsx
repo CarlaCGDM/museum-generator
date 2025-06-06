@@ -15,9 +15,6 @@ const FloorLabel = ({
   doorTiles,
 }) => {
 
-  console.log("EntranceDoor",entranceDoorTiles)
-  console.log("ExitDoor",exitDoorTiles)
-  console.log("Currentroomcolor",currentRoomColor)
   if (doorTiles.length === 0 && exitDoorTiles.length === 0) {
     return null;
   }

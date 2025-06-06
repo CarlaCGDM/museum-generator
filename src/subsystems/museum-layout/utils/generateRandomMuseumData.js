@@ -47,17 +47,21 @@ export function generateRandomMuseumData(totalItems = 100) {
       currentTopicRoomCount++;
     }
 
-    // star, group logic remains unchanged
-    const starredIndexes = new Set();
-    const numStarred = randomInt(0, Math.min(5, count));
-    while (starredIndexes.size < numStarred) {
-      starredIndexes.add(randomInt(0, count - 1));
-    }
-
+    // Determine which items go on wall vs floor
     const wallIndexes = [];
     const floorIndexes = [];
     for (let i = 0; i < count; i++) {
       (chance(30) ? wallIndexes : floorIndexes).push(i);
+    }
+
+    // Only floor items can be starred
+    const starredIndexes = new Set();
+    if (floorIndexes.length > 0) {
+      const numStarred = randomInt(0, Math.min(5, floorIndexes.length));
+      while (starredIndexes.size < numStarred) {
+        const randomFloorIndex = floorIndexes[randomInt(0, floorIndexes.length - 1)];
+        starredIndexes.add(randomFloorIndex);
+      }
     }
 
     const assignGroups = (indexes, type = 'group') => {
