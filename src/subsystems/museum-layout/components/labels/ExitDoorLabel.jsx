@@ -12,7 +12,8 @@ const ExitDoorLabel = ({
   subtitle = "(509-27 A. C.)",
   indexInTopic = 0,
   totalIndexInTopic = 0,
-  topicColor // Now passed as prop from parent
+  topicColor,
+  occlude,
 }) => {
   return (
     <group position={position}>
@@ -23,7 +24,8 @@ const ExitDoorLabel = ({
         scale={0.25} 
         center 
         zIndexRange={[100, 0]}
-        occlude>
+        occlude={occlude}
+        >
           <div className="door-label"  style={{ transform: 'scale(4)' }}>
             <div
               className="door-label-topic-banner"

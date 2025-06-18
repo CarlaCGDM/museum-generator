@@ -3,18 +3,20 @@ import { useEffect, useMemo, useRef } from 'react';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Object3D } from 'three';
 import { useModelSettings } from '../../../../ui-overlay/model-selector/ModelSettingsContext';
-import { FrontSide, BackSide, DoubleSide } from 'three';
-import { MeshStandardMaterial } from 'three';
-import { FLOOR_LAYER, WALL_LAYER } from '../../../../first-person-movement/utils/layers';
+import { FrontSide } from 'three';
+import { FLOOR_LAYER } from '../../../../first-person-movement/utils/layers';
+import { useMuseum } from '../../MuseumProvider';
 
 const FloorTilesInstanced = ({
   positions = [],
   tileSize = 1,
+  roomIndex,
 }) => {
   const floorRef = useRef();
   const ceilingRef = useRef();
 
   const { customModels } = useModelSettings();
+  const { maxPropHeights } = useMuseum();
 
   const floorGlbUrl = customModels?.floor || '/models/tiles/Floor_LODs/Floor.glb';
   const ceilingGlbUrl = customModels?.ceiling || '/models/tiles/Ceiling_LODs/Ceiling.glb';
@@ -28,6 +30,8 @@ const FloorTilesInstanced = ({
   const ceilingMaterial = useMemo(() => ceilingGLB.scene.children[0].material.clone(), [ceilingGLB]);
   ceilingMaterial.side = FrontSide;
 
+  const repeatCount = Math.max(4, Math.ceil((maxPropHeights?.[roomIndex] ?? 0) + 1));
+
   const updateInstances = (ref, isCeiling = false) => {
     if (!ref.current) return;
     
@@ -36,10 +40,14 @@ const FloorTilesInstanced = ({
     ref.current.frustumCulled = false;
 
     positions.forEach((pos, i) => {
-      // Position ceiling slightly above floor (adjust Y value as needed)
-      const yPos = pos[1]; // Example: 2.5 units above floor
+      if (isCeiling) {
+        // Position ceiling at the calculated height
+        tempObj.position.set(pos[0], repeatCount, pos[2]);
+      } else {
+        // Floor stays at ground level
+        tempObj.position.set(pos[0], 0, pos[2]);
+      }
       
-      tempObj.position.set(pos[0], yPos, pos[2]);
       tempObj.rotation.set(0, 0, 0);
       tempObj.scale.set(tileSize, 1, tileSize);
       tempObj.updateMatrix();
@@ -56,7 +64,6 @@ const FloorTilesInstanced = ({
 
   return (
     <group>
-      {/* Floor tiles */}
       <instancedMesh
         ref={floorRef}
         args={[floorGeometry, floorMaterial, positions.length]}
@@ -64,8 +71,6 @@ const FloorTilesInstanced = ({
         receiveShadow
         onUpdate={(self) => self.layers.set(FLOOR_LAYER)}
       />
-      
-      {/* Ceiling tiles */}
       <instancedMesh
         ref={ceilingRef}
         args={[ceilingGeometry, ceilingMaterial, positions.length]}

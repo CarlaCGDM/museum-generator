@@ -1,12 +1,11 @@
-import { useMemo, useEffect, useRef } from 'react';
+import { useMemo } from 'react';
 import Room from './rooms/Room';
 import Showcase from '../../interactables/components/Showcase';
-import { generateRoomLayout } from '../utils/generate-room/generateRoomLayout';
 import { useDebug } from '../../debug/DebugContext';
 import { createLogger } from '../../debug/utils/logger';
-import { placeArtifactsInRoom } from '../utils/place-artifacts/placeArtifactsInRoom'
+import { placeArtifactsInRoom } from '../utils/place-artifacts/placeArtifactsInRoom';
+import { useMuseum } from './MuseumProvider';
 
-// 🧠 Group artifacts by their group ID
 function groupArtifacts(artifacts) {
   const grouped = new Map();
   for (const artifact of artifacts) {
@@ -17,87 +16,42 @@ function groupArtifacts(artifacts) {
   return [...grouped.values()];
 }
 
-const MuseumLayout = ({ roomData, setRoomPositions }) => {
-  // Debug logger (stable)
+const MuseumLayout = () => {
+  const { roomData, roomPositions, roomDoorInfo } = useMuseum();
+
   const debugGenerateLayout = useDebug('Layout', 'generateRoomLayout');
-  const logger = useMemo(
-    () => createLogger(debugGenerateLayout, 'generateRoomLayout'),
-    [debugGenerateLayout]
-  );
+  const logger = useMemo(() => createLogger(debugGenerateLayout, 'generateRoomLayout'), [debugGenerateLayout]);
 
-  // Memoized room definitions
-  const roomDefinitions = useMemo(
-    () =>
-      roomData.map(room => ({
-        width: room.dimensions.width,
-        depth: room.dimensions.depth,
-      })),
-    [roomData]
-  );
+  const interiorWalls = useMemo(() => {
+    // Placeholder for future interior wall logic
+    return roomData?.map(() => []) || [];
+  }, [roomData]);
 
-  // Memoized room layout
-  const { roomPositions, doorLinks, interiorWalls } = useMemo(() => {
-    const layout = generateRoomLayout(roomDefinitions, 1, logger);
-
-    const firstRoomPos = layout.roomPositions[0];
-    const firstRoomSize = roomDefinitions[0];
-
-    const centerOffsetX = firstRoomPos.x + firstRoomSize.width / 2;
-    const centerOffsetZ = firstRoomPos.z + firstRoomSize.depth / 2;
-
-    const centeredPositions = layout.roomPositions.map(pos => ({
-      x: pos.x - centerOffsetX * 0.5,
-      z: pos.z - centerOffsetZ * 0.5,
-    }));
-
-    return {
-      ...layout,
-      roomPositions: centeredPositions,
-    };
-  }, [roomDefinitions, logger]);
-
-  // Prevent unnecessary layout re-setting
-  const lastRoomPositions = useRef(null);
-  useEffect(() => {
-    const positionsChanged = JSON.stringify(lastRoomPositions.current) !== JSON.stringify(roomPositions);
-    if (positionsChanged) {
-      lastRoomPositions.current = roomPositions;
-      setRoomPositions?.(roomPositions);
-    }
-  }, [roomPositions, setRoomPositions]);
+  if (!roomData || !roomPositions || roomData.length !== roomPositions.length) {
+    return null;
+  }
 
   return (
     <group>
       {roomData.map((room, index) => {
         const { width, depth } = room.dimensions;
-        if (!roomPositions[index]) {
-          console.warn(`Missing room position at index ${index}`);
-          return null;
-        }
-
         const roomPos = roomPositions[index];
-        const doorTiles = [];
-
-        if (index > 0 && doorLinks[index - 1]?.doors?.to) {
-          doorTiles.push(...doorLinks[index - 1].doors.to);
-        }
-        if (index < doorLinks.length && doorLinks[index]?.doors?.from) {
-          doorTiles.push(...doorLinks[index].doors.from);
-        }
+        const { allDoorTiles, entranceTiles, exitTiles } = roomDoorInfo[index] || {
+          allDoorTiles: [],
+          entranceTiles: [],
+          exitTiles: [],
+        };
 
         const interiorWallTiles = interiorWalls[index] || [];
 
         const groupedArtifacts = groupArtifacts(room.artifacts);
-        const placedGroups = placeArtifactsInRoom(groupedArtifacts, width, depth, doorTiles);
-
-        const exitDoorTiles = doorLinks[index]?.doors?.from || [];      // exit doors
-        const entranceDoorTiles = doorLinks[index-1]?.doors?.to || [];      // entrance doors
+        const placedGroups = placeArtifactsInRoom(groupedArtifacts, width, depth, allDoorTiles);
 
         let nextRoomInfo = null;
-        if (exitDoorTiles.length && roomData[index + 1]) {
+        if (exitTiles.length && roomData[index + 1]) {
           const nextRoom = roomData[index + 1];
           nextRoomInfo = {
-            doorTiles: exitDoorTiles, // ✅ TO next room
+            doorTiles: exitTiles,
             name: nextRoom.name,
             subtitle: nextRoom.subtitle,
             topicName: nextRoom.topicName,
@@ -109,7 +63,7 @@ const MuseumLayout = ({ roomData, setRoomPositions }) => {
         }
 
         const currentRoomInfo = {
-          doorTiles: entranceDoorTiles, // ✅ FROM previous room
+          doorTiles: entranceTiles,
           name: room.name,
           subtitle: room.subtitle,
           topicName: room.topicName,
@@ -119,18 +73,18 @@ const MuseumLayout = ({ roomData, setRoomPositions }) => {
           description: room.description,
         };
 
-
         return (
           <group key={index}>
             <Room
               width={width}
               depth={depth}
               position={[roomPos.x, 0, roomPos.z]}
-              doorTiles={doorTiles}
+              doorTiles={allDoorTiles}
               interiorWallTiles={interiorWallTiles}
               nextRoomInfo={nextRoomInfo}
               currentRoomInfo={currentRoomInfo}
               index={index}
+              roomDoorInfo={roomDoorInfo} // Pass the precomputed door info
             />
             {placedGroups.map((group, i) => (
               <Showcase

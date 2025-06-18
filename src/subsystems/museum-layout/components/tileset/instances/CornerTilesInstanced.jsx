@@ -4,6 +4,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Object3D, Vector3, FrontSide } from 'three';
 import { useModelSettings } from '../../../../ui-overlay/model-selector/ModelSettingsContext';
 import { FLOOR_LAYER, WALL_LAYER } from '../../../../first-person-movement/utils/layers';
+import { useMuseum } from '../../MuseumProvider';
 
 const directionToRotationY = (dir) => {
   switch (dir) {
@@ -19,12 +20,14 @@ const CornerTilesInstanced = ({
   positions = [],
   directions = [],
   tileSize = 1,
+  roomIndex,
 }) => {
   const wallRef = useRef();
   const floorRef = useRef();
   const ceilingRef = useRef();
 
   const { customModels } = useModelSettings();
+  const { maxPropHeights } = useMuseum();
 
   const wallGlbUrl = customModels?.wall || '/models/tiles/Wall_LODs/Wall.glb';
   const floorGlbUrl = customModels?.floor || '/models/tiles/Floor_LODs/Floor.glb';
@@ -44,63 +47,77 @@ const CornerTilesInstanced = ({
   const ceilingMat = useMemo(() => ceilingGLB.scene.children[0].material.clone(), [ceilingGLB]);
   ceilingMat.side = FrontSide;
 
-  useEffect(() => {
-    if (!wallRef.current || !floorRef.current || !ceilingRef.current) return;
+  const repeatCount = Math.max(4, Math.ceil((maxPropHeights?.[roomIndex] ?? 0) + 1));
 
-    const tempWall1 = new Object3D();
-    const tempWall2 = new Object3D();
-    const tempFloor = new Object3D();
-    const tempCeiling = new Object3D();
+  const updateInstances = (ref, isWall = false, isCeiling = false) => {
+    if (!ref.current) return;
 
-    wallRef.current.count = positions.length * 2;
-    wallRef.current.frustumCulled = false;
+    const tempObj = new Object3D();
+    let instanceCount = 0;
 
-    floorRef.current.count = positions.length;
-    floorRef.current.frustumCulled = false;
+    if (isWall) {
+      // For walls, we need 2 walls per position × repeatCount height
+      instanceCount = positions.length * 2 * repeatCount;
+      ref.current.count = instanceCount;
 
-    ceilingRef.current.count = positions.length;
-    ceilingRef.current.frustumCulled = false;
+      let instanceIndex = 0;
+      positions.forEach((pos, i) => {
+        const dir = directions[i] || 'north';
+        const rotY = directionToRotationY(dir);
 
-    positions.forEach((pos, i) => {
-      const dir = directions[i] || 'north';
-      const rotY = directionToRotationY(dir);
+        for (let j = 0; j < repeatCount; j++) {
+          // First wall (primary direction)
+          tempObj.position.set(pos[0], j, pos[2]);
+          tempObj.rotation.set(0, rotY, 0);
+          tempObj.scale.set(tileSize, tileSize, tileSize);
+          const offset1 = new Vector3(0, 0, -0.3).applyEuler(tempObj.rotation);
+          tempObj.position.add(offset1);
+          tempObj.updateMatrix();
+          ref.current.setMatrixAt(instanceIndex++, tempObj.matrix);
 
-      // First wall (facing z-)
-      tempWall1.position.set(pos[0], pos[1], pos[2]);
-      tempWall1.rotation.set(0, rotY, 0);
-      tempWall1.scale.set(tileSize, tileSize, tileSize);
-      const offset1 = new Vector3(0, 0, -0.3).applyEuler(tempWall1.rotation);
-      tempWall1.position.add(offset1);
-      tempWall1.updateMatrix();
-      wallRef.current.setMatrixAt(i * 2, tempWall1.matrix);
+          // Second wall (perpendicular direction)
+          tempObj.position.set(pos[0], j, pos[2]);
+          tempObj.rotation.set(0, rotY + Math.PI / 2, 0);
+          tempObj.scale.set(tileSize, tileSize, tileSize);
+          const offset2 = new Vector3(0, 0, -0.3).applyEuler(tempObj.rotation);
+          tempObj.position.add(offset2);
+          tempObj.updateMatrix();
+          ref.current.setMatrixAt(instanceIndex++, tempObj.matrix);
+        }
+      });
+    } else if (isCeiling) {
+      instanceCount = positions.length;
+      ref.current.count = instanceCount;
 
-      // Second wall (facing x-, rotated +90deg)
-      tempWall2.position.set(pos[0], pos[1], pos[2]);
-      tempWall2.rotation.set(0, rotY + Math.PI / 2, 0);
-      tempWall2.scale.set(tileSize, tileSize, tileSize);
-      const offset2 = new Vector3(0, 0, -0.3).applyEuler(tempWall2.rotation);
-      tempWall2.position.add(offset2);
-      tempWall2.updateMatrix();
-      wallRef.current.setMatrixAt(i * 2 + 1, tempWall2.matrix);
-
+      const ceilingHeight = repeatCount;
+      positions.forEach((pos, i) => {
+        tempObj.position.set(pos[0], ceilingHeight, pos[2]);
+        tempObj.rotation.set(0, 0, 0);
+        tempObj.scale.set(tileSize, 1, tileSize);
+        tempObj.updateMatrix();
+        ref.current.setMatrixAt(i, tempObj.matrix);
+      });
+    } else {
       // Floor
-      tempFloor.position.set(pos[0], pos[1], pos[2]);
-      tempFloor.rotation.set(0, 0, 0);
-      tempFloor.scale.set(tileSize, 1, tileSize);
-      tempFloor.updateMatrix();
-      floorRef.current.setMatrixAt(i, tempFloor.matrix);
+      instanceCount = positions.length;
+      ref.current.count = instanceCount;
 
-      // Ceiling (no vertical offset)
-      tempCeiling.position.set(pos[0], pos[1], pos[2]);
-      tempCeiling.rotation.set(0, 0, 0);
-      tempCeiling.scale.set(tileSize, 1, tileSize);
-      tempCeiling.updateMatrix();
-      ceilingRef.current.setMatrixAt(i, tempCeiling.matrix);
-    });
+      positions.forEach((pos, i) => {
+        tempObj.position.set(pos[0], 0, pos[2]);
+        tempObj.rotation.set(0, 0, 0);
+        tempObj.scale.set(tileSize, 1, tileSize);
+        tempObj.updateMatrix();
+        ref.current.setMatrixAt(i, tempObj.matrix);
+      });
+    }
 
-    wallRef.current.instanceMatrix.needsUpdate = true;
-    floorRef.current.instanceMatrix.needsUpdate = true;
-    ceilingRef.current.instanceMatrix.needsUpdate = true;
+    ref.current.instanceMatrix.needsUpdate = true;
+  };
+
+  useEffect(() => {
+    updateInstances(wallRef, true, false);
+    updateInstances(floorRef, false, false);
+    updateInstances(ceilingRef, false, true);
   }, [positions, directions, tileSize]);
 
   if (!wallGeo || !floorGeo || !ceilingGeo || positions.length === 0) return null;
@@ -109,7 +126,7 @@ const CornerTilesInstanced = ({
     <group>
       <instancedMesh
         ref={wallRef}
-        args={[wallGeo, wallMat, positions.length * 2]}
+        args={[wallGeo, wallMat, positions.length * 2 * repeatCount]}
         castShadow
         receiveShadow
         onUpdate={(self) => self.layers.set(WALL_LAYER)}

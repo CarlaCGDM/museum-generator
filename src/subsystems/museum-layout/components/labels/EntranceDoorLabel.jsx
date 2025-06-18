@@ -2,16 +2,18 @@
 import React from 'react';
 import { Html } from '@react-three/drei';
 import './EntranceDoorLabel.css';
+import * as THREE from "three";
 
 const EntranceDoorLabel = ({
   position,
   rotationY = 0,
   name,
   topicName,
-  subtitle = "(509-27 A. C.)",
+  subtitle,
   indexInTopic = 0,
   totalIndexInTopic = 0,
-  topicColor // Now passed as prop from parent
+  topicColor,
+  occlude,
 }) => {
   return (
     <group position={position}>
@@ -22,7 +24,8 @@ const EntranceDoorLabel = ({
         scale={0.25} 
         center 
         zIndexRange={[100, 0]}
-        occlude>
+        occlude={occlude}
+        >
           <div className="door-label"  style={{ transform: 'scale(4)',  backgroundColor: topicColor }}>
             <div
               className="door-label-topic-banner"

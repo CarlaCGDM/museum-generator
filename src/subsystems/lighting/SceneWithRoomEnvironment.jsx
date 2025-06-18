@@ -2,7 +2,7 @@ import { useThree } from "@react-three/fiber";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment";
 import { PMREMGenerator } from "three";
 import { useEffect } from "react";
-import * as THREE from "three"
+import * as THREE from "three";
 
 export function SceneWithRoomEnvironment() {
     const { scene, gl } = useThree();
@@ -11,13 +11,20 @@ export function SceneWithRoomEnvironment() {
         const pmremGenerator = new PMREMGenerator(gl);
         const envMap = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
 
-        scene.environment = envMap; // Apply as environment map
-        // scene.background = envMap; // Optional: Set as background
+        scene.environment = envMap;
         scene.background = new THREE.Color(0x222222);
-        scene.environmentIntensity = 0.7; // Lower = softer reflections
-        pmremGenerator.dispose(); // Clean up generator
-
+        pmremGenerator.dispose();
     }, [scene, gl]);
 
-    return null; // No need to render anything, just setting up lighting
+    useEffect(() => {
+        // Add warm ambient light
+        const ambientLight = new THREE.AmbientLight(0xffccaa, 0.5); // color, intensity
+        scene.add(ambientLight);
+
+        return () => {
+            scene.remove(ambientLight);
+        };
+    }, [scene]);
+
+    return null;
 }
