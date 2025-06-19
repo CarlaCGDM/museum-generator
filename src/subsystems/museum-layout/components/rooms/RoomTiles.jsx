@@ -13,6 +13,7 @@ const RoomTiles = ({
   position,
   doorTiles,
   interiorWallTiles,
+  roomIndex,
 }) => {
   const isMatch = (arr, x, z) => Array.isArray(arr) && arr.some(t => t.x === x && t.z === z);
   const isEdge = (x, z) => x === 0 || z === 0 || x === width - 1 || z === depth - 1;
@@ -98,6 +99,7 @@ const RoomTiles = ({
         tileSize={tileSize}
         roomPosition={position}
         innerGroupOffset={[xOffset, 0, zOffset]}
+        roomIndex={roomIndex}
       />
 
       <WallTilesInstanced
@@ -106,6 +108,7 @@ const RoomTiles = ({
         tileSize={tileSize}
         roomPosition={position}
         innerGroupOffset={[xOffset, 0, zOffset]}
+        roomIndex={roomIndex}
       />
 
       <CornerTilesInstanced
@@ -114,6 +117,7 @@ const RoomTiles = ({
         tileSize={tileSize}
         roomPosition={position}
         innerGroupOffset={[xOffset, 0, zOffset]}
+        roomIndex={roomIndex}
       />
 
       <DoorTilesInstanced
@@ -122,6 +126,7 @@ const RoomTiles = ({
         tileSize={tileSize}
         roomPosition={position}
         innerGroupOffset={[xOffset, 0, zOffset]}
+        roomIndex={roomIndex}
       />
     </>
   );

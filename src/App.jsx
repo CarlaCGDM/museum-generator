@@ -2,16 +2,9 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stats } from '@react-three/drei';
 import MuseumLayout from './subsystems/museum-layout/components/MuseumLayout';
 import './App.css';
-import { useState, useEffect, useCallback } from 'react';
-
-import { createLogger } from './subsystems/debug/utils/logger';
-import { useDebug } from './subsystems/debug/DebugContext';
-
-import { generateRandomMuseumData } from './subsystems/museum-layout/utils/generateRandomMuseumData';
-import { computeRoomSizes } from './subsystems/museum-layout/utils/computeRoomSizes';
+import { useState } from 'react';
 
 import { SceneWithRoomEnvironment } from './subsystems/lighting/SceneWithRoomEnvironment';
-
 import CameraManager from './subsystems/first-person-movement/components/CameraManager';
 import FirstPersonMovementController from './subsystems/first-person-movement/components/FirstPersonMovementController';
 import PlayerTracker from './subsystems/first-person-movement/components/PlayerTracker';
@@ -21,20 +14,20 @@ import UIOverlay from './subsystems/ui-overlay/UIOverlay';
 import { ModelSettingsContext } from './subsystems/ui-overlay/model-selector/ModelSettingsContext';
 import DevOverlay from './subsystems/ui-overlay/DevOverlay';
 
-function RoomLogger({ roomData }) {
+import { MuseumProvider, useMuseum } from './subsystems/museum-layout/components/MuseumProvider'; // 👈 New import
+
+function RoomLogger() {
   const { settings } = useSettings();
+  const { roomData } = useMuseum();
 
-  useEffect(() => {
-    if (!roomData || roomData.length === 0) return;
+  if (!roomData || roomData.length === 0) return null;
 
-    const table = roomData.map((room) => ({
-      Room: room.name,
-      Visited: !!settings.visitedRooms?.[room.id],
-    }));
+  const table = roomData.map((room) => ({
+    Room: room.name,
+    Visited: !!settings.visitedRooms?.[room.id],
+  }));
 
-    console.table(table);
-  }, [roomData]);
-
+  //console.table(table);
   return null;
 }
 
@@ -49,32 +42,9 @@ function AppContent() {
 
   const [cameraMode, setCameraMode] = useState('firstperson');
 
-  const [roomData, setRoomData] = useState([]);
-  const [roomPositions, setRoomPositions] = useState([]);
-  const [layoutTrigger, setLayoutTrigger] = useState(0);
-  const logComputeRoomSizes = useDebug('Layout', 'computeRoomSizes');
+  const { roomData, roomPositions, regenerateMuseum } = useMuseum(); // 👈 Global access to museum data
 
-  const generateLayout = useCallback(async () => {
-    try {
-      const logger = createLogger(logComputeRoomSizes, 'computeRoomSizes');
-      setRoomData([]);
-
-      const dynamicMuseumData = generateRandomMuseumData(100);
-      const report = await computeRoomSizes(dynamicMuseumData, logger);
-
-      setRoomData(report);
-    } catch (error) {
-      console.error('Layout generation failed:', error);
-    }
-  }, [logComputeRoomSizes]);
-
-  useEffect(() => {
-    generateLayout();
-  }, [generateLayout, layoutTrigger]);
-
-  const regenerateMuseum = useCallback(() => {
-    setLayoutTrigger((prev) => prev + 1);
-  }, []);
+  const firstRoomPosition = roomPositions && roomPositions.length > 0 ? roomPositions[0] : { x: 0, z: 0 };
 
   return (
     <ModelSettingsContext.Provider value={{ customModels, handleModelChange }}>
@@ -85,8 +55,14 @@ function AppContent() {
         >
           <Canvas>
             <Stats />
-            <PlayerTracker roomPositions={roomPositions} roomData={roomData} />
-            <CameraManager cameraMode={cameraMode} />
+            <PlayerTracker
+              roomPositions={roomPositions}
+              roomData={roomData}
+            />
+            <CameraManager
+              cameraMode={cameraMode}
+              initialPosition={[firstRoomPosition.x, 1.7, firstRoomPosition.z]}
+            />
             {cameraMode === 'orbit' && <OrbitControls />}
             {cameraMode === 'firstperson' && (
               <FirstPersonMovementController cameraMode={cameraMode} />
@@ -96,12 +72,8 @@ function AppContent() {
 
             {roomData.length > 0 && (
               <>
-                <MuseumLayout
-                  key={layoutTrigger}
-                  roomData={roomData}
-                  setRoomPositions={setRoomPositions}
-                />
-                <RoomLogger roomData={roomData} />
+                <MuseumLayout />
+                <RoomLogger />
               </>
             )}
           </Canvas>
@@ -114,9 +86,7 @@ function AppContent() {
           </button>
         </div>
 
-        <UIOverlay
-          roomData={roomData}
-        />
+        <UIOverlay roomData={roomData} />
 
         {overlayVisible && (
           <DevOverlay
@@ -133,7 +103,9 @@ function AppContent() {
 function App() {
   return (
     <SettingsProvider>
-      <AppContent />
+      <MuseumProvider>
+        <AppContent />
+      </MuseumProvider>
     </SettingsProvider>
   );
 }

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import MuseumObject from './MuseumObject';
 import { useSettings } from '../../ui-overlay/SettingsContext';
 import { useIsPlayerNear } from '../../first-person-movement/hooks/useIsPlayerNear';
 import { useIsMobile } from '../hooks/useIsMobile';
+import { useMuseum } from '../../museum-layout/components/MuseumProvider';
 
 const Showcase = ({
   contents = [],
@@ -12,13 +13,18 @@ const Showcase = ({
 }) => {
   const isWall = contents[0]?.onWall;
 
-   const isMobile = useIsMobile();
+  const { addOccluderRef, removeOccluderRef } = useMuseum();
+  const isMobile = useIsMobile();
   const { settings } = useSettings();
   const isPlayerInThisRoom = settings.currentRoomIndex === index;
   const isPlayerInPreviousRoom = settings.currentRoomIndex == index - 1;
   const isPlayerInNextRoom = settings.currentRoomIndex == index + 1;
 
-  const isPlayerNear = useIsPlayerNear(position, 7); // 3 meters default
+  const isPlayerNear = useIsPlayerNear(position, 7);
+
+  // FIXED: Create refs for the meshes we want to use as occluders
+  const baseRef = useRef();
+  const wireframeRef = useRef();
 
   const eyeLevel = 1.5;
   const spacingRatio = 0.1;
@@ -43,10 +49,32 @@ const Showcase = ({
   const showcaseHeight = isWall ? 0 : Math.max(0.2, suggestedHeight);
   const yOffset = isWall ? 0 : showcaseHeight;
 
+  // FIXED: Register showcase base as occluder
+  useEffect(() => {
+    if (isWall) return;
+
+    const registerOccluder = () => {
+      if (!baseRef.current) {
+        setTimeout(registerOccluder, 100);
+        return;
+      }
+
+      const showcaseId = `showcase-${index}-base`;
+      addOccluderRef(index, showcaseId, baseRef);
+    };
+
+    registerOccluder();
+
+    return () => {
+      const showcaseId = `showcase-${index}-base`;
+      removeOccluderRef(index, showcaseId);
+    };
+  }, [index, isWall, addOccluderRef, removeOccluderRef]);
+
   // Place objects side-by-side horizontally
   let offset = -rawWidth / 2;
 
-  const placedObjects = contents.map((item) => {
+  const placedObjects = contents.map((item, objIndex) => {
     const size = item.dimensions.width;
     const x = offset + size / 2;
     const z = isWall
@@ -62,6 +90,9 @@ const Showcase = ({
         position={[x, 0, z]}
         isPlayerInThisRoom={isPlayerInThisRoom}
         isPlayerNear={isPlayerNear}
+        // FIXED: Pass the room index and object index for occlusion registration
+        roomIndex={index}
+        objectIndex={objIndex}
       />
     );
   });
@@ -77,14 +108,17 @@ const Showcase = ({
       {/* Base plinth only for non-wall showcases */}
       {!isWall && (
         <group>
-          <mesh position={[0, -showcaseHeight / 2, 0]}>
+          <mesh ref={baseRef} position={[0, -showcaseHeight / 2, 0]}>
             <boxGeometry args={[showcaseWidth, showcaseHeight, showcaseDepth]} />
-            <meshStandardMaterial color="gray" />
+            <meshStandardMaterial
+              color="black"
+              depthWrite={true}  // Ensure it writes to depth buffer
+            />
           </mesh>
-          <mesh position={[0, -showcaseHeight / 2, 0]}>
+          {/* <mesh ref={wireframeRef} position={[0, -showcaseHeight / 2, 0]}>
             <boxGeometry args={[showcaseWidth, showcaseHeight, showcaseDepth]} />
-            <meshStandardMaterial color="black" wireframe />
-          </mesh>
+            <meshStandardMaterial color="red" wireframe />
+          </mesh> */}
         </group>
       )}
 

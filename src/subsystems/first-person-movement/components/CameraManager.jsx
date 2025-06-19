@@ -3,7 +3,7 @@ import { useThree } from '@react-three/fiber';
 import CustomFirstPersonLookControls from './CustomFirstPersonLookControls';
 import { WALL_LAYER, FLOOR_LAYER } from '../utils/layers';
 
-const CameraManager = ({ cameraMode }) => {
+const CameraManager = ({ cameraMode, initialPosition = [0, 1.7, 0] }) => {
     const { set, camera: defaultCamera, size } = useThree();
     const orbitCameraRef = useRef();
     const firstPersonCameraRef = useRef();
@@ -61,7 +61,7 @@ const CameraManager = ({ cameraMode }) => {
             <perspectiveCamera
                 ref={firstPersonCameraRef}
                 makeDefault={cameraMode === 'firstperson'}
-                position={[0, 1.7, 0]}
+                position={initialPosition}
                 fov={75}
                 near={0.1}
                 far={1000}

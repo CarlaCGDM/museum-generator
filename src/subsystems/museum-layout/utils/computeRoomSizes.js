@@ -31,7 +31,8 @@ export async function computeRoomSizes(museumData, log = () => { }) {
 
     const loadPromises = room.items.map(async (artifact) => {
       try {
-        const model = await loadModel(`models/exhibits/${artifact.model_path}`);
+        //const model = await loadModel(`models/exhibits/${artifact.model_path}`);
+        const model = await loadModel(`models/artifacts/${artifact.model_path}/LOD_00.glb`);
         const dimensions = calculateModelDimensions(model);
         log(`  ✔ Loaded ${artifact.model_path} → Area: ${dimensions.area.toFixed(2)}m²`);
         return {
@@ -185,6 +186,9 @@ export async function computeRoomSizes(museumData, log = () => { }) {
       // Ensure odd dimensions
       width = width % 2 === 0 ? width + 1 : width;
       depth = depth % 2 === 0 ? depth + 1 : depth;
+
+      width *= 2;
+      depth *= 2;
 
       log(`  ✅ Final room size: ${width}x${depth}`);
     }

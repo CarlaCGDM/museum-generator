@@ -18,6 +18,7 @@ const Room = ({
   index = 0,
   wallHeight = 4,
   currentRoomInfo,
+  roomDoorInfo, // Add this prop
 }) => {
   const showIndexes = useDebug('Room', 'Indexes');
   const showDirections = useDebug('Room', 'Directions');
@@ -30,7 +31,6 @@ const Room = ({
 
   return (
     <group position={position}>
-
       {isPlayerInThisRoom && (
         <RoomLabels
           width={width}
@@ -41,6 +41,8 @@ const Room = ({
           doorTiles={doorTiles}
           currentRoomInfo={currentRoomInfo}
           nextRoomInfo={nextRoomInfo}
+          roomDoorInfo={roomDoorInfo} // Pass the door info
+          roomIndex={index}          // Pass the room index
         />
       )}
 
@@ -54,6 +56,7 @@ const Room = ({
           position={position}
           doorTiles={doorTiles}
           interiorWallTiles={interiorWallTiles}
+          roomIndex={index} // ✅ Add this line
         />
       </group>
 
