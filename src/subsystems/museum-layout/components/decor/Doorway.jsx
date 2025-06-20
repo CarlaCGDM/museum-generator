@@ -1,26 +1,24 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useGLTF } from '@react-three/drei';
-
-// Preload model to prevent race conditions
-const DoorwayModel = () => {
-  const { scene } = useGLTF('/models/decor/Doorway.glb');
-  return scene.clone();
-};
+import { useModelSettings } from '../../../ui-overlay/model-selector/ModelSettingsContext';
 
 const ROTATION_MAP = {
-  north: Math.PI,      // Faces -Z (into room from north wall)
-  south: 0,            // Faces +Z (out from south wall)
-  east: -Math.PI/2,    // Faces -X (into room from east wall)
-  west: Math.PI/2      // Faces +X (out from west wall)
+  north: Math.PI,
+  south: 0,
+  east: -Math.PI / 2,
+  west: Math.PI / 2,
 };
 
 const Doorway = ({ direction = 'north', positionOffset = [0, 0, 0] }) => {
+  const { customModels } = useModelSettings();
+  const modelUrl = customModels?.doorway || '/models/decor/Doorway.glb'; // fallback
+
+  const { scene } = useGLTF(modelUrl);
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
+
   return (
     <group position={positionOffset}>
-      <primitive
-        object={DoorwayModel()}
-        rotation={[0, ROTATION_MAP[direction], 0]}
-      />
+      <primitive object={clonedScene} rotation={[0, ROTATION_MAP[direction], 0]} />
     </group>
   );
 };

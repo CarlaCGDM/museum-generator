@@ -13,26 +13,32 @@ const SpotlightRailing = ({ rotation = [0, 0, 0], position = [0, 0, 0], roomInde
     return Math.max(5, Math.ceil((maxPropHeights?.[roomIndex] ?? 0) + 1));
   }, [maxPropHeights, roomIndex]);
 
- const spotlights = useMemo(() => {
-  const weightedChoices = [0, 0, 0, 0, 0, 0, 1, 2, 3];
-  const count = weightedChoices[Math.floor(Math.random() * weightedChoices.length)];
+  const spotlights = useMemo(() => {
+    const weightedChoices = [0, 0, 0, 0, 0, 0, 1, 2];
+    const count = weightedChoices[Math.floor(Math.random() * weightedChoices.length)];
 
-  const stripeWidth = 0.8; // leave 0.1m margin on each side
-  const margin = 0.1;
-  const startX = -stripeWidth / 2;
-  const step = count > 1 ? stripeWidth / (count - 1) : 0;
+    const stripeWidth = 0.8; // leave 0.1m margin on each side
+    const margin = 0.1;
+    const startX = -stripeWidth / 2;
+    const step = count > 1 ? stripeWidth / (count - 1) : 0;
 
-  return Array.from({ length: count }).map((_, i) => {
-    const jitter = THREE.MathUtils.randFloatSpread(0.05); // ±2.5cm
-    const x = startX + i * step + jitter;
+    return Array.from({ length: count }).map((_, i) => {
+      const jitter = THREE.MathUtils.randFloatSpread(0.05); // ±2.5cm
+      const x = startX + i * step + jitter;
 
-    const angleDeg = THREE.MathUtils.randFloat(10, 80);
-    return {
-      position: [x, 0, 0],
-      rotationX: THREE.MathUtils.degToRad(angleDeg),
-    };
-  });
-}, []);
+      const angleDeg = THREE.MathUtils.randFloat(10, 80);
+      const rotationX = THREE.MathUtils.degToRad(angleDeg);
+
+      const rotateY = Math.random() < 0.5; // 50% chance
+
+      return {
+        position: [x, 0, 0],
+        rotationX,
+        rotateY,
+      };
+    });
+
+  }, []);
 
 
   return (
@@ -51,15 +57,18 @@ const SpotlightRailing = ({ rotation = [0, 0, 0], position = [0, 0, 0], roomInde
         spotlightInstance.traverse((obj) => {
           if (obj.name === 'SpotlightPivot') {
             obj.rotation.x = spot.rotationX;
-            obj.scale.set(2, 2, 2);
+            obj.scale.set(4, 4, 4);
           }
         });
 
         return (
           <group key={i} position={spot.position}>
-            <primitive object={spotlightInstance} />
+            <group rotation={[0, spot.rotateY ? Math.PI : 0, 0]}>
+              <primitive object={spotlightInstance} />
+            </group>
           </group>
         );
+
       })}
     </group>
   );
