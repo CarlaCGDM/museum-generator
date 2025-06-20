@@ -5,6 +5,7 @@ import './App.css';
 import { useState } from 'react';
 
 import { SceneWithRoomEnvironment } from './subsystems/lighting/SceneWithRoomEnvironment';
+import { DirectionalLights } from './subsystems/lighting/DirectionalLights';
 import CameraManager from './subsystems/first-person-movement/components/CameraManager';
 import FirstPersonMovementController from './subsystems/first-person-movement/components/FirstPersonMovementController';
 import PlayerTracker from './subsystems/first-person-movement/components/PlayerTracker';
@@ -69,6 +70,7 @@ function AppContent() {
             )}
 
             <SceneWithRoomEnvironment />
+            <DirectionalLights />
 
             {roomData.length > 0 && (
               <>

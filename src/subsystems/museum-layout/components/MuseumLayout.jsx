@@ -4,6 +4,11 @@ import Showcase from '../../interactables/components/Showcase';
 import { useDebug } from '../../debug/DebugContext';
 import { createLogger } from '../../debug/utils/logger';
 import { placeArtifactsInRoom } from '../utils/place-artifacts/placeArtifactsInRoom';
+import { placeRailingsInRoom } from '../utils/place-artifacts/placeRailingsInRoom';
+import { placeDoorwaysInRoom } from '../utils/place-artifacts/placeDoorwaysInRoom';
+import Doorway from './decor/Doorway';
+import SpotlightRailing from './decor/SpotlightRailing';
+
 import { useMuseum } from './MuseumProvider';
 
 function groupArtifacts(artifacts) {
@@ -46,6 +51,19 @@ const MuseumLayout = () => {
 
         const groupedArtifacts = groupArtifacts(room.artifacts);
         const placedGroups = placeArtifactsInRoom(groupedArtifacts, width, depth, allDoorTiles);
+
+        const localRailings = placeRailingsInRoom(width, depth);
+
+        const doorwayPlacements = placeDoorwaysInRoom(
+          allDoorTiles,
+          entranceTiles,
+          exitTiles,
+          1,
+          width,
+          depth
+        );
+
+
 
         let nextRoomInfo = null;
         if (exitTiles.length && roomData[index + 1]) {
@@ -100,6 +118,32 @@ const MuseumLayout = () => {
                 isWall={group.isWall}
               />
             ))}
+
+            {localRailings.map((rail, rIdx) => (
+              <SpotlightRailing
+                key={`railing-${index}-${rIdx}`}
+                position={[
+                  roomPos.x + rail.position[0],
+                  0,
+                  roomPos.z + rail.position[2],
+                ]}
+                rotation={rail.rotation}
+                roomIndex={index}
+              />
+            ))}
+            
+            {doorwayPlacements.map((door) => (
+              <Doorway
+                key={`door-${door.id}`}
+                direction={door.direction}
+                positionOffset={[
+                  roomPos.x + door.position[0],
+                  door.position[1],
+                  roomPos.z + door.position[2],
+                ]}
+              />
+            ))}
+
           </group>
         );
       })}

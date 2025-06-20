@@ -204,10 +204,10 @@ const MuseumObject = ({
       )}
 
       {/* Direction Arrow */}
-      <mesh ref={arrowRef} position={[0, 0, depth / 2 + 0.3]} rotation={[Math.PI / 2, 0, 0]}>
+      {/* <mesh ref={arrowRef} position={[0, 0, depth / 2 + 0.3]} rotation={[Math.PI / 2, 0, 0]}>
         <coneGeometry args={[0.2, 0.4, 8]} />
         <meshStandardMaterial color="black" />
-      </mesh>
+      </mesh> */}
 
       {/* Label with Occlusion */}
       {isPlayerInThisRoom && isPlayerNear && (

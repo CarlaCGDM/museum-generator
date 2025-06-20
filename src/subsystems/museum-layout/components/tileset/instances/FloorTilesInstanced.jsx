@@ -30,7 +30,7 @@ const FloorTilesInstanced = ({
   const ceilingMaterial = useMemo(() => ceilingGLB.scene.children[0].material.clone(), [ceilingGLB]);
   ceilingMaterial.side = FrontSide;
 
-  const repeatCount = Math.max(4, Math.ceil((maxPropHeights?.[roomIndex] ?? 0) + 1));
+  const repeatCount = Math.max(5, Math.ceil((maxPropHeights?.[roomIndex] ?? 0) + 1));
 
   const updateInstances = (ref, isCeiling = false) => {
     if (!ref.current) return;
