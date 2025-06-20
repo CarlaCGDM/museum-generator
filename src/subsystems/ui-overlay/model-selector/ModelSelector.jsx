@@ -4,7 +4,7 @@ import { useModelSettings } from './ModelSettingsContext';
 import { generateModelThumbnail } from './generateModelThumbnail';
 import './ModelSelector.css'; // Optional: split CSS too
 
-const MODEL_KEYS = ['ceiling','wall', 'floor', 'door'];
+const MODEL_KEYS = ['ceiling', 'wall', 'floor', 'doorway'];
 
 const ModelSelector = ({ onRegenerate }) => {
     const [models, setModels] = useState({});
