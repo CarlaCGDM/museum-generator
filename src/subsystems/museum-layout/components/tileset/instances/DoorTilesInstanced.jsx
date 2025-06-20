@@ -21,7 +21,6 @@ const DoorTilesInstanced = ({
   tileSize = 1,
   roomIndex,
 }) => {
-  const lintelRef = useRef();
   const wallRef = useRef();
   const floorRef = useRef();
   const ceilingRef = useRef();
@@ -29,18 +28,14 @@ const DoorTilesInstanced = ({
   const { customModels } = useModelSettings();
   const { maxPropHeights } = useMuseum();
 
-  const lintelGlbUrl = customModels?.door || '/models/tiles/Lintel_LODs/Lintel.glb';
   const wallGlbUrl = customModels?.wall || '/models/tiles/Wall_LODs/Wall.glb';
   const floorGlbUrl = customModels?.floor || '/models/tiles/Floor_LODs/Floor.glb';
   const ceilingGlbUrl = customModels?.ceiling || '/models/tiles/Ceiling_LODs/Ceiling.glb';
 
-  const [lintelGLB, wallGLB, floorGLB, ceilingGLB] = useLoader(
+  const [wallGLB, floorGLB, ceilingGLB] = useLoader(
     GLTFLoader,
-    [lintelGlbUrl, wallGlbUrl, floorGlbUrl, ceilingGlbUrl]
+    [wallGlbUrl, floorGlbUrl, ceilingGlbUrl]
   );
-
-  const lintelGeo = useMemo(() => lintelGLB.scene.children[0].geometry.clone(), [lintelGLB]);
-  const lintelMat = useMemo(() => lintelGLB.scene.children[0].material.clone(), [lintelGLB]);
 
   const wallGeo = useMemo(() => wallGLB.scene.children[0].geometry.clone(), [wallGLB]);
   const wallMat = useMemo(() => wallGLB.scene.children[0].material.clone(), [wallGLB]);
@@ -52,12 +47,11 @@ const DoorTilesInstanced = ({
   const ceilingMat = useMemo(() => ceilingGLB.scene.children[0].material.clone(), [ceilingGLB]);
   ceilingMat.side = FrontSide;
 
-  const roomHeight = Math.max(4, Math.ceil((maxPropHeights?.[roomIndex] ?? 0) + 1));
+  const roomHeight = Math.max(5, Math.ceil((maxPropHeights?.[roomIndex] ?? 0) + 1));
 
   const updateInstances = () => {
-    if (!lintelRef.current || !wallRef.current || !floorRef.current || !ceilingRef.current) return;
+    if (!wallRef.current || !floorRef.current || !ceilingRef.current) return;
 
-    const tempLintel = new Object3D();
     const tempWall = new Object3D();
     const tempFloor = new Object3D();
     const tempCeiling = new Object3D();
@@ -72,23 +66,8 @@ const DoorTilesInstanced = ({
       floorRef.current.setMatrixAt(i, tempFloor.matrix);
     });
 
-    // Lintel (only one per door at 3m height)
-    lintelRef.current.count = positions.length;
-    positions.forEach((pos, i) => {
-      const dir = directions[i] || 'north';
-      const rotY = directionToRotationY(dir);
-
-      tempLintel.position.set(pos[0], 3, pos[2]);
-      tempLintel.rotation.set(0, rotY, 0);
-      tempLintel.scale.set(tileSize, tileSize, tileSize);
-
-      const offset = new Vector3(0, 0, -0.3).applyEuler(tempLintel.rotation);
-      tempLintel.position.add(offset);
-      tempLintel.updateMatrix();
-      lintelRef.current.setMatrixAt(i, tempLintel.matrix);
-    });
-
-    // Walls above lintel (from 4m up to roomHeight - 1)
+    // Walls above door opening (from 4m up to roomHeight - 1)
+    // This creates an empty space where the lintel used to be (at 3m height)
     const wallStartHeight = 4;
     const wallCount = Math.max(0, roomHeight - wallStartHeight);
     wallRef.current.count = positions.length * wallCount;
@@ -123,7 +102,6 @@ const DoorTilesInstanced = ({
 
     // Update all matrices
     floorRef.current.instanceMatrix.needsUpdate = true;
-    lintelRef.current.instanceMatrix.needsUpdate = true;
     wallRef.current.instanceMatrix.needsUpdate = true;
     ceilingRef.current.instanceMatrix.needsUpdate = true;
   };
@@ -132,7 +110,7 @@ const DoorTilesInstanced = ({
     updateInstances();
   }, [positions, directions, tileSize, roomHeight]);
 
-  if (!lintelGeo || !wallGeo || !floorGeo || !ceilingGeo || positions.length === 0) return null;
+  if (!wallGeo || !floorGeo || !ceilingGeo || positions.length === 0) return null;
 
   return (
     <group>
@@ -142,12 +120,6 @@ const DoorTilesInstanced = ({
         castShadow
         receiveShadow
         onUpdate={(self) => self.layers.set(FLOOR_LAYER)}
-      />
-      <instancedMesh
-        ref={lintelRef}
-        args={[lintelGeo, lintelMat, positions.length]}
-        castShadow
-        receiveShadow
       />
       <instancedMesh
         ref={wallRef}

@@ -11,6 +11,12 @@ export function SceneWithRoomEnvironment() {
         const pmremGenerator = new PMREMGenerator(gl);
         const envMap = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
 
+        // Lower the environment map intensity
+        //envMap.intensity = 0.2; // Default is 1.0, adjust between 0-1
+
+        // Lower the renderer's overall exposure
+        gl.toneMappingExposure = 0.6; // Default is 1.0
+
         scene.environment = envMap;
         scene.background = new THREE.Color(0x222222);
         pmremGenerator.dispose();

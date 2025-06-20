@@ -25,6 +25,7 @@ const WallTilesInstanced = ({
   const wallRef = useRef();
   const floorRef = useRef();
   const ceilingRef = useRef();
+  const skirtingRef = useRef(); // NEW
 
   const { customModels } = useModelSettings();
   const { maxPropHeights } = useMuseum();
@@ -32,10 +33,12 @@ const WallTilesInstanced = ({
   const wallGlbUrl = customModels?.wall || '/models/tiles/Wall_LODs/Wall.glb';
   const floorGlbUrl = customModels?.floor || '/models/tiles/Floor_LODs/Floor.glb';
   const ceilingGlbUrl = customModels?.ceiling || '/models/tiles/Ceiling_LODs/Ceiling.glb';
+  const skirtingGlbUrl = '/models/tiles/Skirting_LODs/Skirting.glb'; // NEW
 
   const wallGLB = useLoader(GLTFLoader, wallGlbUrl);
   const floorGLB = useLoader(GLTFLoader, floorGlbUrl);
   const ceilingGLB = useLoader(GLTFLoader, ceilingGlbUrl);
+  const skirtingGLB = useLoader(GLTFLoader, skirtingGlbUrl); // NEW
 
   const wallGeometry = useMemo(() => wallGLB.scene.children[0].geometry.clone(), [wallGLB]);
   const wallMaterial = useMemo(() => wallGLB.scene.children[0].material.clone(), [wallGLB]);
@@ -47,76 +50,93 @@ const WallTilesInstanced = ({
   const ceilingMaterial = useMemo(() => ceilingGLB.scene.children[0].material.clone(), [ceilingGLB]);
   ceilingMaterial.side = FrontSide;
 
-  //console.log(roomIndex)
+  const skirtingGeometry = useMemo(() => skirtingGLB.scene.children[0].geometry.clone(), [skirtingGLB]); // NEW
+  const skirtingMaterial = useMemo(() => skirtingGLB.scene.children[0].material.clone(), [skirtingGLB]); // NEW
 
+  const repeatCount = Math.max(5, Math.ceil((maxPropHeights?.[roomIndex] ?? 0) + 1));
 
-  const repeatCount = Math.max(4, Math.ceil((maxPropHeights?.[roomIndex] ?? 0) + 1));
+  const updateInstances = (ref, isWall = false, isCeiling = false, isSkirting = false) => {
+  if (!ref.current) return;
 
+  const tempObj = new Object3D();
+  let instanceCount = 0;
 
-  const updateInstances = (ref, isWall = false, isCeiling = false) => {
-    if (!ref.current) return;
+  if (isWall) {
+    instanceCount = positions.length * repeatCount;
+    ref.current.count = instanceCount;
 
-    const tempObj = new Object3D();
-    let instanceCount = 0;
+    let instanceIndex = 0;
+    positions.forEach((pos, i) => {
+      const dir = directions[i] || 'north';
+      const rotY = directionToRotationY(dir);
 
-    if (isWall) {
+      for (let j = 0; j < repeatCount; j++) {
+        tempObj.position.set(pos[0], j, pos[2]);
+        tempObj.rotation.set(0, rotY, 0);
+        tempObj.scale.set(tileSize, tileSize, tileSize);
 
-      instanceCount = positions.length * repeatCount;
-      ref.current.count = instanceCount;
+        const offset = new Vector3(0, 0, -0.3);
+        offset.applyEuler(tempObj.rotation);
+        tempObj.position.add(offset);
 
-      let instanceIndex = 0;
-      positions.forEach((pos, i) => {
-        const dir = directions[i] || 'north';
-        const rotY = directionToRotationY(dir);
-
-        for (let j = 0; j < repeatCount; j++) {
-          tempObj.position.set(pos[0], j, pos[2]);
-          tempObj.rotation.set(0, rotY, 0);
-          tempObj.scale.set(tileSize, tileSize, tileSize);
-
-          // Offset slightly into the room
-          const offset = new Vector3(0, 0, -0.3);
-          offset.applyEuler(tempObj.rotation);
-          tempObj.position.add(offset);
-
-          tempObj.updateMatrix();
-          ref.current.setMatrixAt(instanceIndex++, tempObj.matrix);
-        }
-      });
-    } else if (isCeiling) {
-      instanceCount = positions.length;
-      ref.current.count = instanceCount;
-
-      const ceilingHeight = Math.max(4, Math.ceil((maxPropHeights?.[roomIndex] ?? 0) + 1));
-      positions.forEach((pos, i) => {
-        tempObj.position.set(pos[0], ceilingHeight, pos[2]);
-        tempObj.rotation.set(0, 0, 0);
-        tempObj.scale.set(tileSize, 1, tileSize);
         tempObj.updateMatrix();
-        ref.current.setMatrixAt(i, tempObj.matrix);
-      });
-    } else {
-      // Floor
-      instanceCount = positions.length;
-      ref.current.count = instanceCount;
+        ref.current.setMatrixAt(instanceIndex++, tempObj.matrix);
+      }
+    });
+  } else if (isSkirting) {
+    instanceCount = positions.length;
+    ref.current.count = instanceCount;
 
-      positions.forEach((pos, i) => {
-        tempObj.position.set(pos[0], 0, pos[2]);
-        tempObj.rotation.set(0, 0, 0);
-        tempObj.scale.set(tileSize, 1, tileSize);
-        tempObj.updateMatrix();
-        ref.current.setMatrixAt(i, tempObj.matrix);
-      });
-    }
+    positions.forEach((pos, i) => {
+      const dir = directions[i] || 'north';
+      const rotY = directionToRotationY(dir);
 
-    ref.current.instanceMatrix.needsUpdate = true;
-  };
+      tempObj.position.set(pos[0], 0, pos[2]);
+      tempObj.rotation.set(0, rotY, 0);
+      tempObj.scale.set(tileSize, tileSize, tileSize);
+
+      const offset = new Vector3(0, 0, -0.3);
+      offset.applyEuler(tempObj.rotation);
+      tempObj.position.add(offset);
+
+      tempObj.updateMatrix();
+      ref.current.setMatrixAt(i, tempObj.matrix);
+    });
+  } else if (isCeiling) {
+    instanceCount = positions.length;
+    ref.current.count = instanceCount;
+
+    const ceilingHeight = Math.max(5, Math.ceil((maxPropHeights?.[roomIndex] ?? 0) + 1));
+    positions.forEach((pos, i) => {
+      tempObj.position.set(pos[0], ceilingHeight, pos[2]);
+      tempObj.rotation.set(0, 0, 0);
+      tempObj.scale.set(tileSize, 1, tileSize);
+      tempObj.updateMatrix();
+      ref.current.setMatrixAt(i, tempObj.matrix);
+    });
+  } else {
+    // Floor
+    instanceCount = positions.length;
+    ref.current.count = instanceCount;
+
+    positions.forEach((pos, i) => {
+      tempObj.position.set(pos[0], 0, pos[2]);
+      tempObj.rotation.set(0, 0, 0);
+      tempObj.scale.set(tileSize, 1, tileSize);
+      tempObj.updateMatrix();
+      ref.current.setMatrixAt(i, tempObj.matrix);
+    });
+  }
+
+  ref.current.instanceMatrix.needsUpdate = true;
+};
 
 
   useEffect(() => {
     updateInstances(wallRef, true, false);
     updateInstances(floorRef, false, false);
     updateInstances(ceilingRef, false, true);
+    updateInstances(skirtingRef, false, false, true); // NEW
   }, [positions, directions, tileSize]);
 
   return (
@@ -140,6 +160,13 @@ const WallTilesInstanced = ({
         args={[ceilingGeometry, ceilingMaterial, positions.length]}
         castShadow
         receiveShadow
+      />
+      <instancedMesh
+        ref={skirtingRef}
+        args={[skirtingGeometry, skirtingMaterial, positions.length]} // NEW
+        castShadow
+        receiveShadow
+        onUpdate={(self) => self.layers.set(FLOOR_LAYER)} // optional: set same layer as floor
       />
     </group>
   );
