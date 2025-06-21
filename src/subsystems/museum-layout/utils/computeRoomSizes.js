@@ -87,7 +87,7 @@ export async function computeRoomSizes(museumData, log = () => { }) {
     // Add buffer for spacing between artifacts (1 tile between each group)
     const numArtifactGroups = nonStarredArtifacts.length; // Assuming each artifact is its own group for now
     const spacingBuffer = Math.max(0, numArtifactGroups - 1); // One space between each group
-    const totalWallLengthWithSpacing = (totalWallLengthNeeded + spacingBuffer) * 1.5;
+    const totalWallLengthWithSpacing = (totalWallLengthNeeded + spacingBuffer) * 3;
 
     log(`  📏 Total wall length with spacing: ${totalWallLengthWithSpacing} tiles`);
 
@@ -187,8 +187,8 @@ export async function computeRoomSizes(museumData, log = () => { }) {
       width = width % 2 === 0 ? width + 1 : width;
       depth = depth % 2 === 0 ? depth + 1 : depth;
 
-      width *= 2;
-      depth *= 2;
+      //width *= 2;
+      //depth *= 2;
 
       log(`  ✅ Final room size: ${width}x${depth}`);
     }

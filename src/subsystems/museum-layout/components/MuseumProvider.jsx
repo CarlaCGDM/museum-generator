@@ -12,8 +12,6 @@ export const MuseumProvider = ({ children }) => {
     const [doorLinks, setDoorLinks] = useState([]);
     const [roomDoorInfo, setRoomDoorInfo] = useState({});
     const [maxPropHeights, setMaxPropHeights] = useState({});
-    // FIXED: Store actual refs instead of position/size data
-    const [occluderRefsByRoom, setOccluderRefsByRoom] = useState({});
     const [layoutTrigger, setLayoutTrigger] = useState(0);
 
     const regenerateMuseum = useCallback(async () => {
@@ -40,9 +38,7 @@ export const MuseumProvider = ({ children }) => {
         setRoomPositions(positions);
         setDoorLinks(doors);
 
-        // Build roomDoorInfo with precomputed tiles, midpoints, and angles
         const roomDoorInfo = {};
-
         for (let i = 0; i < positions.length; i++) {
             const entranceTiles = doors[i - 1]?.doors?.to || [];
             const exitTiles = doors[i]?.doors?.from || [];
@@ -76,17 +72,11 @@ export const MuseumProvider = ({ children }) => {
 
         setRoomDoorInfo(roomDoorInfo);
 
-        console.log(report)
-
-        // Max prop height per room (for placement, occlusion, etc.)
         const maxHeights = {};
         for (const room of report) {
             maxHeights[room.id] = Math.max(...room.artifacts.map(a => a.dimensions.height ?? 0));
         }
         setMaxPropHeights(maxHeights);
-
-        // Reset occluders when museum regenerates
-        setOccluderRefsByRoom({});
     }, []);
 
     useEffect(() => {
@@ -94,35 +84,6 @@ export const MuseumProvider = ({ children }) => {
     }, [layoutTrigger]);
 
     const forceRegenerate = () => setLayoutTrigger(prev => prev + 1);
-
-    // FIXED: Store actual mesh refs
-    const addOccluderRef = useCallback((roomIndex, occluderId, meshRef) => {
-        setOccluderRefsByRoom(prev => {
-            const roomRefs = prev[roomIndex] || {};
-            console.log(meshRef)
-            return {
-                ...prev,
-                [roomIndex]: { ...roomRefs, [occluderId]: meshRef }
-            };
-        });
-    }, []);
-
-    const removeOccluderRef = useCallback((roomIndex, occluderId) => {
-        setOccluderRefsByRoom(prev => {
-            const roomRefs = { ...(prev[roomIndex] || {}) };
-            delete roomRefs[occluderId];
-            return {
-                ...prev,
-                [roomIndex]: roomRefs
-            };
-        });
-    }, []);
-
-    // Convert refs to arrays for the components
-    const getOccluderRefsForRoom = useCallback((roomIndex) => {
-        const roomRefs = occluderRefsByRoom[roomIndex] || {};
-        return Object.values(roomRefs).filter(ref => ref && ref.current);
-    }, [occluderRefsByRoom]);
 
     return (
         <MuseumContext.Provider
@@ -133,9 +94,6 @@ export const MuseumProvider = ({ children }) => {
                 doorLinks,
                 roomDoorInfo,
                 maxPropHeights,
-                addOccluderRef,
-                removeOccluderRef,
-                getOccluderRefsForRoom,
                 regenerateMuseum: forceRegenerate,
             }}
         >

@@ -1,8 +1,6 @@
-import React, { useMemo, useRef, useEffect, useState } from 'react';
-import ExitDoorLabel from './ExitDoorLabel';
-import EntranceDoorLabel from './EntranceDoorLabel';
-import FloorLabel from './FloorLabel';
-import { useMuseum } from '../MuseumProvider';
+import FloorLabelPlane from './FloorLabelPlane';
+import EntranceDoorLabelPlane from './EntranceDoorLabelPlane';
+import ExitDoorLabelPlane from './ExitDoorLabelPlane';
 
 const topicColors = [
   '#DE9393', '#DC997C', '#ECBF87', '#D0BF6A',
@@ -43,7 +41,7 @@ const calculateLabelPosition = (midTile, doorTiles, width, depth, xOffset, zOffs
   const { wallNormalX, wallNormalZ } = wallInfo;
   const sideDirectionX = -wallNormalZ;
   const sideDirectionZ = wallNormalX;
-  const wallOffset = 0.4;
+  const wallOffset = 0;
   const sideOffset = 3.5;
 
   return [
@@ -64,12 +62,6 @@ const RoomLabels = ({
   roomDoorInfo,
   roomIndex,
 }) => {
-  const { getOccluderRefsForRoom } = useMuseum();
-
-
-  // FIXED: Get actual refs for this room
-  const currentOccluders = getOccluderRefsForRoom(roomIndex);
-  //console.log(currentOccluders)
 
   const currentRoomColor = currentRoomInfo ? getTopicColor(currentRoomInfo.topicId) : null;
   const nextRoomColor = nextRoomInfo ? getTopicColor(nextRoomInfo.topicId) : null;
@@ -87,29 +79,27 @@ const RoomLabels = ({
 
       {/* Entrance Label */}
       {currentRoomInfo && entranceTiles.length > 0 && entranceMid && (
-        <EntranceDoorLabel
+        <EntranceDoorLabelPlane
           key="entrance-door-label"
           position={calculateLabelPosition(entranceMid, entranceTiles, width, depth, xOffset, zOffset, tileSize)}
           rotationY={getWallRotationAndPosition(entranceTiles, width, depth)?.wallRotation || 0}
           topicColor={currentRoomColor}
-          occlude={currentOccluders} // FIXED: Pass the actual refs
           {...currentRoomInfo}
         />
       )}
 
       {/* Exit Label */}
       {nextRoomInfo && exitTiles.length > 0 && exitMid && (
-        <ExitDoorLabel
+        <ExitDoorLabelPlane
           key="exit-door-label"
           position={calculateLabelPosition(exitMid, exitTiles, width, depth, xOffset, zOffset, tileSize)}
           rotationY={getWallRotationAndPosition(exitTiles, width, depth)?.wallRotation || 0}
           topicColor={nextRoomColor}
-          occlude={currentOccluders} // FIXED: Pass the actual refs
           {...nextRoomInfo}
         />
       )}
 
-      <FloorLabel
+      <FloorLabelPlane
         width={width}
         depth={depth}
         tileSize={tileSize}
@@ -118,7 +108,6 @@ const RoomLabels = ({
         currentRoomColor={currentRoomColor}
         nextRoomColor={nextRoomColor}
         roomDoorInfoEntry={roomDoorInfo[roomIndex]} // ✅ Pass this!
-        occlude={currentOccluders}
       />
 
     </group>
