@@ -6,8 +6,14 @@ import { createLogger } from '../../debug/utils/logger';
 import { placeArtifactsInRoom } from '../utils/place-artifacts/placeArtifactsInRoom';
 import { placeRailingsInRoom } from '../utils/place-artifacts/placeRailingsInRoom';
 import { placeDoorwaysInRoom } from '../utils/place-artifacts/placeDoorwaysInRoom';
+import { placePlantsInRoom } from '../utils/place-artifacts/placePlantsInRoom';
+import { placeStaticPeopleInRoom } from '../utils/place-artifacts/placeStaticPeopleInRoom';
 import Doorway from './decor/Doorway';
 import SpotlightRailing from './decor/SpotlightRailing';
+import PottedPlant from './decor/PottedPlant';
+import Bench from './decor/Bench';
+import StaticPerson from './decor/StaticPerson';
+import React from 'react';
 
 import { useMuseum } from './MuseumProvider';
 
@@ -62,6 +68,10 @@ const MuseumLayout = () => {
           width,
           depth
         );
+
+        const plantPositions = placePlantsInRoom(width, depth);
+        const peoplePositions = placeStaticPeopleInRoom(width, depth);
+
 
 
 
@@ -131,18 +141,68 @@ const MuseumLayout = () => {
                 roomIndex={index}
               />
             ))}
-            
-            {doorwayPlacements.map((door) => (
-              <Doorway
-                key={`door-${door.id}`}
-                direction={door.direction}
-                positionOffset={[
-                  roomPos.x + door.position[0],
-                  door.position[1],
-                  roomPos.z + door.position[2],
+
+            {doorwayPlacements.map((door) => {
+              const [x, y, z] = [
+                roomPos.x + door.position[0],
+                door.position[1],
+                roomPos.z + door.position[2],
+              ];
+
+              // Offset 3 meters to the right based on direction
+              const offsetMap = {
+                north: [-3.5, 0, -0.5],
+                south: [3.5, 0, 0.5],
+                east: [-0.5, 0, 3.5],
+                west: [0.5, 0, -3.5],
+              };
+
+              const offset = offsetMap[door.direction] || [0, 0, 0];
+
+              const benchPosition = [
+                x + offset[0],
+                y + offset[1],
+                z + offset[2],
+              ];
+
+              return (
+                <React.Fragment key={`door-bench-${door.id}`}>
+                  <Doorway
+                    direction={door.direction}
+                    positionOffset={[x, y, z]}
+                  />
+                  <Bench
+                    direction={door.direction}
+                    position={benchPosition}
+                  />
+                </React.Fragment>
+              );
+            })}
+
+            {plantPositions.map((pos, pIdx) => (
+              <PottedPlant
+                key={`plant-${index}-${pIdx}`}
+                position={[
+                  roomPos.x + pos[0],
+                  pos[1],
+                  roomPos.z + pos[2],
                 ]}
               />
             ))}
+
+            {peoplePositions.map((pos, pIdx) => (
+              <StaticPerson
+                key={`person-${index}-${pIdx}`}
+                roomIndex={index}
+                personIndex={pIdx}
+                position={[
+                  roomPos.x + pos[0],
+                  pos[1],
+                  roomPos.z + pos[2],
+                ]}
+              />
+            ))}
+
 
           </group>
         );
